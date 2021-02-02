@@ -28,7 +28,7 @@ public class Main extends JavaPlugin{
 		MySQL.connect();
 		MySQL.createPlayerTable();
 		
-		getCommand("value").setExecutor(new ECCommand());
+		getCommand("EC").setExecutor(new ECCommand());
 		
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new ChestListener(), this);
