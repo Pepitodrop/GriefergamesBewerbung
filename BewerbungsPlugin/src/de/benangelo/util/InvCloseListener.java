@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 
 import de.benangelo.commands.ECCommand;
 import de.benangelo.config.AllgemeineConfigs;
+import de.benangelo.main.Main;
 import de.benangelo.mysql.MySQL;
 
 public class InvCloseListener implements Listener{
@@ -15,9 +16,15 @@ public class InvCloseListener implements Listener{
 	@EventHandler
 	public void handleInvClose(InventoryCloseEvent e) {
 		Player p = (Player) e.getPlayer();
+		if(Main.canClick != null) {
+			if(!Main.canClick.isEmpty()) {
+				if(Main.canClick.contains(p.getName().toString()))
+					Main.canClick.remove(p.getName().toString());
+			}
+		}
 		//e.getPlayer().sendMessage("a");
 		//System.out.println("a");
-		if(e.getPlayer().getOpenInventory().getTitle().equals("§4" + ECCommand.InvName)) {
+		if(e.getPlayer().getOpenInventory().getTitle().equals("§4" + ECCommand.InvName + " §2von §6" + p.getName())) {
 			//e.getPlayer().sendMessage("b");
 			//System.out.println("b");
 			for(int i = 0; i < AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(); i++) {

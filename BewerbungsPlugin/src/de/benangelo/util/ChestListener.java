@@ -19,14 +19,13 @@ public class ChestListener implements Listener {
 		//e.getPlayer().sendMessage("1+-");
 		Player p = e.getPlayer();
 		//e.getPlayer().sendMessage("1++-");
-		if(p.hasPermission("benangelo.ec")) {
 			//p.sendMessage("1+");
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			//p.sendMessage("1++");
 			if(e.getClickedBlock().getType() == Material.ENDER_CHEST) {
 				//p.sendMessage("1+++");
 				try {
-					ECCommand.openInv(p);
+					ECCommand.openInv(p,p);
 					e.setCancelled(true);
 				} catch (IllegalArgumentException e1) {
 					e1.printStackTrace();
@@ -34,7 +33,6 @@ public class ChestListener implements Listener {
 					e1.printStackTrace();
 				}
 			}
-		}
 		}
 	}
 }
