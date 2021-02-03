@@ -3,6 +3,7 @@ package de.benangelo.main;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,15 +11,19 @@ import de.benangelo.commands.ECCommand;
 import de.benangelo.config.AllgemeineConfigs;
 import de.benangelo.mysql.MySQL;
 import de.benangelo.mysql.MySQLFile;
+import de.benangelo.util.AnimatedScoreboardFile;
 import de.benangelo.util.ChestListener;
 import de.benangelo.util.InvClickEvent;
 import de.benangelo.util.InvCloseListener;
+import de.benangelo.util.ScoreboardHandler;
 
 public class Main extends JavaPlugin{
 	
 	public static ArrayList<String> canClick = new ArrayList<>();
 	
 	private static Main plugin;
+
+	private static long UpdateSekunde;
 	
 	@Override
 	public void onEnable() {
@@ -32,8 +37,13 @@ public class Main extends JavaPlugin{
 		file2.setStandard();
 		file2.readData();
 		
+		AnimatedScoreboardFile file3 = new AnimatedScoreboardFile();
+		file3.setStandard();
+		file3.readData();
+		
 		MySQL.connect();
 		MySQL.createPlayerTable();
+		updateSB();
 		
 		getCommand("EC").setExecutor(new ECCommand());
 		
@@ -41,6 +51,9 @@ public class Main extends JavaPlugin{
 		pluginManager.registerEvents(new ChestListener(), this);
 		pluginManager.registerEvents(new InvCloseListener(), this);
 		pluginManager.registerEvents(new InvClickEvent(), this);
+		pluginManager.registerEvents(new ScoreboardHandler(this), this);
+		
+		
 		super.onEnable();
 		
 	}
@@ -51,8 +64,28 @@ public class Main extends JavaPlugin{
 		super.onDisable();
 	}
 	
+	private void updateSB() {
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				for(Player p : Bukkit.getOnlinePlayers()) {
+					ScoreboardHandler.setup(p);
+				}
+				
+			}
+		}, 0L, (long)(20 * UpdateSekunde));
+	}
+	
+	
+	
 	public static Main getPlugin() {
 		return plugin;
+	}
+
+	public static void setUpdateSekunde(long updateSekunde) {
+		UpdateSekunde = updateSekunde;
 	}
 
 }

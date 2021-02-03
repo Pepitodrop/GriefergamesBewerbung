@@ -12,7 +12,7 @@ import de.benangelo.main.Main;
 import de.benangelo.mysql.MySQL;
 
 public class InvCloseListener implements Listener{
-
+	
 	@EventHandler
 	public void handleInvClose(InventoryCloseEvent e) {
 		Player p = (Player) e.getPlayer();
