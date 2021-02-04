@@ -32,7 +32,7 @@ public class AllgemeineConfigs {
 	}
 	
 	private File getFile() {
-		return new File("plugins/PortableEC", "Configs.yml");
+		return new File("plugins/BewerbungsPlugin", "Configs.yml");
 	}
 	
 	private FileConfiguration getFileConfiguration() {

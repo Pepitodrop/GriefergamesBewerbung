@@ -27,7 +27,7 @@ public class MySQLFile {
 	}
 	
 	private File getFile() {
-		return new File("plugins/PortableEC", "mysql.yml");
+		return new File("plugins/BewerbungsPlugin", "mysql.yml");
 	}
 	
 	private FileConfiguration getFileConfiguration() {

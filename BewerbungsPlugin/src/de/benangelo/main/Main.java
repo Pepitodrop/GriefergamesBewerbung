@@ -61,6 +61,9 @@ public class Main extends JavaPlugin{
 	@Override
 	public void onDisable() {
 		MySQL.disconnect();
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			p.getOpenInventory().close();
+		}
 		super.onDisable();
 	}
 	
