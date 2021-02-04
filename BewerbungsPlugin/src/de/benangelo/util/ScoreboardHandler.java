@@ -44,22 +44,24 @@ public class ScoreboardHandler implements Listener{
 		Objective o = scb.registerNewObjective("abcd", "1234");
 		o.setDisplayName(currentTitle);
 		o.setDisplaySlot(DisplaySlot.SIDEBAR);
-		o.getScore("§e§l" + now).setScore(15);
-		o.getScore("").setScore(14);
-		o.getScore("").setScore(13);
-		o.getScore("§7> §bServer:").setScore(12);
-		o.getScore("§3" + p.getServer().getName()).setScore(11);
-		o.getScore("").setScore(10);
-		o.getScore("§7> §bOnline:").setScore(9);
-		o.getScore("§3" + p.getServer().getOnlinePlayers().size() + "§7/§3" + p.getServer().getMaxPlayers()).setScore(8);
-		o.getScore("").setScore(7);
-		o.getScore("§7> §bMoney:").setScore(6);
-		if(money.getMoney(p) != null) {
-			o.getScore("§3" + money.getMoney(p)).setScore(5); 
-		} else {
-			o.getScore("§3" + "0").setScore(4); 
-		}
-		o.getScore("").setScore(3);
+		o.getScore("§e§l" + now).setScore(13);
+		
+		o.getScore("§4 ").setScore(12);
+		
+		o.getScore("§7> §bServer:").setScore(11);
+		o.getScore("§3" + p.getServer().getName()).setScore(10);
+		
+		o.getScore("§3 ").setScore(9);
+		
+		o.getScore("§7> §bOnline:").setScore(8);
+		o.getScore("§3" + p.getServer().getOnlinePlayers().size() + "§7/§3" + p.getServer().getMaxPlayers()).setScore(7);
+		
+		o.getScore("§2 ").setScore(6);
+		
+		o.getScore("§7> §bMoney:").setScore(5);
+		o.getScore("§3" + money.getMoney(p) + " $").setScore(4); 
+		
+		o.getScore("§1 ").setScore(3);
 		o.getScore("§7> §bServer-Adress:").setScore(2);
 		o.getScore("§3" + p.getServer().getIp()).setScore(1);
 		p.setScoreboard(scb);

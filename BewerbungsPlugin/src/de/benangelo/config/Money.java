@@ -9,11 +9,15 @@ import org.bukkit.entity.Player;
 
 public class Money {
 	
-	public void setMoney(Player p, int money) {
+	public void setMoney(Player p, double money) {
 		FileConfiguration cfg = getFileConfiguration();
 		
 		cfg.options().copyDefaults(true);
-		cfg.addDefault(p.getUniqueId().toString(), money);
+		if(!(cfg.contains(p.getUniqueId().toString()))) {
+			cfg.addDefault(p.getUniqueId().toString(), money);
+		} else {
+			cfg.set(p.getUniqueId().toString(), money);
+		}
 		
 		try {
 			cfg.save(getFile());
@@ -30,13 +34,13 @@ public class Money {
 		return YamlConfiguration.loadConfiguration(getFile());
 	}
 	
-	public Object getMoney(Player p) {
+	public double getMoney(Player p) {
 		FileConfiguration cfg = getFileConfiguration();
 		
-		if(cfg.getString(p.getUniqueId().toString()) != null) {
+		if(cfg.contains(p.getUniqueId().toString())) {
 			return cfg.getLong(p.getUniqueId().toString());
 		} else {
-			return null;
+			return 0.00;
 		}
 		
 	}

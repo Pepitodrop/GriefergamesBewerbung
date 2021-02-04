@@ -6,4 +6,5 @@ author: Luis Benedikt
 commands:
    EC:
       description: Oeffnet deine Enderchest!
-      
+   value:
+      description: Du kannst dir geld geben!

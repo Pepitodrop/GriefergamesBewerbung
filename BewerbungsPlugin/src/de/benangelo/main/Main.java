@@ -8,6 +8,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.benangelo.commands.ECCommand;
+import de.benangelo.commands.ValueCommand;
 import de.benangelo.config.AllgemeineConfigs;
 import de.benangelo.mysql.MySQL;
 import de.benangelo.mysql.MySQLFile;
@@ -46,6 +47,7 @@ public class Main extends JavaPlugin{
 		updateSB();
 		
 		getCommand("EC").setExecutor(new ECCommand());
+		getCommand("value").setExecutor(new ValueCommand());
 		
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new ChestListener(), this);
