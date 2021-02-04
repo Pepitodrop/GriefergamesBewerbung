@@ -8,6 +8,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.benangelo.commands.ECCommand;
+import de.benangelo.commands.PayCommand;
 import de.benangelo.commands.ValueCommand;
 import de.benangelo.config.AllgemeineConfigs;
 import de.benangelo.mysql.MySQL;
@@ -48,6 +49,7 @@ public class Main extends JavaPlugin{
 		
 		getCommand("EC").setExecutor(new ECCommand());
 		getCommand("value").setExecutor(new ValueCommand());
+		getCommand("pay").setExecutor(new PayCommand());
 		
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new ChestListener(), this);

@@ -8,3 +8,5 @@ commands:
       description: Oeffnet deine Enderchest!
    value:
       description: Du kannst dir geld geben!
+   pay:
+      description: Du kannst einem anderen Spieler geld geben!

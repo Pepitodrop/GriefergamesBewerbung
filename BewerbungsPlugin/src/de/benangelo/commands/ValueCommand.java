@@ -40,102 +40,79 @@ public class ValueCommand implements CommandExecutor{
 					if(args.length == 3) {
 						if(args[0].equalsIgnoreCase("set")) {
 							if (args[1].matches("[0-9]+")) {
-								for(Player all : Bukkit.getOnlinePlayers()) {
-									if(all.getName().equalsIgnoreCase(args[2])) {
-										money.setMoney(all, Double.valueOf(args[1]));
-									} else {
-										if(all.getDisplayName().equalsIgnoreCase(args[2])) {
-											money.setMoney(all, Double.valueOf(args[1]));
-										} else {
-											p.sendMessage("§4Dieser Spieler ist gerade nicht Online!");
-										}
-									}
-								}
-							} else {
-							p.sendMessage("§4Bitte benutze Zahlen!");
-							}
-						} else {
-							if(args[0].equalsIgnoreCase("add")) {
-								if (args[1].matches("[0-9]+")) {
-									for(Player all : Bukkit.getOnlinePlayers()) {
-										if(all.getName().equalsIgnoreCase(args[2])) {
-											double amout = Double.valueOf(args[1]) + money.getMoney(all);
-											money.setMoney(all, amout);
-										} else {
-											if(all.getDisplayName().equalsIgnoreCase(args[2])) {
-												double amout = Double.valueOf(args[1]) + money.getMoney(all);
-												money.setMoney(all, amout);
-											} else {
-												p.sendMessage("§4Dieser Spieler ist gerade nicht Online!");
-											}
-										}
-									}
+								Player target = Bukkit.getPlayerExact(args[0]);
+								if(target != null) {
+									money.setMoney(target, Double.valueOf(args[1]));
 								} else {
-								p.sendMessage("§4Bitte benutze Zahlen!");
-								}
-							} else {
-								p.sendMessage("§4Bitte benutze §2/value set/add <amout> (Spieler)");
-							}
-					} 
-				} else {
-					p.sendMessage("§4Bitte benutze §2/value set/add <amout> (Spieler)");
-				}
-			} 
-		}else {
-			p.sendMessage("§4Versuch es erst garnicht du must schon für das Geld arbeiten!");
-		}
-		
-	} else {
-		ConsoleCommandSender p = Bukkit.getServer().getConsoleSender();
-		if(args.length == 2) {
-			p.sendMessage("§4Bitte benutze §2/value set/add <amout> <Spieler>");
-		} else {
-			if(args.length == 3) {
-				if(args[0].equalsIgnoreCase("set")) {
-					if (args[1].matches("[0-9]+")) {
-						for(Player all : Bukkit.getOnlinePlayers()) {
-							if(all.getName().equalsIgnoreCase(args[2])) {
-								money.setMoney(all, Double.valueOf(args[1]));
-							} else {
-								if(all.getDisplayName().equalsIgnoreCase(args[2])) {
-									money.setMoney(all, Double.valueOf(args[1]));
-								} else {
-									p.sendMessage("§4Dieser Spieler ist gerade nicht Online!");
-								}
-							}
-						}
-					} else {
-					p.sendMessage("§4Bitte benutze Zahlen!");
-					}
-				} else {
-					if(args[0].equalsIgnoreCase("add")) {
-						if (args[1].matches("[0-9]+")) {
-							for(Player all : Bukkit.getOnlinePlayers()) {
-								if(all.getName().equalsIgnoreCase(args[2])) {
-									double amout = Double.valueOf(args[1]) + money.getMoney(all);
-									money.setMoney(all, amout);
-								} else {
-									if(all.getDisplayName().equalsIgnoreCase(args[2])) {
-										double amout = Double.valueOf(args[1]) + money.getMoney(all);
-										money.setMoney(all, amout);
-									} else {
 										p.sendMessage("§4Dieser Spieler ist gerade nicht Online!");
 									}
+								} else {
+									p.sendMessage("§4Bitte benutze Zahlen!");
+							} 
+							}else {
+								if(args[0].equalsIgnoreCase("add")) {
+									if (args[1].matches("[0-9]+")) {
+										Player target = Bukkit.getPlayerExact(args[0]);
+										if(target != null) {
+											double amout = Double.valueOf(args[1]) + money.getMoney(target);
+											money.setMoney(target, amout);
+										} else {
+												p.sendMessage("§4Dieser Spieler ist gerade nicht Online!");
+											}
+									} else {
+									p.sendMessage("§4Bitte benutze Zahlen!");
+									}
+								} else {
+									p.sendMessage("§4Bitte benutze §2/value set/add <amout> (Spieler)");
 								}
+						}
+						}  else {
+							p.sendMessage("§4Bitte benutze §2/value set/add <amout> (Spieler)");
+				} 
+				}
+			} else {
+				p.sendMessage("§4Versuch es erst garnicht du must schon für das Geld arbeiten!");
+		}
+		}else {
+			ConsoleCommandSender p = Bukkit.getServer().getConsoleSender();
+			if(args.length == 2) {
+				p.sendMessage("§4Bitte benutze §2/value set/add <amout> <Spieler>");
+			} else {
+				if(args.length == 3) {
+					if(args[0].equalsIgnoreCase("set")) {
+						if (args[1].matches("[0-9]+")) {
+							Player target = Bukkit.getPlayerExact(args[0]);
+							if(target != null) {
+								money.setMoney(target, Double.valueOf(args[1]));
+							} else {
+									p.sendMessage("§4Dieser Spieler ist gerade nicht Online!");
 							}
 						} else {
 						p.sendMessage("§4Bitte benutze Zahlen!");
 						}
 					} else {
-						p.sendMessage("§4Bitte benutze §2/value set/add <amout> <Spieler>");
-					}
-			} 
-		} else {
-			p.sendMessage("§4Bitte benutze §2/value set/add <amout> <Spieler>");
+						if(args[0].equalsIgnoreCase("add")) {
+							if (args[1].matches("[0-9]+")) {
+								Player target = Bukkit.getPlayerExact(args[0]);
+								if(target != null) {
+									double amout = Double.valueOf(args[1]) + money.getMoney(target);
+									money.setMoney(target, amout);
+								} else {
+										p.sendMessage("§4Dieser Spieler ist gerade nicht Online!");
+									}
+							} else {
+							p.sendMessage("§4Bitte benutze Zahlen!");
+							}
+						} else {
+							p.sendMessage("§4Bitte benutze §2/value set/add <amout> <Spieler>");
+						}
+				} 
+			} else {
+				p.sendMessage("§4Bitte benutze §2/value set/add <amout> <Spieler>");
+			}
 		}
-	}
-	}
-		return false;
+		}
+	return false;
 }
 }
 
