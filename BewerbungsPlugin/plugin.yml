@@ -10,3 +10,5 @@ commands:
       description: Du kannst dir geld geben!
    pay:
       description: Du kannst einem anderen Spieler geld geben!
+   bank:
+      description: Du kanst dein Geld sicher einer eine Datenbank legen!

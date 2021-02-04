@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.benangelo.commands.BankCommand;
 import de.benangelo.commands.ECCommand;
 import de.benangelo.commands.PayCommand;
 import de.benangelo.commands.ValueCommand;
@@ -17,6 +18,7 @@ import de.benangelo.util.AnimatedScoreboardFile;
 import de.benangelo.util.ChestListener;
 import de.benangelo.util.InvClickEvent;
 import de.benangelo.util.InvCloseListener;
+import de.benangelo.util.RecipesLoader;
 import de.benangelo.util.ScoreboardHandler;
 
 public class Main extends JavaPlugin{
@@ -45,11 +47,16 @@ public class Main extends JavaPlugin{
 		
 		MySQL.connect();
 		MySQL.createPlayerTable();
+		MySQL.createBankTable();
+		
+		new RecipesLoader().registerRecipes();
+		
 		updateSB();
 		
 		getCommand("EC").setExecutor(new ECCommand());
 		getCommand("value").setExecutor(new ValueCommand());
 		getCommand("pay").setExecutor(new PayCommand());
+		getCommand("bank").setExecutor(new BankCommand());
 		
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new ChestListener(), this);

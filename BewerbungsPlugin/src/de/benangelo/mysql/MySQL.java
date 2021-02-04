@@ -66,7 +66,7 @@ public class MySQL {
         return null;
     }
     
-    public static void createTable(Integer i) {
+    public static void createChestTable(Integer i) {
 		/*
 		 * 
 		 * Syntax: amout, durability, MaxStackSize, Type, DisplayName, localizedName, Slot
@@ -76,6 +76,24 @@ public class MySQL {
 		try {
 			System.out.println("[MySQL] Tabelle wird erstellt!");
 			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS `" + i + "` (amout varchar(1000), durability varchar(1000), Type varchar(1000), DisplayName varchar(1000), Slot varchar(1000))");
+			System.out.println("[MySQL] Tabelle wurde erstellt!");
+		} catch (SQLException e) {
+			System.out.println("[MySQL] Fehler:"  + e.getMessage() + " und " + e.getSQLState());
+			e.printStackTrace();
+		}
+		}
+	}
+    
+    public static void createBankTable() {
+		/*
+		 * 
+		 * Syntax: amout, durability, MaxStackSize, Type, DisplayName, localizedName, Slot
+		 * 
+		 */
+		if(isConnected()) {
+		try {
+			System.out.println("[MySQL] Tabelle wird erstellt!");
+			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "Bank" + " (Player varchar(1000), UUID varchar(1000), Amout varchar(1000))");
 			System.out.println("[MySQL] Tabelle wurde erstellt!");
 		} catch (SQLException e) {
 			System.out.println("[MySQL] Fehler:"  + e.getMessage() + " und " + e.getSQLState());
@@ -102,7 +120,28 @@ public class MySQL {
 		}
 	}
     
-    public static boolean UserExists(UUID uuid) {
+    public static void update(String qry) {
+    	if(isConnected()) {
+    		try {
+				con.createStatement().executeUpdate(qry);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+    	}
+    }
+    
+    public static ResultSet getResult(String qry) {
+    	if(isConnected()) {
+    		try {
+				return con.createStatement().executeQuery(qry);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+    	}
+		return null;
+    }
+    
+    public static boolean UserExistsPlayer(UUID uuid) {
         ResultSet rs = MySQL.getResult("SELECT * FROM " + "Players" + " WHERE UUID= '" + uuid + "'");
         try {
  		while(rs.next()) {
@@ -137,27 +176,6 @@ public class MySQL {
             e.printStackTrace();
         }
         return i;
-    }
-	
-    public static void update(String qry) {
-    	if(isConnected()) {
-    		try {
-				con.createStatement().executeUpdate(qry);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-    	}
-    }
-    
-    public static ResultSet getResult(String qry) {
-    	if(isConnected()) {
-    		try {
-				return con.createStatement().executeQuery(qry);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-    	}
-		return null;
     }
      
      public static String getItem(Integer slot, String TName) {
@@ -218,6 +236,35 @@ public class MySQL {
              final ResultSet rs = MySQL.query("SELECT * FROM `" + TName + "` WHERE Slot= '" + slot + "'");
              if (!rs.next() || String.valueOf(rs.getString("DisplayName")) == null) {}
              i = rs.getString("DisplayName");
+         }
+         catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return i;
+     }
+     
+     
+     
+     
+     
+     public static boolean UserExistsBank(UUID uuid) {
+         ResultSet rs = MySQL.getResult("SELECT * FROM " + "Bank" + " WHERE UUID= '" + uuid + "'");
+         try {
+  		while(rs.next()) {
+  			   return rs != null;
+  		   }
+  	} catch (SQLException e) {
+  		e.printStackTrace();
+  	}
+  	return false;
+      }
+     
+     public static String getAmoutBank(UUID uuid) {
+         String i = "";
+         try {
+             final ResultSet rs = MySQL.query("SELECT * FROM " + "Bank" + " WHERE UUID= '" + uuid + "'");
+             if (!rs.next() || String.valueOf(rs.getString("Amout")) == null) {}
+             i = rs.getString("Amout");
          }
          catch (SQLException e) {
              e.printStackTrace();

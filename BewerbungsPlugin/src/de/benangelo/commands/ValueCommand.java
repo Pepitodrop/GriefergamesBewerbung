@@ -21,6 +21,7 @@ public class ValueCommand implements CommandExecutor{
 					if(args[0].equalsIgnoreCase("set")) {
 						if (args[1].matches("[0-9]+")) {
 							money.setMoney(p, Double.valueOf(args[1]));
+							p.sendMessage("§2Du hast deinem Kontostand §e" + args[1] + "$ §2hinugrfügt!");
 						} else {
 						p.sendMessage("§4Bitte benutze Zahlen!");
 						}
@@ -29,6 +30,7 @@ public class ValueCommand implements CommandExecutor{
 							if (args[1].matches("[0-9]+")) {
 								double amout = Double.valueOf(args[1]) + money.getMoney(p);
 								money.setMoney(p, amout);
+								p.sendMessage("§2Du hast deinen Kontostand auf §e" + args[1] + "$ §2gesetzt!");
 							} else {
 							p.sendMessage("§4Bitte benutze Zahlen!");
 							}
@@ -40,9 +42,11 @@ public class ValueCommand implements CommandExecutor{
 					if(args.length == 3) {
 						if(args[0].equalsIgnoreCase("set")) {
 							if (args[1].matches("[0-9]+")) {
-								Player target = Bukkit.getPlayerExact(args[0]);
+								Player target = Bukkit.getPlayerExact(args[2]);
 								if(target != null) {
 									money.setMoney(target, Double.valueOf(args[1]));
+									p.sendMessage("§2Du hast dem Kontostand von §d" + target.getName() + " §2auf §e" + args[1] + "$ §2gesetzt!");
+									target.sendMessage("§2Dein Kontostand wurden von §d" + p.getDisplayName() + " §2auf §e" + args[1] + "$ §2gesetzt!");
 								} else {
 										p.sendMessage("§4Dieser Spieler ist gerade nicht Online!");
 									}
@@ -52,10 +56,12 @@ public class ValueCommand implements CommandExecutor{
 							}else {
 								if(args[0].equalsIgnoreCase("add")) {
 									if (args[1].matches("[0-9]+")) {
-										Player target = Bukkit.getPlayerExact(args[0]);
+										Player target = Bukkit.getPlayerExact(args[2]);
 										if(target != null) {
 											double amout = Double.valueOf(args[1]) + money.getMoney(target);
 											money.setMoney(target, amout);
+											p.sendMessage("§2Du hast dem Kontostand von §d" + target.getName() + " §e" + args[1] + "$ §2hinzugefügt!");
+											target.sendMessage("§2Deinem Kontostand wurden §e" + args[1] + "$ §2 von §d"+p.getDisplayName() + " §2hinzugefügt!");
 										} else {
 												p.sendMessage("§4Dieser Spieler ist gerade nicht Online!");
 											}
@@ -81,9 +87,11 @@ public class ValueCommand implements CommandExecutor{
 				if(args.length == 3) {
 					if(args[0].equalsIgnoreCase("set")) {
 						if (args[1].matches("[0-9]+")) {
-							Player target = Bukkit.getPlayerExact(args[0]);
+							Player target = Bukkit.getPlayerExact(args[2]);
 							if(target != null) {
 								money.setMoney(target, Double.valueOf(args[1]));
+								p.sendMessage("§2Du hast den Kontostand von §d" + target.getName() + " §2auf §e" + args[1] + "$ §2gesetzt!");
+								target.sendMessage("§2Dein Kontostand wurden von §dder Konsole §2auf §e" + args[1] + "$ §2gesetzt!");
 							} else {
 									p.sendMessage("§4Dieser Spieler ist gerade nicht Online!");
 							}
@@ -93,10 +101,12 @@ public class ValueCommand implements CommandExecutor{
 					} else {
 						if(args[0].equalsIgnoreCase("add")) {
 							if (args[1].matches("[0-9]+")) {
-								Player target = Bukkit.getPlayerExact(args[0]);
+								Player target = Bukkit.getPlayerExact(args[2]);
 								if(target != null) {
 									double amout = Double.valueOf(args[1]) + money.getMoney(target);
 									money.setMoney(target, amout);
+									p.sendMessage("§2Du hast dem Kontostand von §d" + target.getName() + " §e" + args[1] + "$ §2hinzugefügt!");
+									target.sendMessage("§2Deinem Kontostand wurden §e" + args[1] + "$ §2 von §dder Konsole §2hinzugefügt!");
 								} else {
 										p.sendMessage("§4Dieser Spieler ist gerade nicht Online!");
 									}

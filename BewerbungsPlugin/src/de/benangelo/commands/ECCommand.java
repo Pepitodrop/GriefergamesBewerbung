@@ -24,7 +24,7 @@ public class ECCommand implements CommandExecutor{
 	
 	public static void openInv(Player target, Player sender) throws IllegalArgumentException, IOException {
 		Inventory inventory = Bukkit.createInventory(null, AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(), "§4" + InvName + " §2von §6" + target.getName());
-		if(MySQL.UserExists(target.getUniqueId())) {
+		if(MySQL.UserExistsPlayer(target.getUniqueId())) {
 			//System.out.println("1+-+-");
 			for(int i = 0; i < AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(); i++) {
 				//System.out.println(i);
@@ -78,7 +78,7 @@ public class ECCommand implements CommandExecutor{
 				i++;
 			}
 			if(!MySQL.setTname(i)) {
-				MySQL.createTable(i);
+				MySQL.createChestTable(i);
 				MySQL.update("INSERT INTO "+ "Players" + "(Spielername, UUID, TabelName) VALUES ('" + target.getName() + "', '" + target.getUniqueId() +"', '" + i +"')");
 				//System.out.println("4");
 				sender.openInventory(inventory);
@@ -104,7 +104,7 @@ public class ECCommand implements CommandExecutor{
 	
 	public static void openInvOffline(OfflinePlayer target, Player sender) throws IllegalArgumentException, IOException {
 		Inventory inventory = Bukkit.createInventory(null, AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(), "§4" + InvName + " §2von §6" + target.getName());
-		if(MySQL.UserExists(target.getUniqueId())) {
+		if(MySQL.UserExistsPlayer(target.getUniqueId())) {
 			//System.out.println("1+-+-");
 			for(int i = 0; i < AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(); i++) {
 				//System.out.println(i);
@@ -151,7 +151,7 @@ public class ECCommand implements CommandExecutor{
 				i++;
 			}
 			if(!MySQL.setTname(i)) {
-				MySQL.createTable(i);
+				MySQL.createChestTable(i);
 				MySQL.update("INSERT INTO "+ "Players" + "(Spielername, UUID, TabelName) VALUES ('" + target.getName() + "', '" + target.getUniqueId() +"', '" + i +"')");
 				//System.out.println("4");
 				sender.openInventory(inventory);
