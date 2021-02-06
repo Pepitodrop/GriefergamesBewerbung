@@ -1,4 +1,4 @@
-package de.benangelo.util;
+package de.benangelo.Listener;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

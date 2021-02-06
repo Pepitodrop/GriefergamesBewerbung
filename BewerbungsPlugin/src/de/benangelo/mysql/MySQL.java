@@ -84,35 +84,100 @@ public class MySQL {
 		}
 	}
     
-    public static void createBankTable() {
-		/*
-		 * 
-		 * Syntax: amout, durability, MaxStackSize, Type, DisplayName, localizedName, Slot
-		 * 
-		 */
-		if(isConnected()) {
-		try {
-			System.out.println("[MySQL] Tabelle wird erstellt!");
-			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "Bank" + " (Player varchar(1000), UUID varchar(1000), Amout varchar(1000))");
-			System.out.println("[MySQL] Tabelle wurde erstellt!");
-		} catch (SQLException e) {
-			System.out.println("[MySQL] Fehler:"  + e.getMessage() + " und " + e.getSQLState());
-			e.printStackTrace();
-		}
-		}
-	}
+//    public static void createBankTable() {
+//		/*
+//		 * 
+//		 * Syntax: Player, UUID, Amout
+//		 * 
+//		 */
+//		if(isConnected()) {
+//		try {
+//			System.out.println("[MySQL] Tabelle wird erstellt!");
+//			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "Bank" + " (Player varchar(1000), UUID varchar(1000), Amout varchar(1000))");
+//			System.out.println("[MySQL] Tabelle wurde erstellt!");
+//		} catch (SQLException e) {
+//			System.out.println("[MySQL] Fehler:"  + e.getMessage() + " und " + e.getSQLState());
+//			e.printStackTrace();
+//		}
+//		}
+//	}
+//    
+//    public static void createBanTable() {
+//		/*
+//		 * 
+//		 * Syntax: Spieler, UUID, Ende, Grund
+//		 * 
+//		 */
+//		if(isConnected()) {
+//		try {
+//			System.out.println("[MySQL] Tabelle wird erstellt!");
+//			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "BannedPlayers" + " (Spieler varchar(1000), UUID varchar(1000), Ende varchar(1000), Grund varchar(1000))");
+//			System.out.println("[MySQL] Tabelle wurde erstellt!");
+//		} catch (SQLException e) {
+//			System.out.println("[MySQL] Fehler:"  + e.getMessage() + " und " + e.getSQLState());
+//			e.printStackTrace();
+//		}
+//		}
+//	}
+//    
+//    public static void createPlayerTable() {
+//		/*
+//		 * 
+//		 * Syntax: Spielername, UUID, Username
+//		 * 
+//		 */
+//		if(isConnected()) {
+//		try {
+//			System.out.println("[MySQL] Tabelle wird erstellt!");
+//			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS Players (Spielername VARCHAR(1000), UUID VARCHAR(1000), TabelName VARCHAR(1000))");
+//			System.out.println("[MySQL] Tabelle wurde erstellt!");
+//		} catch (SQLException e) {
+//			System.out.println("[MySQL] Fehler:"  + e.getMessage() + " und " + e.getSQLState());
+//			e.printStackTrace();
+//		}
+//		}
+//	}
+//    
+//    public static void createBlockLogTable() {
+//		/*
+//		 * 
+//		 * Syntax: Material, Player, Position, Time, Day
+//		 * 
+//		 */
+//		if(isConnected()) {
+//		try {
+//			System.out.println("[MySQL] Tabelle wird erstellt!");
+//			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS BlockLogDestroy (Material VARCHAR(1000), Player VARCHAR(1000), Position VARCHAR(1000), Time(1000), Day(1000)) ");
+//			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS BlockLogPlace (Material VARCHAR(1000), Player VARCHAR(1000), Position VARCHAR(1000), Time(1000), Day(1000)) ");
+//			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS BlockLogExplosed (Material VARCHAR(1000), Position VARCHAR(1000), Time(1000), Day(1000)) ");
+//			System.out.println("[MySQL] Tabelle wurde erstellt!");
+//		} catch (SQLException e) {
+//			System.out.println("[MySQL] Fehler:"  + e.getMessage() + " und " + e.getSQLState());
+//			e.printStackTrace();
+//		}
+//		}
+//	}
     
-    public static void createPlayerTable() {
+    public static void createTables() {
 		/*
 		 * 
-		 * Syntax: Spielername, UUID, Username
+		 * Syntax: Playername, UUID, Command, Time, Day
 		 * 
 		 */
 		if(isConnected()) {
 		try {
-			System.out.println("[MySQL] Tabelle wird erstellt!");
+			System.out.println("[MySQL] Tabellen werden erstellt!");
+			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "Bank" + " (Player varchar(1000), UUID varchar(1000), Amout varchar(1000))");
+			
+			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "BannedPlayers" + " (Spieler varchar(1000), UUID varchar(1000), Ende varchar(1000), Grund varchar(1000))");
+			
 			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS Players (Spielername VARCHAR(1000), UUID VARCHAR(1000), TabelName VARCHAR(1000))");
-			System.out.println("[MySQL] Tabelle wurde erstellt!");
+			
+			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS BlockLogDestroy (Material VARCHAR(1000), Player VARCHAR(1000), Position VARCHAR(1000), Time VARCHAR(1000), Day VARCHAR(1000))");
+			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS BlockLogPlace (Material VARCHAR(1000), Player VARCHAR(1000), Position VARCHAR(1000), Time VARCHAR(1000), Day VARCHAR(1000))");
+			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS CommandLog (Playername VARCHAR(1000), UUID VARCHAR(1000), Command VARCHAR(1000), Time VARCHAR(1000), Day VARCHAR(1000))");			
+			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS ChatLog (Playername VARCHAR(1000), UUID VARCHAR(1000), Message VARCHAR(1000), Time VARCHAR(1000), Day VARCHAR(1000))");
+			System.out.println("[MySQL] Tabellen wurden erstellt!");
 		} catch (SQLException e) {
 			System.out.println("[MySQL] Fehler:"  + e.getMessage() + " und " + e.getSQLState());
 			e.printStackTrace();
@@ -265,6 +330,79 @@ public class MySQL {
              final ResultSet rs = MySQL.query("SELECT * FROM " + "Bank" + " WHERE UUID= '" + uuid + "'");
              if (!rs.next() || String.valueOf(rs.getString("Amout")) == null) {}
              i = rs.getString("Amout");
+         }
+         catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return i;
+     }
+     
+     
+     
+     
+     
+     /*
+		 * 
+		 * Syntax: Spieler, UUID, Ende, Grund
+		 * 
+		 */
+     public static boolean userisBanned(UUID uuid) {
+         ResultSet rs = MySQL.getResult("SELECT * FROM " + "BannedPlayers" + " WHERE UUID= '" + uuid + "'");
+         try {
+  		while(rs.next()) {
+  			   return rs != null;
+  		   }
+  	} catch (SQLException e) {
+  		e.printStackTrace();
+  	}
+  	return false;
+      }
+     
+     public static String getPlayer(UUID uuid) {
+         String i = "";
+         try {
+             final ResultSet rs = MySQL.query("SELECT * FROM " + "BannedPlayers" + " WHERE UUID= '" + uuid + "'");
+             if (!rs.next() || String.valueOf(rs.getString("Spieler")) == null) {}
+             i = rs.getString("Spieler");
+         }
+         catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return i;
+     }
+     
+     public static String getUUID(String spieler) {
+         String i = "";
+         try {
+             final ResultSet rs = MySQL.query("SELECT * FROM " + "BannedPlayers" + " WHERE Spieler= '" + spieler + "'");
+             if (!rs.next() || String.valueOf(rs.getString("UUID")) == null) {}
+             i = rs.getString("UUID");
+         }
+         catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return i;
+     }
+     
+     public static long getEnde(UUID uuid) {
+    	 long i = 0;
+         try {
+             final ResultSet rs = MySQL.query("SELECT * FROM " + "BannedPlayers" + " WHERE UUID= '" + uuid + "'");
+             if (!rs.next() || String.valueOf(rs.getString("Ende")) == null) {}
+             i = rs.getLong("Ende");
+         }
+         catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return i;
+     }
+     
+     public static String getReason(UUID uuid) {
+         String i = "";
+         try {
+             final ResultSet rs = MySQL.query("SELECT * FROM " + "BannedPlayers" + " WHERE UUID= '" + uuid + "'");
+             if (!rs.next() || String.valueOf(rs.getString("Grund")) == null) {}
+             i = rs.getString("Grund");
          }
          catch (SQLException e) {
              e.printStackTrace();

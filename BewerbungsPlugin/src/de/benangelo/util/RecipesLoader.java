@@ -42,9 +42,9 @@ public class RecipesLoader {
 		OPBow.setItemMeta(OPBowMeta);
 		
 		ShapedRecipe OPBowRecipe = new ShapedRecipe(OPBow);
-		OPBowRecipe.shape("DNF", "NGF", "ENF");
+		OPBowRecipe.shape("DSF", "SGF", "ESF");
 		OPBowRecipe.setIngredient('D', Material.DIAMOND_BLOCK);
-		OPBowRecipe.setIngredient('N', Material.NETHERITE_INGOT);
+		OPBowRecipe.setIngredient('S', Material.DIAMOND_SWORD);
 		OPBowRecipe.setIngredient('F', Material.STRING);
 		OPBowRecipe.setIngredient('G', Material.GOLD_BLOCK);
 		OPBowRecipe.setIngredient('E', Material.EMERALD_BLOCK);

@@ -1,4 +1,4 @@
-package de.benangelo.util;
+package de.benangelo.Listener;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

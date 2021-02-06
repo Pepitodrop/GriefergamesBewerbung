@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import de.benangelo.commands.ECCommand;
+import de.benangelo.util.BanManager;
 
 public class AllgemeineConfigs {
 
@@ -23,6 +24,7 @@ public class AllgemeineConfigs {
 		cfg.addDefault("Breite des Invs", 9);
 		cfg.addDefault("Höhe des Invs", 5);
 		cfg.addDefault("INV Name", "EC");
+		cfg.addDefault("Entbannungsantrag", "www.deineWebseite.de");
 		
 		try {
 			cfg.save(getFile());
@@ -45,6 +47,7 @@ public class AllgemeineConfigs {
 		breite = cfg.getInt("Breite des Invs");
 		höhe = cfg.getInt("Höhe des Invs");
 		ECCommand.InvName = cfg.getString("INV Name");
+		BanManager.setEntbannungsantrag(cfg.getString("Entbannungsantrag"));
 	}
 
 	public static int getHöhe() {
