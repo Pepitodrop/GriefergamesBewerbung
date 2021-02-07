@@ -21,6 +21,7 @@ import de.benangelo.commands.BanCommand;
 import de.benangelo.commands.BankCommand;
 import de.benangelo.commands.CraftingTableCommand;
 import de.benangelo.commands.ECCommand;
+import de.benangelo.commands.GamemodeCommand;
 import de.benangelo.commands.PayCommand;
 import de.benangelo.commands.ValueCommand;
 import de.benangelo.config.AllgemeineConfigs;
@@ -76,6 +77,8 @@ public class Main extends JavaPlugin{
 		getCommand("check").setExecutor(new BanCommand());
 		
 		getCommand("crafting").setExecutor(new CraftingTableCommand());
+		
+		getCommand("gm").setExecutor(new GamemodeCommand());
 		
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new ChestListener(), this);
