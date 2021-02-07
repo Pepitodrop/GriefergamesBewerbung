@@ -1,6 +1,6 @@
 name: BewerbungsPlugin
 main: de.benangelo.main.Main
-version: 1.5
+version: 2.0
 author: Luis Benedikt
 
 commands:
@@ -12,3 +12,10 @@ commands:
       description: Du kannst einem anderen Spieler geld geben!
    bank:
       description: Du kanst dein Geld sicher einer eine Datenbank legen!
+   ban:
+      description: Bannt einen Spieler fuer immer!
+   tempban:
+      description: Bannt einen Spieler fuer die eigegebenen Sekunden!
+   unban:
+      description: Entbannt einen Spieler!
+   check:

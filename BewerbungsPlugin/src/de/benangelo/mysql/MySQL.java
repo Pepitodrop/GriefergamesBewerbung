@@ -161,7 +161,7 @@ public class MySQL {
     public static void createTables() {
 		/*
 		 * 
-		 * Syntax: Playername, UUID, Command, Time, Day
+		 * Syntax: Playername, UUID, Anzahl
 		 * 
 		 */
 		if(isConnected()) {
@@ -408,6 +408,5 @@ public class MySQL {
              e.printStackTrace();
          }
          return i;
-     }
-    
+     }   
 }

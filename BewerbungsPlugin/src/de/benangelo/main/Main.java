@@ -15,6 +15,9 @@ import de.benangelo.Listener.ChestListener;
 import de.benangelo.Listener.CommandLog;
 import de.benangelo.Listener.InvClickEvent;
 import de.benangelo.Listener.InvCloseListener;
+import de.benangelo.Listener.JoinListener;
+import de.benangelo.Listener.LogInListener;
+import de.benangelo.commands.BanCommand;
 import de.benangelo.commands.BankCommand;
 import de.benangelo.commands.ECCommand;
 import de.benangelo.commands.PayCommand;
@@ -59,9 +62,17 @@ public class Main extends JavaPlugin{
 		updateSB();
 		
 		getCommand("EC").setExecutor(new ECCommand());
+		
 		getCommand("value").setExecutor(new ValueCommand());
+		
 		getCommand("pay").setExecutor(new PayCommand());
+		
 		getCommand("bank").setExecutor(new BankCommand());
+		
+		getCommand("ban").setExecutor(new BanCommand());
+		getCommand("tempban").setExecutor(new BanCommand());
+		getCommand("unban").setExecutor(new BanCommand());
+		getCommand("check").setExecutor(new BanCommand());
 		
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new ChestListener(), this);
@@ -71,12 +82,14 @@ public class Main extends JavaPlugin{
 		pluginManager.registerEvents(new BlockLog(), this);
 		pluginManager.registerEvents(new CommandLog(), this);
 		pluginManager.registerEvents(new ChatLog(), this);
+		pluginManager.registerEvents(new LogInListener(), this);
+		pluginManager.registerEvents(new JoinListener(), this);
 		
 		send();
 		
+		Bukkit.getConsoleSender().sendMessage("§2Das Plugin wurde erfolgreich geladen!");
 		
 		super.onEnable();
-		
 	}
 	
 	@Override

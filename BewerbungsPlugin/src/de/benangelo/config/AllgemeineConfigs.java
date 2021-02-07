@@ -25,6 +25,7 @@ public class AllgemeineConfigs {
 		cfg.addDefault("Höhe des Invs", 5);
 		cfg.addDefault("INV Name", "EC");
 		cfg.addDefault("Entbannungsantrag", "www.deineWebseite.de");
+		cfg.addDefault("HausPreis", 10000);
 		
 		try {
 			cfg.save(getFile());

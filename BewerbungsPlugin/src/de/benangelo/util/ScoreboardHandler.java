@@ -63,7 +63,7 @@ public class ScoreboardHandler implements Listener{
 		
 		o.getScore("§1 ").setScore(3);
 		o.getScore("§7> §bServer-Adress:").setScore(2);
-		o.getScore("§3" + p.getServer().getIp()).setScore(1);
+		o.getScore("§3" + p.getServer().getIp().toString()).setScore(1);
 		p.setScoreboard(scb);
 	}
 	
