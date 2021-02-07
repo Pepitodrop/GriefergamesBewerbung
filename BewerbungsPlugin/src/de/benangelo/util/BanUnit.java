@@ -14,10 +14,10 @@ public enum BanUnit {
 	YEAR("Jahr(e)", 60*60*24*7*4*12, "year");
 	
 	private String name;
-	private int toSeconds;
+	private long toSeconds;
 	private String shortcut;
 	
-	private BanUnit(String name, int toSeconds, String shortcut) {
+	private BanUnit(String name, long toSeconds, String shortcut) {
 		this.name = name;
 		this.toSeconds = toSeconds;
 		this.shortcut = shortcut;
@@ -27,7 +27,7 @@ public enum BanUnit {
 		return name;
 	}
 	
-	public int getToSeconds() {
+	public long getToSeconds() {
 		return toSeconds;
 	}
 	

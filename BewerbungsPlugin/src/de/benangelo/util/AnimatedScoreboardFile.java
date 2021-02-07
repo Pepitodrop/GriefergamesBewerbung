@@ -27,7 +27,7 @@ public class AnimatedScoreboardFile {
 	}
 	
 	private File getFile() {
-		return new File("plugins/VorzeigePlugin", "configs.yml");
+		return new File("plugins/BewerbungsPlugin", "ScoreboardConfig.yml");
 	}
 	
 	private FileConfiguration getFileConfiguration() {

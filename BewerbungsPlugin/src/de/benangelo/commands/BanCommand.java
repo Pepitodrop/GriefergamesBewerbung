@@ -63,6 +63,12 @@ public class BanCommand implements CommandExecutor {
 								sender.sendMessage("§c<Zahlenwert> muss eine Zahl sein!");
 								return false;
 							}
+							
+							if(value >= 500) {
+								sender.sendMessage("§4Der Wert muss unter 500 liegen!");
+								return false;
+							}
+							
 							String unitString = args[2];
 							Player target = Bukkit.getPlayer(playername);
 							String reason = "";
@@ -86,11 +92,12 @@ public class BanCommand implements CommandExecutor {
 									OfflinePlayer op = Bukkit.getOfflinePlayer(playername);
 									if(BanManager.isBanned(op.getUniqueId())) {
 										sender.sendMessage("§2Der Spieler ist bereits gebannt!");
+										return false;
 									} else
 									BanManager.ban(op.getUniqueId(), playername, reason, seconds);
 								}
 								sender.sendMessage("§2Du hast den Spieler §c" + playername + " §2für §4§l" + value + un.getName() +  "§2gebannt! Danke für das Sauberhalten des Servers!");
-								
+								return false;
 							}
 							sender.sendMessage("§cDiese <Einheit> exestiert nicht!");
 							return false;

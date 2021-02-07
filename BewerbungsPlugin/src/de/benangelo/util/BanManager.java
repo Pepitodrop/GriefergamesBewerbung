@@ -80,13 +80,13 @@ public class BanManager {
 		
 		long millis = end - current;
 		
-		int seconds = 0;
-		int minutes = 0;
-		int hours = 0;
-		int days = 0;
-		int weeks = 0;
-		int months = 0;
-		int years = 0;
+		long seconds = 0;
+		long minutes = 0;
+		long hours = 0;
+		long days = 0;
+		long weeks = 0;
+		long months = 0;
+		long years = 0;
 		
 		while(millis > 1000) {
 			millis-=1000;

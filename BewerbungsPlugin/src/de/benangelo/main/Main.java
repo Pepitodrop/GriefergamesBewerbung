@@ -19,6 +19,7 @@ import de.benangelo.Listener.JoinListener;
 import de.benangelo.Listener.LogInListener;
 import de.benangelo.commands.BanCommand;
 import de.benangelo.commands.BankCommand;
+import de.benangelo.commands.CraftingTableCommand;
 import de.benangelo.commands.ECCommand;
 import de.benangelo.commands.PayCommand;
 import de.benangelo.commands.ValueCommand;
@@ -73,6 +74,8 @@ public class Main extends JavaPlugin{
 		getCommand("tempban").setExecutor(new BanCommand());
 		getCommand("unban").setExecutor(new BanCommand());
 		getCommand("check").setExecutor(new BanCommand());
+		
+		getCommand("crafting").setExecutor(new CraftingTableCommand());
 		
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new ChestListener(), this);

@@ -19,3 +19,6 @@ commands:
    unban:
       description: Entbannt einen Spieler!
    check:
+      descripzion: Zeigt infos ueber gebanntes Spieler!
+   crafting:
+      description: oeffnet einen Craftingtable!
