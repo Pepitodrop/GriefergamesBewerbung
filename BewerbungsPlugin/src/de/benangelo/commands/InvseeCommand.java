@@ -24,13 +24,13 @@ public class InvseeCommand implements CommandExecutor {
 						}
 						p.openInventory(target.getInventory());
 			} else
-				p.sendMessage("§cDieser spieler ist nicht online!");	
+				p.sendMessage(Main.getPrefix() + "§cDieser spieler ist nicht online!");	
 			} else
-				p.sendMessage("§cBitte benutze §2/invsee <Spieler>§c !");
+				p.sendMessage(Main.getPrefix() + "§cBitte benutze §2/invsee <Spieler>§c !");
 			} else
-				p.sendMessage("§cDazu hast du keine Rechte");
+				p.sendMessage(Main.getPrefix() + "§cDazu hast du keine Rechte");
 		} else
-			System.out.println("Du musst ein Spieler sein!");
+			sender.sendMessage(Main.getPrefix() + "Du musst ein Spieler sein!");
 		return false;
 	}
 }

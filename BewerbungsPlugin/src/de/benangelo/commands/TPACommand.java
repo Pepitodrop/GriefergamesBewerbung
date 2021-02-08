@@ -32,14 +32,14 @@ public class TPACommand implements CommandExecutor {
 							if(TPA.contains(target.getName())) {
 							TPA.remove(target.getName());
 							Bukkit.getScheduler().cancelTask(taskID);
-							target.sendMessage("§cDeine TPA wurde abgelehnt!");
-							p.sendMessage("§4Du hast die TPA von §6" + target.getName() + " §4abgelehnt!");
+							target.sendMessage(Main.getPrefix() + "§cDeine TPA wurde abgelehnt!");
+							p.sendMessage(Main.getPrefix() + "§4Du hast die TPA von §6" + target.getName() + " §4abgelehnt!");
 									
 								
 					} else
-						p.sendMessage("§cDer Spieler hat dir keine TPA gesendet!");
+						p.sendMessage(Main.getPrefix() + "§cDer Spieler hat dir keine TPA gesendet!");
 					} else
-						p.sendMessage("§cDer Spieler ist nicht auf dem Server!");
+						p.sendMessage(Main.getPrefix() + "§cDer Spieler ist nicht auf dem Server!");
 						
 						 
 					} else
@@ -49,15 +49,15 @@ public class TPACommand implements CommandExecutor {
 							if(TPA.contains(target.getName())) {
 							TPA.remove(target.getName());
 							Bukkit.getScheduler().cancelTask(taskID);
-							target.sendMessage("§2Deine TPA wurde angenommen!");
-							p.sendMessage("§2Du hast die TPA von §6" + target.getName() + " §2angenommen!");
+							target.sendMessage(Main.getPrefix() + "§2Deine TPA wurde angenommen!");
+							p.sendMessage(Main.getPrefix() + "§2Du hast die TPA von §6" + target.getName() + " §2angenommen!");
 							wartezeit(target, p);
 				} else
-					p.sendMessage("§cDer Spieler hat dir keine TPA gesendet!");
+					p.sendMessage(Main.getPrefix() + "§cDer Spieler hat dir keine TPA gesendet!");
 				} else
-					p.sendMessage("§cDer Spieler ist nicht auf dem Server!");
+					p.sendMessage(Main.getPrefix() + "§cDer Spieler ist nicht auf dem Server!");
 				} else
-					p.sendMessage("§cBitte benutze §2/tpa accept/deny <Spieler>");
+					p.sendMessage(Main.getPrefix() + "§cBitte benutze §2/tpa accept/deny <Spieler>");
 						
 					
 				} else
@@ -74,11 +74,11 @@ public class TPACommand implements CommandExecutor {
 							target.sendMessage("§cUm die tpa abzulehnen verwende bitte §6/tpa deny " + p.getName() + " §6!");
 							target.sendMessage("§2Um die tpa anzunehmen verwende bitte §6/tpa accept " + p.getName() + " §6!");
 				} else
-					p.sendMessage("§cDu hast bereits eine TPA gesendet!");
+					p.sendMessage(Main.getPrefix() + "§cDu hast bereits eine TPA gesendet!");
 				} else
-					p.sendMessage("§cBitte benutze §2/tpa <Spieler> §c!");
+					p.sendMessage(Main.getPrefix() + "§cBitte benutze §2/tpa <Spieler> §c!");
 			} else
-				System.out.println("Du musst ein spieler sein!");
+				sender.sendMessage(Main.getPrefix() + "Du musst ein spieler sein!");
 		
 		return false;
 	}
@@ -92,24 +92,24 @@ public class TPACommand implements CommandExecutor {
 				switch(countdown) {
 				
 				case 60:
-					p.sendMessage("§6Deine TPA läuft in §4einer Minute §6ab!");
-					t.sendMessage("§6Deine TPA läuft in §4einer Minute §6ab!");
+					p.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4einer Minute §6ab!");
+					t.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4einer Minute §6ab!");
 					break;
 				
 				case 30:case 15: case 10: case 5: case 3: case 2:
-					p.sendMessage("§6Deine TPA läuft in §4" + countdown + " sekunden §6ab!");
-					t.sendMessage("§6Deine TPA läuft in §4" + countdown + " sekunden §6ab!");
+					p.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4" + countdown + " sekunden §6ab!");
+					t.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4" + countdown + " sekunden §6ab!");
 					break;
 					
 				case 1:
-					p.sendMessage("§6Deine TPA läuft in §4" + "einer" + " sekunde §6ab!");
-					t.sendMessage("§6Deine TPA läuft in §4" + "einer" + " sekunde §6ab!");
+					p.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4" + "einer" + " sekunde §6ab!");
+					t.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4" + "einer" + " sekunde §6ab!");
 					break;
 					
 				case 0:
 					Bukkit.getScheduler().cancelTask(taskID);
-					p.sendMessage("§6Deine TPA ist §4§labgelaufen!");
-					t.sendMessage("§6Deine TPA ist §4§labgelaufen!");
+					p.sendMessage(Main.getPrefix() + "§6Deine TPA ist §4§labgelaufen!");
+					t.sendMessage(Main.getPrefix() + "§6Deine TPA ist §4§labgelaufen!");
 					TPA.remove(p.getName());
 					return;
 				}
@@ -140,9 +140,9 @@ public class TPACommand implements CommandExecutor {
 					Bukkit.getScheduler().cancelTask(taskID);
 					if(t != null) {
 						t.teleport(p);
-						t.sendMessage("§6Du wurdest teleportiert!");
+						t.sendMessage(Main.getPrefix() + "§6Du wurdest teleportiert!");
 					} else
-						p.sendMessage("§6" + name + " §4ist disconnected!");
+						p.sendMessage(Main.getPrefix() + "§6" + name + " §4ist disconnected!");
 					DontMove.remove(name);
 					return;
 					

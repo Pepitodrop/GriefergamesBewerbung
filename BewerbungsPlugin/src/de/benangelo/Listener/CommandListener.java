@@ -4,6 +4,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import de.benangelo.main.Main;
+
 public class CommandListener implements Listener{
 
 	@EventHandler
@@ -11,7 +13,7 @@ public class CommandListener implements Listener{
 		if(e.getMessage().equalsIgnoreCase("/pl")) {
 			if(!(e.getPlayer().hasPermission("bewerbungsplugin.plCommand"))) {
 				e.setCancelled(true);
-				e.getPlayer().sendMessage("§4Dazu hast du keine Rechte!");
+				e.getPlayer().sendMessage(Main.getPrefix() + "§4Dazu hast du keine Rechte!");
 			}
 		}
 	}

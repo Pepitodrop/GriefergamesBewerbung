@@ -58,16 +58,16 @@ public class ECCommand implements CommandExecutor{
 			}
 			sender.openInventory(inventory);
 			if(target.getName().equalsIgnoreCase(sender.getName().toString())) {
-				sender.sendMessage("§2Deine EC wurde geöffnet!");
+				sender.sendMessage(Main.getPrefix() + "§2Deine EC wurde geöffnet!");
 			} else {
 				
 				if(sender.hasPermission("EC.canClick")) {
-					sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
+					sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 				} else {
 					if(Main.getPlugin().canClick != null) {
 						Main.getPlugin().canClick.add(sender.getName().toString());
 					}
-					sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
+					sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 				}
 				
 				
@@ -83,15 +83,15 @@ public class ECCommand implements CommandExecutor{
 				//System.out.println("4");
 				sender.openInventory(inventory);
 				if(target.getName().equalsIgnoreCase(sender.getName())) {
-					sender.sendMessage("§2Deine EC wurde geöffnet!");
+					sender.sendMessage(Main.getPrefix() + "§2Deine EC wurde geöffnet!");
 				} else {
 					if(sender.hasPermission("EC.canClick")) {
-						sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
+						sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 					} else {
 						if(Main.getPlugin().canClick != null) {
 							Main.getPlugin().canClick.add(sender.getName().toString());
 						}
-						sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
+						sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 					}
 				}
 				i=1;
@@ -138,12 +138,12 @@ public class ECCommand implements CommandExecutor{
 			}
 			sender.openInventory(inventory);
 			if(sender.hasPermission("EC.canClick")) {
-				sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
+				sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 			} else {
 				if(Main.getPlugin().canClick != null) {
 					Main.getPlugin().canClick.add(sender.getName().toString());
 				}
-				sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
+				sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 			} 
 				
 		} else {
@@ -156,12 +156,12 @@ public class ECCommand implements CommandExecutor{
 				//System.out.println("4");
 				sender.openInventory(inventory);
 				if(sender.hasPermission("EC.canClick")) {
-					sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
+					sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 				} else {
 					if(Main.getPlugin().canClick != null) {
 						Main.getPlugin().canClick.add(sender.getName().toString());
 					}
-					sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
+					sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 				}
 				i=1;
 			}
@@ -179,8 +179,8 @@ public class ECCommand implements CommandExecutor{
 					try {
 						openInv(p, p);
 					} catch (IllegalArgumentException | IOException e) {
-						p.sendMessage("§4Leider exestiert keine MySQL Verbindung");
-						System.out.println("Leider exestiert keine MySQL Verbindung");
+						p.sendMessage(Main.getPrefix() + "§4Leider exestiert keine MySQL Verbindung");
+						System.out.println(Main.getPrefix() + "Leider exestiert keine MySQL Verbindung");
 					}
 				} else {
 					if(args.length == 1) {
@@ -189,8 +189,8 @@ public class ECCommand implements CommandExecutor{
 								try {
 									openInv(all, p);
 								} catch (IllegalArgumentException | IOException e) {
-									p.sendMessage("§4Leider exestiert keine MySQL Verbindung");
-									System.out.println("Leider exestiert keine MySQL Verbindung");
+									p.sendMessage(Main.getPrefix() + "§4Leider exestiert keine MySQL Verbindung");
+									System.out.println(Main.getPrefix() + "Leider exestiert keine MySQL Verbindung");
 								}
 						} else {
 								
@@ -199,20 +199,20 @@ public class ECCommand implements CommandExecutor{
 								try {
 									openInvOffline(allOFF, p);
 								} catch (IllegalArgumentException | IOException e) {
-									p.sendMessage("§4Leider exestiert keine MySQL Verbindung");
-									System.out.println("Leider exestiert keine MySQL Verbindung");
+									p.sendMessage(Main.getPrefix() + "§4Leider exestiert keine MySQL Verbindung");
+									System.out.println(Main.getPrefix() + "Leider exestiert keine MySQL Verbindung");
 								}
 						} else
-							p.sendMessage("§4Dieser Spieler exestiert leider nicht auf diesemm Server!");
+							p.sendMessage(Main.getPrefix() + "§4Dieser Spieler exestiert leider nicht auf diesemm Server!");
 						}
 						}
 						}
 						
 					} else
-						p.sendMessage("§4Bitte benutze §2/EC (Spieler) §4!");
+						p.sendMessage(Main.getPrefix() + "§4Bitte benutze §2/EC (Spieler) §4!");
 				}
 		} else
-			System.out.println("Du musst ein Spieler sein");
+			sender.sendMessage(Main.getPrefix() + "Du musst ein Spieler sein");
 		return false;
 	}
 	

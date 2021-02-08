@@ -42,6 +42,8 @@ public class Main extends JavaPlugin{
 	public ArrayList<String> canClick = new ArrayList<>();
 	
 	private static Main plugin;
+	
+	private static String prefix;
 
 	private static long UpdateSekunde;
 	
@@ -160,6 +162,14 @@ public class Main extends JavaPlugin{
 
 	public static Main getPlugin() {
 		return plugin;
+	}
+
+	public static String getPrefix() {
+		return prefix;
+	}
+
+	public static void setPrefix(String prefix) {
+		Main.prefix = prefix;
 	}
 
 }

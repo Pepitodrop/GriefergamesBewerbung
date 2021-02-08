@@ -5,6 +5,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import de.benangelo.main.Main;
+
 public class CraftingTableCommand implements CommandExecutor{
 
 	@Override
@@ -15,11 +17,11 @@ public class CraftingTableCommand implements CommandExecutor{
 				if(args.length == 0) {
 					p.openWorkbench(p.getLocation(), true);
 				} else
-					p.sendMessage("§4Bitte benutze §2/crafting §4!");
+					p.sendMessage(Main.getPrefix() + "§4Bitte benutze §2/crafting §4!");
 			} else
-				p.sendMessage("§4Dazu hast du keine Rechte!");
+				p.sendMessage(Main.getPrefix() + "§4Dazu hast du keine Rechte!");
 		} else
-			sender.sendMessage("§4Du musst ein Spieler sein!");
+			sender.sendMessage(Main.getPrefix() + "§4Du musst ein Spieler sein!");
 		return false;
 	}
 

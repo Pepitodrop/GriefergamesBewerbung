@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import de.benangelo.commands.TPACommand;
+import de.benangelo.main.Main;
 
 public class PlayerMove implements Listener{
 
@@ -17,7 +18,7 @@ public class PlayerMove implements Listener{
 		if(!(p.getLocation().getX() == e.getTo().getX() && p.getLocation().getZ() == e.getTo().getZ())) {
 			if(TPACommand.DontMove.contains(p.getName())) {
 				Bukkit.getScheduler().cancelTask(TPACommand.getTaskID());
-				p.sendMessage("§4Deine Teleportation wurde abgebrochen!");
+				p.sendMessage(Main.getPrefix() + "§4Deine Teleportation wurde abgebrochen!");
 				TPACommand.DontMove.remove(p.getName());
 		}	
 	}

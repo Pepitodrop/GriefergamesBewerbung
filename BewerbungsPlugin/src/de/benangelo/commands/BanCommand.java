@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import de.benangelo.main.Main;
 import de.benangelo.util.BanManager;
 import de.benangelo.util.BanUnit;
 
@@ -31,7 +32,7 @@ public class BanCommand implements CommandExecutor {
 						if(target != null) {
 							
 							if(BanManager.isBanned(target.getUniqueId())) {
-								sender.sendMessage("§2Der Spieler ist bereits gebannt!");
+								sender.sendMessage(Main.getPrefix() + "§2Der Spieler ist bereits gebannt!");
 								return false;
 							} else
 							BanManager.ban(target.getUniqueId(), playername, reason, -1);
@@ -39,15 +40,15 @@ public class BanCommand implements CommandExecutor {
 						} else {
 							OfflinePlayer op = Bukkit.getOfflinePlayer(playername);
 							if(BanManager.isBanned(op.getUniqueId())) {
-								sender.sendMessage("§2Der Spieler ist bereits gebannt!");
+								sender.sendMessage(Main.getPrefix() + "§2Der Spieler ist bereits gebannt!");
 							} else
 							BanManager.ban(op.getUniqueId(), playername, reason, -1);
 						}
-						sender.sendMessage("§2Du hast den Spieler §c" + playername + " §4§lPERMANENT §2gebannt! Danke für das Sauberhalten des Servers!");
+						sender.sendMessage(Main.getPrefix() + "§2Du hast den Spieler §c" + playername + " §4§lPERMANENT §2gebannt! Danke für das Sauberhalten des Servers!");
 					} else
-						sender.sendMessage("§4Bitte benutze §2/ban <Spieler> <Grund> §4!");
+						sender.sendMessage(Main.getPrefix() + "§4Bitte benutze §2/ban <Spieler> <Grund> §4!");
 				} else
-					sender.sendMessage("§4Dazu hast du keine Rechte!");
+					sender.sendMessage(Main.getPrefix() + "§4Dazu hast du keine Rechte!");
 			} else {
 				
 				
@@ -60,12 +61,12 @@ public class BanCommand implements CommandExecutor {
 							try {
 								value = Long.valueOf(args[1]);
 							} catch(NumberFormatException e) {
-								sender.sendMessage("§c<Zahlenwert> muss eine Zahl sein!");
+								sender.sendMessage(Main.getPrefix() + "§c<Zahlenwert> muss eine Zahl sein!");
 								return false;
 							}
 							
 							if(value >= 500) {
-								sender.sendMessage("§4Der Wert muss unter 500 liegen!");
+								sender.sendMessage(Main.getPrefix() + "§4Der Wert muss unter 500 liegen!");
 								return false;
 							}
 							
@@ -83,7 +84,7 @@ public class BanCommand implements CommandExecutor {
 								if(target != null) {
 									
 									if(BanManager.isBanned(target.getUniqueId())) {
-										sender.sendMessage("§2Der Spieler ist bereits gebannt!");
+										sender.sendMessage(Main.getPrefix() + "§2Der Spieler ist bereits gebannt!");
 										return true;
 									} else
 									BanManager.ban(target.getUniqueId(), playername, reason, seconds);
@@ -91,20 +92,20 @@ public class BanCommand implements CommandExecutor {
 								} else {
 									OfflinePlayer op = Bukkit.getOfflinePlayer(playername);
 									if(BanManager.isBanned(op.getUniqueId())) {
-										sender.sendMessage("§2Der Spieler ist bereits gebannt!");
+										sender.sendMessage(Main.getPrefix() + "§2Der Spieler ist bereits gebannt!");
 										return false;
 									} else
 									BanManager.ban(op.getUniqueId(), playername, reason, seconds);
 								}
-								sender.sendMessage("§2Du hast den Spieler §c" + playername + " §2für §4§l" + value + un.getName() +  "§2gebannt! Danke für das Sauberhalten des Servers!");
+								sender.sendMessage(Main.getPrefix() + "§2Du hast den Spieler §c" + playername + " §2für §4§l" + value + un.getName() +  "§2gebannt! Danke für das Sauberhalten des Servers!");
 								return false;
 							}
-							sender.sendMessage("§cDiese <Einheit> exestiert nicht!");
+							sender.sendMessage(Main.getPrefix() + "§cDiese <Einheit> exestiert nicht!");
 							return false;
 						} else
-							sender.sendMessage("§4Bitte benutze §2/tampban <Spieler> <Zahlenwert> <Einheit> <Grund> §4!");
+							sender.sendMessage(Main.getPrefix() + "§4Bitte benutze §2/tampban <Spieler> <Zahlenwert> <Einheit> <Grund> §4!");
 					} else
-						sender.sendMessage("§4Dazu hast du keine Rechte!");
+						sender.sendMessage(Main.getPrefix() + "§4Dazu hast du keine Rechte!");
 				} else {
 					
 					
@@ -115,7 +116,7 @@ public class BanCommand implements CommandExecutor {
 								if(args[0].equalsIgnoreCase("list")) {
 									List<String> list = BanManager.getBannedPlayers();
 									if(list.size() == 0) {
-										sender.sendMessage("§cEs sind aktuell keine Spieler gebannt!");
+										sender.sendMessage(Main.getPrefix() + "§cEs sind aktuell keine Spieler gebannt!");
 										return false;
 									}
 									sender.sendMessage("§7---------- §6§lBan-Liste §7----------");
@@ -141,12 +142,10 @@ public class BanCommand implements CommandExecutor {
 									sender.sendMessage("§everbleibende Zeit: §r" + BanManager.getRemainingTime(uuid));
 								}
 								
-//								sender.sendMessage("§eName:" + );
-								
 							} else
-								sender.sendMessage("§4Bitte benutze §2/check (list)/<spieler> §4!");
+								sender.sendMessage(Main.getPrefix() + "§4Bitte benutze §2/check (list)/<spieler> §4!");
 						} else
-							sender.sendMessage("§4Dazu hast du keine Rechte!");
+							sender.sendMessage(Main.getPrefix() + "§4Dazu hast du keine Rechte!");
 					} else {
 						
 						
@@ -164,17 +163,17 @@ public class BanCommand implements CommandExecutor {
 									
 									if(BanManager.isBanned(uuid)) {
 										BanManager.unban(uuid);
-										sender.sendMessage("§2Du hast §e" + playername + " §2entabnnt!");
+										sender.sendMessage(Main.getPrefix() + "§2Du hast §e" + playername + " §2entabnnt!");
 									} else {
-										sender.sendMessage("§4Dieser Spieler ist nicht gebannt!");
+										sender.sendMessage(Main.getPrefix() + "§4Dieser Spieler ist nicht gebannt!");
 									}
 									
 								} else
-									sender.sendMessage("§4Bitte benutze §2/unban <spieler> §4!");
+									sender.sendMessage(Main.getPrefix() + "§4Bitte benutze §2/unban <spieler> §4!");
 							} else
-								sender.sendMessage("§4Dazu hast du keine Rechte!");
+								sender.sendMessage(Main.getPrefix() + "§4Dazu hast du keine Rechte!");
 						} else {
-							sender.sendMessage("");
+							sender.sendMessage(Main.getPrefix() + "§4Bitte benutze §2/unban/ban/check§4!");
 						}
 					}
 				}
