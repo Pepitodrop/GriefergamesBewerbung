@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import de.benangelo.commands.ECCommand;
+import de.benangelo.commands.TPACommand;
 import de.benangelo.util.BanManager;
 
 public class AllgemeineConfigs {
@@ -25,7 +26,7 @@ public class AllgemeineConfigs {
 		cfg.addDefault("Höhe des Invs", 5);
 		cfg.addDefault("INV Name", "EC");
 		cfg.addDefault("Entbannungsantrag", "www.deineWebseite.de");
-		cfg.addDefault("HausPreis", 10000);
+		cfg.addDefault("Ablauf dauer der TPA in sekunden", 90);
 		
 		try {
 			cfg.save(getFile());
@@ -49,6 +50,7 @@ public class AllgemeineConfigs {
 		höhe = cfg.getInt("Höhe des Invs");
 		ECCommand.InvName = cfg.getString("INV Name");
 		BanManager.setEntbannungsantrag(cfg.getString("Entbannungsantrag"));
+		TPACommand.setAblaufZeit(cfg.getInt("Ablauf dauer der TPA in sekunden"));
 	}
 
 	public static int getHöhe() {

@@ -14,9 +14,9 @@ public class InvClickEvent implements Listener{
 	public void handleInvClick(InventoryClickEvent e) {
 		String n = e.getWhoClicked().getName().toString();
 		
-		if(Main.canClick != null) {
-			if(!Main.canClick.isEmpty()) {
-				if(Main.canClick.contains(n))
+		if(Main.getPlugin().canClick != null) {
+			if(!Main.getPlugin().canClick.isEmpty()) {
+				if(Main.getPlugin().canClick.contains(n))
 					e.setCancelled(true);
 			}
 		}

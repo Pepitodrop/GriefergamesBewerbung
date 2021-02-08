@@ -64,8 +64,8 @@ public class ECCommand implements CommandExecutor{
 				if(sender.hasPermission("EC.canClick")) {
 					sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 				} else {
-					if(Main.canClick != null) {
-						Main.canClick.add(sender.getName().toString());
+					if(Main.getPlugin().canClick != null) {
+						Main.getPlugin().canClick.add(sender.getName().toString());
 					}
 					sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 				}
@@ -88,8 +88,8 @@ public class ECCommand implements CommandExecutor{
 					if(sender.hasPermission("EC.canClick")) {
 						sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 					} else {
-						if(Main.canClick != null) {
-							Main.canClick.add(sender.getName().toString());
+						if(Main.getPlugin().canClick != null) {
+							Main.getPlugin().canClick.add(sender.getName().toString());
 						}
 						sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 					}
@@ -140,8 +140,8 @@ public class ECCommand implements CommandExecutor{
 			if(sender.hasPermission("EC.canClick")) {
 				sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 			} else {
-				if(Main.canClick != null) {
-					Main.canClick.add(sender.getName().toString());
+				if(Main.getPlugin().canClick != null) {
+					Main.getPlugin().canClick.add(sender.getName().toString());
 				}
 				sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 			} 
@@ -158,8 +158,8 @@ public class ECCommand implements CommandExecutor{
 				if(sender.hasPermission("EC.canClick")) {
 					sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 				} else {
-					if(Main.canClick != null) {
-						Main.canClick.add(sender.getName().toString());
+					if(Main.getPlugin().canClick != null) {
+						Main.getPlugin().canClick.add(sender.getName().toString());
 					}
 					sender.sendMessage("§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 				}

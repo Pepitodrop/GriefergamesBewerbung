@@ -16,10 +16,10 @@ public class InvCloseListener implements Listener{
 	@EventHandler
 	public void handleInvClose(InventoryCloseEvent e) {
 		Player p = (Player) e.getPlayer();
-		if(Main.canClick != null) {
-			if(!Main.canClick.isEmpty()) {
-				if(Main.canClick.contains(p.getName().toString()))
-					Main.canClick.remove(p.getName().toString());
+		if(Main.getPlugin().canClick != null) {
+			if(!Main.getPlugin().canClick.isEmpty()) {
+				if(Main.getPlugin().canClick.contains(p.getName().toString()))
+					Main.getPlugin().canClick.remove(p.getName().toString());
 			}
 		}
 		//e.getPlayer().sendMessage("a");

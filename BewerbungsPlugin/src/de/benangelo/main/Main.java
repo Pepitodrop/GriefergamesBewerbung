@@ -12,29 +12,34 @@ import org.bukkit.plugin.java.JavaPlugin;
 import de.benangelo.Listener.BlockLog;
 import de.benangelo.Listener.ChatLog;
 import de.benangelo.Listener.ChestListener;
+import de.benangelo.Listener.CommandListener;
 import de.benangelo.Listener.CommandLog;
 import de.benangelo.Listener.InvClickEvent;
 import de.benangelo.Listener.InvCloseListener;
 import de.benangelo.Listener.JoinListener;
 import de.benangelo.Listener.LogInListener;
+import de.benangelo.Listener.PlayerMove;
+import de.benangelo.Listener.PlayerQuit;
 import de.benangelo.commands.BanCommand;
 import de.benangelo.commands.BankCommand;
 import de.benangelo.commands.CraftingTableCommand;
 import de.benangelo.commands.ECCommand;
 import de.benangelo.commands.GamemodeCommand;
+import de.benangelo.commands.InvseeCommand;
 import de.benangelo.commands.PayCommand;
+import de.benangelo.commands.TPACommand;
 import de.benangelo.commands.ValueCommand;
 import de.benangelo.config.AllgemeineConfigs;
+import de.benangelo.config.AnimatedScoreboardFile;
 import de.benangelo.mysql.MySQL;
 import de.benangelo.mysql.MySQLFile;
 import de.benangelo.util.ActionBar;
-import de.benangelo.util.AnimatedScoreboardFile;
 import de.benangelo.util.RecipesLoader;
 import de.benangelo.util.ScoreboardHandler;
 
 public class Main extends JavaPlugin{
 	
-	public static ArrayList<String> canClick = new ArrayList<>();
+	public ArrayList<String> canClick = new ArrayList<>();
 	
 	private static Main plugin;
 
@@ -43,6 +48,8 @@ public class Main extends JavaPlugin{
 	@Override
 	public void onEnable() {
 		System.out.println("Das Plugin wird geladen!");
+		
+		plugin = this;
 		
 		MySQLFile file = new MySQLFile();
 		file.setStandard();
@@ -60,39 +67,50 @@ public class Main extends JavaPlugin{
 		MySQL.createTables();
 		
 		new RecipesLoader().registerRecipes();
+
+		ScoreboardHandler sb = new ScoreboardHandler(this);
 		
+
 		updateSB();
+
 		
 		getCommand("EC").setExecutor(new ECCommand());
-		
+
 		getCommand("value").setExecutor(new ValueCommand());
-		
+
 		getCommand("pay").setExecutor(new PayCommand());
-		
+
 		getCommand("bank").setExecutor(new BankCommand());
-		
+
 		getCommand("ban").setExecutor(new BanCommand());
 		getCommand("tempban").setExecutor(new BanCommand());
 		getCommand("unban").setExecutor(new BanCommand());
 		getCommand("check").setExecutor(new BanCommand());
-		
+
 		getCommand("crafting").setExecutor(new CraftingTableCommand());
-		
+
 		getCommand("gm").setExecutor(new GamemodeCommand());
 		
+		getCommand("invsee").setExecutor(new InvseeCommand());
+		
+		getCommand("tpa").setExecutor(new TPACommand());
+
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new ChestListener(), this);
 		pluginManager.registerEvents(new InvCloseListener(), this);
 		pluginManager.registerEvents(new InvClickEvent(), this);
-		pluginManager.registerEvents(new ScoreboardHandler(this), this);
+		pluginManager.registerEvents(sb, this);
 		pluginManager.registerEvents(new BlockLog(), this);
 		pluginManager.registerEvents(new CommandLog(), this);
 		pluginManager.registerEvents(new ChatLog(), this);
 		pluginManager.registerEvents(new LogInListener(), this);
 		pluginManager.registerEvents(new JoinListener(), this);
+		pluginManager.registerEvents(new CommandListener(), this);
+		pluginManager.registerEvents(new PlayerQuit(), this);
+		pluginManager.registerEvents(new PlayerMove(), this);
 		
 		send();
-		
+
 		Bukkit.getConsoleSender().sendMessage("§2Das Plugin wurde erfolgreich geladen!");
 		
 		super.onEnable();
@@ -108,11 +126,9 @@ public class Main extends JavaPlugin{
 	}
 	
 	private void updateSB() {
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-			
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {	
 			@Override
 			public void run() {
-				
 				for(Player p : Bukkit.getOnlinePlayers()) {
 					ScoreboardHandler.setup(p);
 				}
@@ -137,15 +153,13 @@ public class Main extends JavaPlugin{
 			}
 		}, 0, 0);
 	}
-	
-	
-	
-	public static Main getPlugin() {
-		return plugin;
-	}
 
 	public static void setUpdateSekunde(long updateSekunde) {
 		UpdateSekunde = updateSekunde;
+	}
+
+	public static Main getPlugin() {
+		return plugin;
 	}
 
 }

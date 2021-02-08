@@ -24,3 +24,7 @@ commands:
       description: oeffnet einen Craftingtable!
    gm:
       description: Aendert deinen Spielmodus!
+   invsee:
+      description: Oeffnet das Inventar eines anderen spielers!
+   tpa:
+      description: Du kannst einem mitspieler eine Teleportationsanfrage schicken!

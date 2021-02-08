@@ -16,7 +16,7 @@ public class GamemodeCommand implements CommandExecutor {
 			if(p.hasPermission("GM.Gamemode")) {
 				if(args.length == 1) {
 					
-					switch(String.valueOf(args)) {
+					switch(args[0]) {
 					
 					case "0":
 						p.setGameMode(GameMode.SURVIVAL);
@@ -48,7 +48,7 @@ public class GamemodeCommand implements CommandExecutor {
 						Player target = Bukkit.getPlayer(args[1]);
 						if(target != null) {
 							
-							switch(String.valueOf(args)) {
+							switch(args[0]) {
 							
 							case "0":
 								target.setGameMode(GameMode.SURVIVAL);
@@ -91,7 +91,7 @@ public class GamemodeCommand implements CommandExecutor {
 					Player target = Bukkit.getPlayer(args[1]);
 					if(target != null) {
 						
-						switch(String.valueOf(args)) {
+						switch(args[0]) {
 						
 						case "0":
 							target.setGameMode(GameMode.SURVIVAL);

@@ -15,6 +15,7 @@ public class JoinListener implements Listener{
 		if(BanManager.isBanned(p.getUniqueId())) {
 			BanManager.unban(p.getUniqueId());
 		}
+		e.setJoinMessage("§2>>>     " + p.getName());
 	}
 	
 }

@@ -1,4 +1,4 @@
-package de.benangelo.util;
+package de.benangelo.config;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import de.benangelo.main.Main;
+import de.benangelo.util.ScoreboardHandler;
 
 public class AnimatedScoreboardFile {
 	
