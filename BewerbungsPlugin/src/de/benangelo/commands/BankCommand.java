@@ -16,6 +16,8 @@ public class BankCommand implements CommandExecutor{
 		Money money = new Money();
 		if(sender instanceof Player) {
 			Player p = (Player) sender;
+			String uuid = p.getUniqueId().toString();
+			String name = p.getName();
 			if(p.hasPermission("bewerbungsPLugin.bankCommand")) {
 				if(args.length == 2) {
 					if(args[0].equalsIgnoreCase("einzahlen")) {
@@ -25,14 +27,17 @@ public class BankCommand implements CommandExecutor{
 									int amout = Integer.valueOf(args[1]) + Integer.valueOf(MySQL.getAmoutBank(p.getUniqueId()));
 									double amoutConfig = money.getMoney(p) - Double.valueOf(args[1]);
 									money.setMoney(p, amoutConfig);
-									MySQL.update("DELETE FROM " + "Bank" + " WHERE UUID='" + p.getUniqueId() + "'");
-									MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES ('" + p.getName() + "', '" + p.getUniqueId() + "', '" + amout +"');");
+									
+									MySQL.update("DELETE FROM " + "Bank" + " WHERE UUID=?", uuid);
+									
+									MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES (?, ?, ?);", name + "," + uuid + "," + amout);
+									
 									p.sendMessage(Main.getPrefix() + "§2Du hast §e" + args[1] + "$ §2eingezahlt!");
 								} else {
-									int amout = Integer.valueOf(args[1]) + 0;
+									int amout = Integer.valueOf(args[1]);
 									double amoutConfig = money.getMoney(p) - Double.valueOf(args[1]);
 									money.setMoney(p, amoutConfig);
-									MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES ('" + p.getName() + "', '" + p.getUniqueId() + "', '" + amout +"');");
+									MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES (?, ?, ?);", name + "," + uuid + "," + amout);
 									p.sendMessage(Main.getPrefix() + "§2Du hast §e" + args[1] + "$ §2eingezahlt!");
 								}
 							} else
@@ -48,8 +53,8 @@ public class BankCommand implements CommandExecutor{
 										int amout = Integer.valueOf(MySQL.getAmoutBank(p.getUniqueId())) - Integer.valueOf(args[1]);
 										double amoutConfig = money.getMoney(p) + Double.valueOf(args[1]);
 										money.setMoney(p, amoutConfig);
-										MySQL.update("DELETE FROM " + "Bank" + " WHERE UUID='" + p.getUniqueId() + "'");
-										MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES ('" + p.getName() + "', '" + p.getUniqueId() + "', '" + amout +"');");
+										MySQL.update("DELETE FROM " + "Bank" + " WHERE UUID=?", uuid);
+										MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES (?,?,?);" , name + "," + uuid + "," + amout);
 										p.sendMessage(Main.getPrefix() + "§4Du hast §e" + args[1] + "$ §4abgehoben!");
 									} else
 										p.sendMessage(Main.getPrefix() + "§4Du hast nicht so viel Geld auf der Bank!");
@@ -58,8 +63,8 @@ public class BankCommand implements CommandExecutor{
 										int amout = Integer.valueOf(args[1]) - Integer.valueOf(MySQL.getAmoutBank(p.getUniqueId()));
 										double amoutConfig = money.getMoney(p) + Double.valueOf(args[1]);
 										money.setMoney(p, amoutConfig);
-										MySQL.update("DELETE FROM " + "Bank" + " WHERE UUID='" + p.getUniqueId() + "'");
-										MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES ('" + p.getName() + "', '" + p.getUniqueId() + "', '" + amout +"');");
+										MySQL.update("DELETE FROM " + "Bank" + " WHERE UUID=?", uuid);
+										MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES (?,?,?);", name + "," + uuid + "," + amout);
 										p.sendMessage(Main.getPrefix() + "§4Du hast §e" + args[1] + "$ §4abgehoben!");
 									} else
 										p.sendMessage(Main.getPrefix() + "§4Du hast nicht so viel Geld auf der Bank!");

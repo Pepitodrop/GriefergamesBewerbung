@@ -13,7 +13,6 @@ import de.benangelo.mysql.MySQL;
 public class BanManager {
 
 	private static String entbannungsantrag;
-	
 	/*
 	 * 
 	 * Syntax: Spieler, UUID, Ende, Grund
@@ -30,7 +29,7 @@ public class BanManager {
 			end = current+millis;
 		}
 		
-		MySQL.update("INSERT INTO BannedPlayers (Spieler, UUID, Ende, Grund) VALUES ('"+ playername +"', '"+ uuid +"', '"+ end +"', '"+ reason +"')");
+		MySQL.update("INSERT INTO BannedPlayers (Spieler, UUID, Ende, Grund) VALUES (?, ?, ?, ?)", playername + "," + uuid.toString() + "," + end  + "," + reason);
 		if(Bukkit.getPlayer(playername) != null) {
 			Bukkit.getPlayer(playername).kickPlayer("§4Du wurdest vom Server gebannt!\n" +
 													"\n" + 
@@ -43,7 +42,7 @@ public class BanManager {
 	}
 
 	public static void unban(UUID uuid) {
-		MySQL.update("DELETE FROM BannedPLayers WHERE UUID='" + uuid + "'");
+		MySQL.update("DELETE FROM BannedPLayers WHERE UUID=?", uuid.toString());
 	}
 	
 	public static boolean isBanned(UUID uuid) {

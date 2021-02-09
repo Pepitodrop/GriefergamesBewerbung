@@ -30,7 +30,7 @@ public class CommandLog implements Listener{
 		 * Syntax: Playername, UUID, Command, Time, Day
 		 * 
 		 */
-		MySQL.update("INSERT INTO CommandLog (Playername, UUID, Command, Time, Day) VALUES ('" + p + "', '" + u + "', '" + c + "', '" + hours + "', '" + day + "')");
+		MySQL.update("INSERT INTO CommandLog (Playername, UUID, Command, Time, Day) VALUES (?,?,?,?,?)", p + "," + u + "," + c + "," + hours + "," + day);
 	}
 
 }

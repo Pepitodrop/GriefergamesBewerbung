@@ -25,37 +25,22 @@ public class ECCommand implements CommandExecutor{
 	public static void openInv(Player target, Player sender) throws IllegalArgumentException, IOException {
 		Inventory inventory = Bukkit.createInventory(null, AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(), "§4" + InvName + " §2von §6" + target.getName());
 		if(MySQL.UserExistsPlayer(target.getUniqueId())) {
-			//System.out.println("1+-+-");
+
 			for(int i = 0; i < AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(); i++) {
-				//System.out.println(i);
-				//System.out.println("+-+-1 " + i);
-				//System.out.println(i);
-				//System.out.println("1");
-				//System.out.println("2");
-				//p.sendMessage("3"); 
-				//p.sendMessage(String.valueOf(Integer.valueOf(MySQL.getAmout(i, p.getName().toString()).toString())));
-				//p.sendMessage(MySQL.getItem(i, p.getName().toString()).toString());
-				//inventory.setItem(i, new ItemStack(Material.SNOW, 45));
-				//inventory.setItem(i, new ItemStack(Material.matchMaterial(MySQL.getItem(i, p.getName().toString())), Integer.valueOf(MySQL.getAmout(i, p.getName().toString()).toString()), Short.valueOf(MySQL.getdurability(i, p.getName().toString()))));
-				
+
 				if(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())).equalsIgnoreCase("AIR")) {
 					inventory.setItem(i, new ItemStack(Material.AIR));
-					//System.out.println("Luft!");
 				} else {
-					//System.out.println("Keine Luft!");
+					
 					if(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId())) != null) {
-						//System.out.println("Kein Name");
 					inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).build());
-				} else {
-					//System.out.println("Name");
+
+					} else {
 					inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i,MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).build());
 				}
-				}
-				
-				//inventory.setItem(i, new ItemStack(Material.matchMaterial("SNOW"), 1 ));
-				
-				
+				}				
 			}
+			
 			sender.openInventory(inventory);
 			if(target.getName().equalsIgnoreCase(sender.getName().toString())) {
 				sender.sendMessage(Main.getPrefix() + "§2Deine EC wurde geöffnet!");
@@ -79,8 +64,7 @@ public class ECCommand implements CommandExecutor{
 			}
 			if(!MySQL.setTname(i)) {
 				MySQL.createChestTable(i);
-				MySQL.update("INSERT INTO "+ "Players" + "(Spielername, UUID, TabelName) VALUES ('" + target.getName() + "', '" + target.getUniqueId() +"', '" + i +"')");
-				//System.out.println("4");
+				MySQL.update("INSERT INTO "+ "Players" + "(Spielername, UUID, TabelName) VALUES (?,?,?)", target.getName() + "," + target.getUniqueId() + "," + i);
 				sender.openInventory(inventory);
 				if(target.getName().equalsIgnoreCase(sender.getName())) {
 					sender.sendMessage(Main.getPrefix() + "§2Deine EC wurde geöffnet!");
@@ -105,35 +89,17 @@ public class ECCommand implements CommandExecutor{
 	public static void openInvOffline(OfflinePlayer target, Player sender) throws IllegalArgumentException, IOException {
 		Inventory inventory = Bukkit.createInventory(null, AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(), "§4" + InvName + " §2von §6" + target.getName());
 		if(MySQL.UserExistsPlayer(target.getUniqueId())) {
-			//System.out.println("1+-+-");
 			for(int i = 0; i < AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(); i++) {
-				//System.out.println(i);
-				//System.out.println("+-+-1 " + i);
-				//System.out.println(i);
-				//System.out.println("1");
-				//System.out.println("2");
-				//p.sendMessage("3"); 
-				//p.sendMessage(String.valueOf(Integer.valueOf(MySQL.getAmout(i, p.getName().toString()).toString())));
-				//p.sendMessage(MySQL.getItem(i, p.getName().toString()).toString());
-				//inventory.setItem(i, new ItemStack(Material.SNOW, 45));
-				//inventory.setItem(i, new ItemStack(Material.matchMaterial(MySQL.getItem(i, p.getName().toString())), Integer.valueOf(MySQL.getAmout(i, p.getName().toString()).toString()), Short.valueOf(MySQL.getdurability(i, p.getName().toString()))));
 				
 				if(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())).equalsIgnoreCase("AIR")) {
 					inventory.setItem(i, new ItemStack(Material.AIR));
-					//System.out.println("Luft!");
 				} else {
-					//System.out.println("Keine Luft!");
 					if(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId())) != null) {
-						//System.out.println("Kein Name");
 					inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).build());
 				} else {
-					//System.out.println("Name");
 					inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i,MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).build());
 				}
-				}
-				
-				//inventory.setItem(i, new ItemStack(Material.matchMaterial("SNOW"), 1 ));
-				
+				}		
 				
 			}
 			sender.openInventory(inventory);
@@ -152,8 +118,7 @@ public class ECCommand implements CommandExecutor{
 			}
 			if(!MySQL.setTname(i)) {
 				MySQL.createChestTable(i);
-				MySQL.update("INSERT INTO "+ "Players" + "(Spielername, UUID, TabelName) VALUES ('" + target.getName() + "', '" + target.getUniqueId() +"', '" + i +"')");
-				//System.out.println("4");
+				MySQL.update("INSERT INTO "+ "Players" + "(Spielername, UUID, TabelName) VALUES (?,?,?)", target.getName() + "," + target.getUniqueId() + "," + i);
 				sender.openInventory(inventory);
 				if(sender.hasPermission("EC.canClick")) {
 					sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
@@ -179,8 +144,7 @@ public class ECCommand implements CommandExecutor{
 					try {
 						openInv(p, p);
 					} catch (IllegalArgumentException | IOException e) {
-						p.sendMessage(Main.getPrefix() + "§4Leider exestiert keine MySQL Verbindung");
-						System.out.println(Main.getPrefix() + "Leider exestiert keine MySQL Verbindung");
+						e.printStackTrace();
 					}
 				} else {
 					if(args.length == 1) {
@@ -189,8 +153,7 @@ public class ECCommand implements CommandExecutor{
 								try {
 									openInv(all, p);
 								} catch (IllegalArgumentException | IOException e) {
-									p.sendMessage(Main.getPrefix() + "§4Leider exestiert keine MySQL Verbindung");
-									System.out.println(Main.getPrefix() + "Leider exestiert keine MySQL Verbindung");
+									e.printStackTrace();
 								}
 						} else {
 								
@@ -199,8 +162,7 @@ public class ECCommand implements CommandExecutor{
 								try {
 									openInvOffline(allOFF, p);
 								} catch (IllegalArgumentException | IOException e) {
-									p.sendMessage(Main.getPrefix() + "§4Leider exestiert keine MySQL Verbindung");
-									System.out.println(Main.getPrefix() + "Leider exestiert keine MySQL Verbindung");
+									e.printStackTrace();
 								}
 						} else
 							p.sendMessage(Main.getPrefix() + "§4Dieser Spieler exestiert leider nicht auf diesemm Server!");

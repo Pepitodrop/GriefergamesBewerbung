@@ -2,6 +2,7 @@ package de.benangelo.mysql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -111,10 +112,16 @@ public class MySQL {
 		}
 	}
     
-    public static void update(String qry) {
+    public static void update(String qry, String args) {
     	if(isConnected()) {
+    		PreparedStatement ps;
     		try {
-				con.createStatement().executeUpdate(qry);
+    			ps = con.prepareStatement(qry);
+    			String[] arg = args.split(",");
+    			for(int i = 0; i < arg.length; i++) {
+    				ps.setString(i+1, arg[i]);
+    			}
+				ps.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -132,21 +139,31 @@ public class MySQL {
 		return null;
     }
     
+    
+    
+    
     public static boolean UserExistsPlayer(UUID uuid) {
-        ResultSet rs = MySQL.getResult("SELECT * FROM " + "Players" + " WHERE UUID= '" + uuid + "'");
-        try {
- 		while(rs.next()) {
- 			   return rs != null;
- 		   }
- 	} catch (SQLException e) {
- 		e.printStackTrace();
- 	}
+    	PreparedStatement ps;
+		try {
+			ps = con.prepareStatement("SELECT * FROM " + "Players" + " WHERE UUID=?");
+			ps.setString(1, uuid.toString());
+	        ResultSet rs = ps.executeQuery();
+	 		while(rs.next()) {
+	 			   return rs != null;
+	 		   }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
  	return false;
      }
     
     public static boolean setTname(Integer TabelName) {
-        ResultSet rs = MySQL.getResult("SELECT * FROM " + "Players" + " WHERE TabelName= '" + TabelName + "'");
+    	PreparedStatement ps;
         try {
+        ps = con.prepareStatement("SELECT * FROM " + "Players" + " WHERE TabelName=?");
+        ps.setString(1, TabelName.toString());
+        ResultSet rs = ps.executeQuery();
  		while(rs.next()) {
  			   return rs != null;
  		   }
@@ -157,9 +174,12 @@ public class MySQL {
      }
     
     public static String getTName(UUID uuid) {
+    	PreparedStatement ps;
         String i = "";
         try {
-            final ResultSet rs = MySQL.query("SELECT * FROM " + "Players" + " WHERE UUID= '" + uuid + "'");
+            ps = con.prepareStatement("SELECT * FROM " + "Players" + " WHERE UUID=?");
+            ps.setString(1, uuid.toString());
+            ResultSet rs = ps.executeQuery();
             if (!rs.next() || String.valueOf(rs.getString("TabelName")) == null) {}
             i = rs.getString("TabelName");
         }
@@ -170,9 +190,12 @@ public class MySQL {
     }
      
      public static String getItem(Integer slot, String TName) {
+    	 PreparedStatement ps;
          String i = "";
          try {
-             final ResultSet rs = MySQL.query("SELECT * FROM `" + TName + "` WHERE Slot= '" + slot + "'");
+             ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
+             ps.setString(1, slot.toString());
+             ResultSet rs = ps.executeQuery();
              if (!rs.next() || String.valueOf(rs.getString("Type")) == null) {}
              i = rs.getString("Type");
          }
@@ -183,9 +206,12 @@ public class MySQL {
      }
      
      public static String getAmout(Integer slot, String TName) {
+    	 PreparedStatement ps;
          String i = "";
          try {
-             final ResultSet rs = MySQL.query("SELECT * FROM `" + TName + "` WHERE Slot= '" + slot + "'");
+        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
+             ps.setString(1, slot.toString());
+             ResultSet rs = ps.executeQuery();
              if (!rs.next() || String.valueOf(rs.getString("amout")) == null) {}
              i = rs.getString("amout");
          }
@@ -196,9 +222,12 @@ public class MySQL {
      }
      
      public static int getSlot(String item, String TName) {
+    	 PreparedStatement ps;
          int i = 0;
          try {
-             final ResultSet rs = MySQL.query("SELECT * FROM `" + TName + "` WHERE Item= '" + item + "'");
+        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Item=?");
+             ps.setString(1, item);
+             ResultSet rs = ps.executeQuery();
              if (!rs.next() || String.valueOf(rs.getString("Slot")) == null) {}
              i = rs.getInt("Slot");
          }
@@ -209,9 +238,12 @@ public class MySQL {
      }
      
      public static String getdurability(Integer slot, String TName) {
+    	 PreparedStatement ps;
          String i = "";
          try {
-             final ResultSet rs = MySQL.query("SELECT * FROM `" + TName + "` WHERE Slot= '" + slot + "'");
+        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
+             ps.setString(1, slot.toString());
+             ResultSet rs = ps.executeQuery();
              if (!rs.next() || String.valueOf(rs.getString("durability")) == null) {}
              i = rs.getString("durability");
          }
@@ -222,9 +254,12 @@ public class MySQL {
      }
      
      public static String getDisplayName(Integer slot, String TName) {
+    	 PreparedStatement ps;
          String i = "";
          try {
-             final ResultSet rs = MySQL.query("SELECT * FROM `" + TName + "` WHERE Slot= '" + slot + "'");
+        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
+             ps.setString(1, slot.toString());
+             ResultSet rs = ps.executeQuery();
              if (!rs.next() || String.valueOf(rs.getString("DisplayName")) == null) {}
              i = rs.getString("DisplayName");
          }
@@ -239,8 +274,11 @@ public class MySQL {
      
      
      public static boolean UserExistsBank(UUID uuid) {
-         ResultSet rs = MySQL.getResult("SELECT * FROM " + "Bank" + " WHERE UUID= '" + uuid + "'");
+    	 PreparedStatement ps;
          try {
+        	 ps = con.prepareStatement("SELECT * FROM " + "Bank" + " WHERE UUID=?");
+             ps.setString(1, uuid.toString());
+             ResultSet rs = ps.executeQuery();
   		while(rs.next()) {
   			   return rs != null;
   		   }
@@ -251,9 +289,12 @@ public class MySQL {
       }
      
      public static String getAmoutBank(UUID uuid) {
+    	 PreparedStatement ps;
          String i = "";
          try {
-             final ResultSet rs = MySQL.query("SELECT * FROM " + "Bank" + " WHERE UUID= '" + uuid + "'");
+        	 ps = con.prepareStatement("SELECT * FROM " + "Bank" + " WHERE UUID=?");
+             ps.setString(1, uuid.toString());
+             ResultSet rs = ps.executeQuery();
              if (!rs.next() || String.valueOf(rs.getString("Amout")) == null) {}
              i = rs.getString("Amout");
          }
@@ -273,8 +314,11 @@ public class MySQL {
 		 * 
 		 */
      public static boolean userisBanned(UUID uuid) {
-         ResultSet rs = MySQL.getResult("SELECT * FROM " + "BannedPlayers" + " WHERE UUID= '" + uuid + "'");
+    	 PreparedStatement ps;
          try {
+        	 ps = con.prepareStatement("SELECT * FROM " + "BannedPlayers" + " WHERE UUID=?");
+             ps.setString(1, uuid.toString());
+             ResultSet rs = ps.executeQuery();
   		while(rs.next()) {
   			   return rs != null;
   		   }
@@ -285,9 +329,12 @@ public class MySQL {
       }
      
      public static String getPlayer(UUID uuid) {
+    	 PreparedStatement ps;
          String i = "";
          try {
-             final ResultSet rs = MySQL.query("SELECT * FROM " + "BannedPlayers" + " WHERE UUID= '" + uuid + "'");
+        	 ps = con.prepareStatement("SELECT * FROM " + "BannedPlayers" + " WHERE UUID=?");
+             ps.setString(1, uuid.toString());
+             ResultSet rs = ps.executeQuery();
              if (!rs.next() || String.valueOf(rs.getString("Spieler")) == null) {}
              i = rs.getString("Spieler");
          }
@@ -298,9 +345,12 @@ public class MySQL {
      }
      
      public static String getUUID(String spieler) {
+    	 PreparedStatement ps;
          String i = "";
          try {
-             final ResultSet rs = MySQL.query("SELECT * FROM " + "BannedPlayers" + " WHERE Spieler= '" + spieler + "'");
+             ps = con.prepareStatement("SELECT * FROM " + "BannedPlayers" + " WHERE Spieler=?");
+             ps.setString(1, spieler);
+             ResultSet rs = ps.executeQuery();
              if (!rs.next() || String.valueOf(rs.getString("UUID")) == null) {}
              i = rs.getString("UUID");
          }
@@ -311,9 +361,12 @@ public class MySQL {
      }
      
      public static long getEnde(UUID uuid) {
+    	 PreparedStatement ps;
     	 long i = 0;
          try {
-             final ResultSet rs = MySQL.query("SELECT * FROM " + "BannedPlayers" + " WHERE UUID= '" + uuid + "'");
+        	 ps = con.prepareStatement("SELECT * FROM " + "BannedPlayers" + " WHERE UUID=?");
+             ps.setString(1, uuid.toString());
+             ResultSet rs = ps.executeQuery();
              if (!rs.next() || String.valueOf(rs.getString("Ende")) == null) {}
              i = rs.getLong("Ende");
          }
@@ -324,9 +377,12 @@ public class MySQL {
      }
      
      public static String getReason(UUID uuid) {
+    	 PreparedStatement ps;
          String i = "";
          try {
-             final ResultSet rs = MySQL.query("SELECT * FROM " + "BannedPlayers" + " WHERE UUID= '" + uuid + "'");
+        	 ps = con.prepareStatement("SELECT * FROM " + "BannedPlayers" + " WHERE UUID=?");
+             ps.setString(1, uuid.toString());
+             ResultSet rs = ps.executeQuery();
              if (!rs.next() || String.valueOf(rs.getString("Grund")) == null) {}
              i = rs.getString("Grund");
          }

@@ -124,6 +124,7 @@ public class BanCommand implements CommandExecutor {
 										OfflinePlayer op = Bukkit.getOfflinePlayer(allBanned);
 										sender.sendMessage("§r" + allBanned + " §7(Grund: §r" + BanManager.getReason(op.getUniqueId()) + "§7)");
 									}
+									return false;
 								}
 								
 								String playername = args[0];

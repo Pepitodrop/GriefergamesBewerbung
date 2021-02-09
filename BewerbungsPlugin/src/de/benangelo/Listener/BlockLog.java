@@ -33,7 +33,7 @@ public class BlockLog implements Listener{
 		 * Syntax: Material, Player, Position, Time, Day
 		 * 
 		 */
-		MySQL.update("INSERT INTO BlockLogDestroy (Material, Player, Position, Time, Day) VALUES ('" + m + "', '" + p + "', '" + x + "X " + y + "Y " + z + "Z', '" + hours + "', '" + day + "')");
+		MySQL.update("INSERT INTO BlockLogDestroy (Material, Player, Position, Time, Day) VALUES (?,?,?,?,?)", m + "," + p + "," + x + "X " + y + "Y " + z + "Z," + hours+ ","+ day);
 	}
 	
 	@EventHandler
@@ -56,7 +56,7 @@ public class BlockLog implements Listener{
 		 * Syntax: Material, Player, Position, Time, Day
 		 * 
 		 */
-		MySQL.update("INSERT INTO BlockLogPlace (Material, Player, Position, Time, Day) VALUES ('" + m + "', '" + p + "', '" + x + "X " + y + "Y " + z + "Z', '" + hours + "', '" + day + "')");
+		MySQL.update("INSERT INTO BlockLogPlace (Material, Player, Position, Time, Day) VALUES (?,?,?,?,?)", m + "," + p + "," + x + "X " + y + "Y " + z + "Z," + hours+ ","+ day);
 	}
 	
 }

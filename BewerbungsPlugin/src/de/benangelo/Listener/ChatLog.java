@@ -31,7 +31,7 @@ public class ChatLog implements Listener{
 		 * Syntax: Playername, UUID, Message, Time, Day
 		 * 
 		 */
-		MySQL.update("INSERT INTO ChatLog (Playername, UUID, Message, Time, Day) VALUES ('" + p + "', '" + u + "', '" + m + "', '" + hours + "', '" + day + "')");
+		MySQL.update("INSERT INTO ChatLog (Playername, UUID, Message, Time, Day) VALUES (?,?,?,?,?)" , p + "," + u + "," + m + "," + hours + "," + day);
 	}
 	
 }
