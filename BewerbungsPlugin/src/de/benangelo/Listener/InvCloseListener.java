@@ -25,15 +25,35 @@ public class InvCloseListener implements Listener{
 		if(e.getPlayer().getOpenInventory().getTitle().equals("§4" + ECCommand.InvName + " §2von §6" + p.getName())) {
 			for(int i = 0; i < AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(); i++) {
 				if(e.getInventory().getItem(i) != null) {
-					
+					String lores;
 					String amout = String.valueOf(e.getInventory().getItem(i).getAmount());
 					@SuppressWarnings("deprecation")
 					String durability = String.valueOf(e.getInventory().getItem(i).getDurability());
 					String Type = e.getInventory().getItem(i).getType().toString();
 					String DisplayName = e.getInventory().getItem(i).getItemMeta().getDisplayName().toString();
+					if(e.getInventory().getItem(i).getItemMeta().getLore() != null) {
+						lores = "";
+						for(int l = 0; l < e.getInventory().getItem(i).getItemMeta().getLore().size(); l++) {
+							lores += e.getInventory().getItem(i).getItemMeta().getLore().get(l) + " ' ";
+						}
+						if(!e.getInventory().getItem(i).getEnchantments().isEmpty()) {
+							MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
+							MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot, Lore, Enchants) VALUES (?,?,?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i + "," + lores + "," + Main.getEnchants(e.getInventory().getItem(i)));
+						} else {
+							MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
+							MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot, Lore) VALUES (?,?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i + "," + lores);
+						}	
+					}  else {
+						if(!e.getInventory().getItem(i).getEnchantments().isEmpty()) {
+							MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
+							MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot, Enchants) VALUES (?,?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i + "," + Main.getEnchants(e.getInventory().getItem(i)));
+						} else {
+							MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
+							MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot) VALUES (?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i);
+						}	
+					}
 					
-					MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
-					MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot) VALUES (?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i);
+					
 				} else {
 					
 					MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));

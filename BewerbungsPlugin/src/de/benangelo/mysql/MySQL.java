@@ -76,7 +76,7 @@ public class MySQL {
 		if(isConnected()) {
 		try {
 			System.out.println("[MySQL] Tabelle wird erstellt!");
-			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS `" + i + "` (amout varchar(1000), durability varchar(1000), Type varchar(1000), DisplayName varchar(1000), Slot varchar(1000))");
+			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS `" + i + "` (amout varchar(1000), durability varchar(1000), Type varchar(1000), DisplayName varchar(1000), Slot varchar(1000), Lore varchar(1000), Enchants varchar(1000))");
 			System.out.println("[MySQL] Tabelle wurde erstellt!");
 		} catch (SQLException e) {
 			System.out.println("[MySQL] Fehler:"  + e.getMessage() + " und " + e.getSQLState());
@@ -262,6 +262,38 @@ public class MySQL {
              ResultSet rs = ps.executeQuery();
              if (!rs.next() || String.valueOf(rs.getString("DisplayName")) == null) {}
              i = rs.getString("DisplayName");
+         }
+         catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return i;
+     }
+     
+     public static String getLore(Integer slot, String TName) {
+    	 PreparedStatement ps;
+         String i = "";
+         try {
+        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
+             ps.setString(1, slot.toString());
+             ResultSet rs = ps.executeQuery();
+             if (!rs.next() || String.valueOf(rs.getString("Lore")) == null) {}
+             i = rs.getString("Lore");
+         }
+         catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return i;
+     }
+     
+     public static String getEnchants(Integer slot, String TName) {
+    	 PreparedStatement ps;
+         String i = "";
+         try {
+        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
+             ps.setString(1, slot.toString());
+             ResultSet rs = ps.executeQuery();
+             if (!rs.next() || String.valueOf(rs.getString("Enchants")) == null) {}
+             i = rs.getString("Enchants");
          }
          catch (SQLException e) {
              e.printStackTrace();

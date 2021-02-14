@@ -31,11 +31,29 @@ public class ECCommand implements CommandExecutor{
 				if(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())).equalsIgnoreCase("AIR")) {
 					inventory.setItem(i, new ItemStack(Material.AIR));
 				} else {
-					
 					if(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId())) != null) {
-					inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).build());
-
-					} else {
+						if(MySQL.getLore(i, MySQL.getTName(target.getUniqueId())) != null ) {
+							
+							if(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())) != null) {
+								inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).setLore(MySQL.getLore(i, MySQL.getTName(target.getUniqueId()))).setEnchantment(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())).split(":").length, MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId()))).build());
+							} else {
+								inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).setLore(MySQL.getLore(i, MySQL.getTName(target.getUniqueId()))).build());
+							}
+							
+						} else {
+							if(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())) != null) {
+								inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).setEnchantment(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())).split(":").length, MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId()))).build());
+							} else
+							inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).build());
+						}
+							
+				} else {
+					if(MySQL.getLore(i, MySQL.getTName(target.getUniqueId())) != null ) {
+						if(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())) != null) {
+							inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setEnchantment(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())).split(":").length, MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId()))).build());
+						} else
+						inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i,MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setLore(MySQL.getLore(i, MySQL.getTName(target.getUniqueId()))).build());
+					} else
 					inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i,MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).build());
 				}
 				}				
@@ -95,8 +113,28 @@ public class ECCommand implements CommandExecutor{
 					inventory.setItem(i, new ItemStack(Material.AIR));
 				} else {
 					if(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId())) != null) {
-					inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).build());
+						if(MySQL.getLore(i, MySQL.getTName(target.getUniqueId())) != null ) {
+							
+							if(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())) != null) {
+								inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).setLore(MySQL.getLore(i, MySQL.getTName(target.getUniqueId()))).setEnchantment(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())).split(":").length, MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId()))).build());
+							} else {
+								inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).setLore(MySQL.getLore(i, MySQL.getTName(target.getUniqueId()))).build());
+							}
+							
+						} else {
+							if(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())) != null) {
+								inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).setEnchantment(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())).split(":").length, MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId()))).build());
+							} else
+							inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setName(MySQL.getDisplayName(i, MySQL.getTName(target.getUniqueId()))).build());
+							}
+							
 				} else {
+					if(MySQL.getLore(i, MySQL.getTName(target.getUniqueId())) != null ) {
+						if(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())) != null) {
+							inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i, MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setEnchantment(MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId())).split(":").length, MySQL.getEnchants(i, MySQL.getTName(target.getUniqueId()))).build());
+						} else
+						inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i,MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).setLore(MySQL.getLore(i, MySQL.getTName(target.getUniqueId()))).build());
+					} else
 					inventory.setItem(i, new ItemBuilder(Material.matchMaterial(MySQL.getItem(i, MySQL.getTName(target.getUniqueId())))).setAmount(Integer.valueOf(MySQL.getAmout(i,MySQL.getTName(target.getUniqueId())))).setDurability(Short.valueOf(MySQL.getdurability(i, MySQL.getTName(target.getUniqueId())))).build());
 				}
 				}		

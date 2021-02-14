@@ -1,6 +1,6 @@
 package de.benangelo.util;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -27,8 +27,13 @@ public class ItemBuilder {
 		return this;
 	}
 	
-	public ItemBuilder setLore(String... lore) {
-		itemMeta.setLore(Arrays.asList(lore));
+	public ItemBuilder setLore(String lore) {
+		ArrayList<String> loresList = new ArrayList<>();
+		String[] lores = lore.split(" ' ");
+		for(int i = 0; i < lores.length; i++) {
+			loresList.add(lores[i]);
+		}
+		itemMeta.setLore(loresList);
 		return this;
 	}
 	
@@ -48,8 +53,13 @@ public class ItemBuilder {
 		return item;
 	}
 
-	public ItemBuilder setEnchantment(Enchantment enchantment, int strengh, boolean op) {
-		itemMeta.addEnchant(enchantment, strengh, op);
+	@SuppressWarnings("deprecation")
+	public ItemBuilder setEnchantment(int entchantsmentsCount, String enchantments) {
+		for(int i = 0; i < entchantsmentsCount; i = i + 2) {
+			String[] enchantsSplittet = enchantments.split(":");
+			itemMeta.addEnchant(Enchantment.getByName(enchantsSplittet[i]), Integer.valueOf(enchantsSplittet[i+1]), true);
+		}
+		
 		return this;
 		}
 

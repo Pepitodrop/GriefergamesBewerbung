@@ -3,9 +3,13 @@ package de.benangelo.main;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -156,6 +160,20 @@ public class Main extends JavaPlugin{
 		}, 0, 0);
 	}
 
+	@SuppressWarnings("deprecation")
+	public static String getEnchants(ItemStack is){
+		List<String> e = new ArrayList<String>();
+		Map<Enchantment, Integer> en = is.getEnchantments();
+		for(Enchantment t : en.keySet()) {
+			e.add(t.getName() + ":" +en.get(t));
+		}
+		String enchants = "";
+		for(int i = 0; i < e.size(); i++) {
+			enchants += e.get(i) + ":";
+		}
+		return enchants;
+	}	
+	
 	public static void setUpdateSekunde(long updateSekunde) {
 		UpdateSekunde = updateSekunde;
 	}
