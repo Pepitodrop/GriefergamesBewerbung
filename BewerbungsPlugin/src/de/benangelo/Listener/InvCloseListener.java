@@ -22,6 +22,7 @@ public class InvCloseListener implements Listener{
 					Main.getPlugin().canClick.remove(p.getName().toString());
 			}
 		}
+		
 		if(e.getPlayer().getOpenInventory().getTitle().equals("§4" + ECCommand.InvName + " §2von §6" + p.getName())) {
 			for(int i = 0; i < AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(); i++) {
 				if(e.getInventory().getItem(i) != null) {
