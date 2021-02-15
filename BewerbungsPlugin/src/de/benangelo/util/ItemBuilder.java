@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemBuilder {
@@ -37,6 +38,8 @@ public class ItemBuilder {
 		return this;
 	}
 	
+	
+	
 	public ItemBuilder setAmount(int amount) {
 		item.setAmount(amount);
 		return this;
@@ -59,6 +62,17 @@ public class ItemBuilder {
 			String[] enchantsSplittet = enchantments.split(":");
 			itemMeta.addEnchant(Enchantment.getByName(enchantsSplittet[i]), Integer.valueOf(enchantsSplittet[i+1]), true);
 		}
+		return this;
+	}
+		
+		@SuppressWarnings("deprecation")
+		public ItemBuilder setEnchantmentBook(int entchantsmentsCount, String enchantments) {
+			for(int i = 0; i < entchantsmentsCount; i = i + 2) {
+				String[] enchantsSplittet = enchantments.split(":");
+				EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemMeta;
+				meta.addStoredEnchant(Enchantment.getByName(enchantsSplittet[i]), Integer.valueOf(enchantsSplittet[i+1]), true);
+				itemMeta = meta;
+			}
 		
 		return this;
 		}

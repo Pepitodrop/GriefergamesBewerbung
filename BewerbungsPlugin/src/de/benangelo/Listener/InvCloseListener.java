@@ -37,26 +37,39 @@ public class InvCloseListener implements Listener{
 						for(int l = 0; l < e.getInventory().getItem(i).getItemMeta().getLore().size(); l++) {
 							lores += e.getInventory().getItem(i).getItemMeta().getLore().get(l) + " ' ";
 						}
-						if(!e.getInventory().getItem(i).getEnchantments().isEmpty()) {
+						
+						if(e.getInventory().getItem(i).getType() != Material.ENCHANTED_BOOK) {
+							if(!e.getInventory().getItem(i).getEnchantments().isEmpty()) {
+								MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
+								MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot, Lore, Enchants) VALUES (?,?,?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i + "," + lores + "," + Main.getEnchants(e.getInventory().getItem(i)));
+							} else {
+								MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
+								MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot, Lore) VALUES (?,?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i + "," + lores);
+							}	
+						} else {
 							MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
 							MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot, Lore, Enchants) VALUES (?,?,?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i + "," + lores + "," + Main.getEnchants(e.getInventory().getItem(i)));
-						} else {
-							MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
-							MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot, Lore) VALUES (?,?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i + "," + lores);
-						}	
+						}
+						
 					}  else {
-						if(!e.getInventory().getItem(i).getEnchantments().isEmpty()) {
+						if(e.getInventory().getItem(i).getType() != Material.ENCHANTED_BOOK) {
+							if(!e.getInventory().getItem(i).getEnchantments().isEmpty()) {
+								MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
+								MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot, Enchants) VALUES (?,?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i + "," + Main.getEnchants(e.getInventory().getItem(i)));
+							} else {
+								MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
+								MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot) VALUES (?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i);
+							}
+							
+						} else {
 							MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
 							MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot, Enchants) VALUES (?,?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i + "," + Main.getEnchants(e.getInventory().getItem(i)));
-						} else {
-							MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
-							MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot) VALUES (?,?,?,?,?);", amout + "," + durability + "," + Type + "," + DisplayName + "," + i);
-						}	
+						}
+							
 					}
 					
 					
 				} else {
-					
 					MySQL.update("DELETE FROM `" + MySQL.getTName(p.getUniqueId()) + "` WHERE Slot=?", String.valueOf(i));
 					MySQL.update("INSERT INTO `"+ MySQL.getTName(p.getUniqueId()) + "` (amout, durability , Type, DisplayName, Slot) VALUES (?,?,?,?,?);", 1 + "," + 0 + "," + Material.AIR.toString() + "," + "" + "," + i);
 			}

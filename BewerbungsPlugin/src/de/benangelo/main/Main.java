@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -116,7 +118,7 @@ public class Main extends JavaPlugin{
 		pluginManager.registerEvents(new PlayerMove(), this);
 		
 		send();
-
+		
 		Bukkit.getConsoleSender().sendMessage("§2Das Plugin wurde erfolgreich geladen!");
 		
 		super.onEnable();
@@ -162,17 +164,40 @@ public class Main extends JavaPlugin{
 
 	@SuppressWarnings("deprecation")
 	public static String getEnchants(ItemStack is){
-		List<String> e = new ArrayList<String>();
-		Map<Enchantment, Integer> en = is.getEnchantments();
-		for(Enchantment t : en.keySet()) {
-			e.add(t.getName() + ":" +en.get(t));
-		}
 		String enchants = "";
-		for(int i = 0; i < e.size(); i++) {
-			enchants += e.get(i) + ":";
+		if(is.getType() != Material.ENCHANTED_BOOK) {
+			List<String> e = new ArrayList<String>();
+			Map<Enchantment, Integer> en = is.getEnchantments();
+			for(Enchantment t : en.keySet()) {
+				e.add(t.getName() + ":" +en.get(t));
+			}
+			
+			for(int i = 0; i < e.size(); i++) {
+				enchants += e.get(i) + ":";
+			}
+			return enchants;
+		} else {
+			
+			ItemStack item = is;
+			
+			EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
+			
+			List<Enchantment> enchs = new ArrayList<Enchantment>(meta.getStoredEnchants().keySet());
+		
+			List<String> e = new ArrayList<String>();
+
+			for(int en = 0; en < enchs.size(); en++) {
+				e.add(enchs.get(en).getName() + ":" + meta.getStoredEnchantLevel(enchs.get(en)));
+			}	
+			
+			for(int i = 0; i < e.size(); i++) {
+				enchants += e.get(i) + ":";
+			}
+
+			return enchants;
 		}
-		return enchants;
-	}	
+			
+		}
 	
 	public static void setUpdateSekunde(long updateSekunde) {
 		UpdateSekunde = updateSekunde;
