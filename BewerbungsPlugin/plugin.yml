@@ -29,3 +29,7 @@ commands:
       description: Oeffnet das Inventar eines anderen spielers!
    tpa:
       description: Du kannst einem mitspieler eine Teleportationsanfrage schicken!
+   drop:
+      description: Du kannst dann sahcen Droppen!
+   build:
+      description: Du kannst dann bauen!

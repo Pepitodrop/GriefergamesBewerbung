@@ -16,10 +16,12 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.benangelo.Listener.BlockLog;
+import de.benangelo.Listener.BuildAndDropListener;
 import de.benangelo.Listener.ChatLog;
 import de.benangelo.Listener.ChestListener;
 import de.benangelo.Listener.CommandListener;
 import de.benangelo.Listener.CommandLog;
+import de.benangelo.Listener.EnderperleWerfen;
 import de.benangelo.Listener.InvClickEvent;
 import de.benangelo.Listener.InvCloseListener;
 import de.benangelo.Listener.JoinListener;
@@ -28,6 +30,7 @@ import de.benangelo.Listener.PlayerMove;
 import de.benangelo.Listener.PlayerQuit;
 import de.benangelo.commands.BanCommand;
 import de.benangelo.commands.BankCommand;
+import de.benangelo.commands.BuildAndDropCommand;
 import de.benangelo.commands.CraftingTableCommand;
 import de.benangelo.commands.ECCommand;
 import de.benangelo.commands.GamemodeCommand;
@@ -40,12 +43,17 @@ import de.benangelo.config.AnimatedScoreboardFile;
 import de.benangelo.mysql.MySQL;
 import de.benangelo.mysql.MySQLFile;
 import de.benangelo.util.ActionBar;
+import de.benangelo.util.ItemBuilder;
 import de.benangelo.util.RecipesLoader;
 import de.benangelo.util.ScoreboardHandler;
 
 public class Main extends JavaPlugin{
 	
 	public ArrayList<String> canClick = new ArrayList<>();
+
+	private boolean is19Server;
+	
+	private boolean is13Server;
 	
 	private static Main plugin;
 	
@@ -102,6 +110,9 @@ public class Main extends JavaPlugin{
 		getCommand("invsee").setExecutor(new InvseeCommand());
 		
 		getCommand("tpa").setExecutor(new TPACommand());
+		
+		getCommand("build").setExecutor(new BuildAndDropCommand());
+		getCommand("drop").setExecutor(new BuildAndDropCommand());
 
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new ChestListener(), this);
@@ -116,10 +127,23 @@ public class Main extends JavaPlugin{
 		pluginManager.registerEvents(new CommandListener(), this);
 		pluginManager.registerEvents(new PlayerQuit(), this);
 		pluginManager.registerEvents(new PlayerMove(), this);
+		pluginManager.registerEvents(new BuildAndDropListener(), this);
+		pluginManager.registerEvents(new EnderperleWerfen(), this);
 		
 		send();
 		
+		getMcVersion();
+		
+		System.out.println(is19Server);
+		System.out.println(is13Server);	
+		
 		Bukkit.getConsoleSender().sendMessage("§2Das Plugin wurde erfolgreich geladen!");
+		
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			p.getInventory().setItem(0, new ItemBuilder(Material.ENDER_PEARL).setName("§4Enderperle").build());
+			p.setLevel(0);
+			p.setExp(0);
+		}
 		
 		super.onEnable();
 	}
@@ -198,6 +222,29 @@ public class Main extends JavaPlugin{
 		}
 			
 		}
+	
+	private boolean getMcVersion() {
+		String[] serverVersion = Bukkit.getBukkitVersion().split("-");
+	    String version = serverVersion[0];
+	    
+	    if (version.matches("1.7.10") || version.matches("1.7.9") || version.matches("1.7.5") || version.matches("1.7.2") || version.matches("1.8.8") || version.matches("1.8.3") || version.matches("1.8.4") || version.matches("1.8")) {
+	    	is19Server = false;
+	    	return true;
+	    } else if (version.matches("1.13") || version.matches("1.13.1") || version.matches("1.13.2")) {
+	    	is13Server = true;
+	    	return true;
+	    } else if (version.matches("1.14") || version.matches("1.14.1") || version.matches("1.14.2") || version.matches("1.14.3") || version.matches("1.14.4")) {
+	    	is13Server = true;
+	    	return true;
+	    } else if (version.matches("1.15") || version.matches("1.15.1") || version.matches("1.15.2")) {
+	    	is13Server = true;
+	    	return true;
+	    } else if (version.matches("1.16") || version.matches("1.16.1") || version.matches("1.16.2") || version.matches("1.16.3")) {
+	    	is13Server = true;
+	    	return true;
+	    }
+	    return false;
+	}
 	
 	public static void setUpdateSekunde(long updateSekunde) {
 		UpdateSekunde = updateSekunde;

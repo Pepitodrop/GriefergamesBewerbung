@@ -67,38 +67,20 @@ public class MySQL {
         return null;
     }
     
-    public static void createChestTable(Integer i) {
-		/*
-		 * 
-		 * Syntax: amout, durability, MaxStackSize, Type, DisplayName, localizedName, Slot
-		 * 
-		 */
-		if(isConnected()) {
-		try {
-			System.out.println("[MySQL] Tabelle wird erstellt!");
-			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS `" + i + "` (amout varchar(1000), durability varchar(1000), Type varchar(1000), DisplayName varchar(1000), Slot varchar(1000), Lore varchar(1000), Enchants varchar(1000))");
-			System.out.println("[MySQL] Tabelle wurde erstellt!");
-		} catch (SQLException e) {
-			System.out.println("[MySQL] Fehler:"  + e.getMessage() + " und " + e.getSQLState());
-			e.printStackTrace();
-		}
-		}
-	}
-    
     public static void createTables() {
 		/*
 		 * 
-		 * Syntax: Playername, UUID, Anzahl
+		 * Syntax: UUID, Playername, Content
 		 * 
 		 */
 		if(isConnected()) {
 		try {
 			System.out.println("[MySQL] Tabellen werden erstellt!");
+			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "EC" + " (UUID varchar(1000), Playername varchar(1000), Content varchar(50000))");
+			
 			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "Bank" + " (Player varchar(1000), UUID varchar(1000), Amout varchar(1000))");
 			
 			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "BannedPlayers" + " (Spieler varchar(1000), UUID varchar(1000), Ende varchar(1000), Grund varchar(1000))");
-			
-			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS Players (Spielername VARCHAR(1000), UUID VARCHAR(1000), TabelName VARCHAR(1000))");
 			
 			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS BlockLogDestroy (Material VARCHAR(1000), Player VARCHAR(1000), Position VARCHAR(1000), Time VARCHAR(1000), Day VARCHAR(1000))");
 			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS BlockLogPlace (Material VARCHAR(1000), Player VARCHAR(1000), Position VARCHAR(1000), Time VARCHAR(1000), Day VARCHAR(1000))");
@@ -142,10 +124,10 @@ public class MySQL {
     
     
     
-    public static boolean UserExistsPlayer(UUID uuid) {
+    public static boolean UserExistsEC(UUID uuid) {
     	PreparedStatement ps;
 		try {
-			ps = con.prepareStatement("SELECT * FROM " + "Players" + " WHERE UUID=?");
+			ps = con.prepareStatement("SELECT * FROM " + "EC" + " WHERE UUID=?");
 			ps.setString(1, uuid.toString());
 	        ResultSet rs = ps.executeQuery();
 	 		while(rs.next()) {
@@ -158,30 +140,31 @@ public class MySQL {
  	return false;
      }
     
-    public static boolean setTname(Integer TabelName) {
-    	PreparedStatement ps;
-        try {
-        ps = con.prepareStatement("SELECT * FROM " + "Players" + " WHERE TabelName=?");
-        ps.setString(1, TabelName.toString());
-        ResultSet rs = ps.executeQuery();
- 		while(rs.next()) {
- 			   return rs != null;
- 		   }
- 	} catch (SQLException e) {
- 		e.printStackTrace();
- 	}
- 	return false;
-     }
-    
-    public static String getTName(UUID uuid) {
-    	PreparedStatement ps;
+    public static String getNameEC(UUID uuid) {
+   	 PreparedStatement ps;
         String i = "";
         try {
-            ps = con.prepareStatement("SELECT * FROM " + "Players" + " WHERE UUID=?");
+       	 ps = con.prepareStatement("SELECT * FROM " + "EC" + " WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            if (!rs.next() || String.valueOf(rs.getString("TabelName")) == null) {}
-            i = rs.getString("TabelName");
+            if (!rs.next() || String.valueOf(rs.getString("Playername")) == null) {}
+            i = rs.getString("Playername");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return i;
+    }
+    
+    public static String getInventoryContent(UUID uuid) {
+   	 PreparedStatement ps;
+        String i = "";
+        try {
+       	 ps = con.prepareStatement("SELECT * FROM " + "EC" + " WHERE UUID=?");
+            ps.setString(1, uuid.toString());
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next() || String.valueOf(rs.getString("Content")) == null) {}
+            i = rs.getString("Content");
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -189,123 +172,12 @@ public class MySQL {
         return i;
     }
      
-     public static String getItem(Integer slot, String TName) {
-    	 PreparedStatement ps;
-         String i = "";
-         try {
-             ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
-             ps.setString(1, slot.toString());
-             ResultSet rs = ps.executeQuery();
-             if (!rs.next() || String.valueOf(rs.getString("Type")) == null) {}
-             i = rs.getString("Type");
-         }
-         catch (SQLException e) {
-             e.printStackTrace();
-         }
-         return i;
-     }
-     
-     public static String getAmout(Integer slot, String TName) {
-    	 PreparedStatement ps;
-         String i = "";
-         try {
-        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
-             ps.setString(1, slot.toString());
-             ResultSet rs = ps.executeQuery();
-             if (!rs.next() || String.valueOf(rs.getString("amout")) == null) {}
-             i = rs.getString("amout");
-         }
-         catch (SQLException e) {
-             e.printStackTrace();
-         }
-         return i;
-     }
-     
-     public static int getSlot(String item, String TName) {
-    	 PreparedStatement ps;
-         int i = 0;
-         try {
-        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Item=?");
-             ps.setString(1, item);
-             ResultSet rs = ps.executeQuery();
-             if (!rs.next() || String.valueOf(rs.getString("Slot")) == null) {}
-             i = rs.getInt("Slot");
-         }
-         catch (SQLException e) {
-             e.printStackTrace();
-         }
-         return i;
-     }
-     
-     public static String getdurability(Integer slot, String TName) {
-    	 PreparedStatement ps;
-         String i = "";
-         try {
-        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
-             ps.setString(1, slot.toString());
-             ResultSet rs = ps.executeQuery();
-             if (!rs.next() || String.valueOf(rs.getString("durability")) == null) {}
-             i = rs.getString("durability");
-         }
-         catch (SQLException e) {
-             e.printStackTrace();
-         }
-         return i;
-     }
-     
-     public static String getDisplayName(Integer slot, String TName) {
-    	 PreparedStatement ps;
-         String i = "";
-         try {
-        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
-             ps.setString(1, slot.toString());
-             ResultSet rs = ps.executeQuery();
-             if (!rs.next() || String.valueOf(rs.getString("DisplayName")) == null) {}
-             i = rs.getString("DisplayName");
-         }
-         catch (SQLException e) {
-             e.printStackTrace();
-         }
-         return i;
-     }
-     
-     public static String getLore(Integer slot, String TName) {
-    	 PreparedStatement ps;
-         String i = "";
-         try {
-        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
-             ps.setString(1, slot.toString());
-             ResultSet rs = ps.executeQuery();
-             if (!rs.next() || String.valueOf(rs.getString("Lore")) == null) {}
-             i = rs.getString("Lore");
-         }
-         catch (SQLException e) {
-             e.printStackTrace();
-         }
-         return i;
-     }
-     
-     public static String getEnchants(Integer slot, String TName) {
-    	 PreparedStatement ps;
-         String i = "";
-         try {
-        	 ps = con.prepareStatement("SELECT * FROM `" + TName + "` WHERE Slot=?");
-             ps.setString(1, slot.toString());
-             ResultSet rs = ps.executeQuery();
-             if (!rs.next() || String.valueOf(rs.getString("Enchants")) == null) {}
-             i = rs.getString("Enchants");
-         }
-         catch (SQLException e) {
-             e.printStackTrace();
-         }
-         return i;
-     }
      
      
      
      
      
-     public static boolean UserExistsBank(UUID uuid) {
+    public static boolean UserExistsBank(UUID uuid) {
     	 PreparedStatement ps;
          try {
         	 ps = con.prepareStatement("SELECT * FROM " + "Bank" + " WHERE UUID=?");
@@ -422,5 +294,86 @@ public class MySQL {
              e.printStackTrace();
          }
          return i;
-     }   
+     }
+     
+     
+     public static boolean UserExists(UUID uuid) {
+     	PreparedStatement ps;
+ 		try {
+ 			ps = con.prepareStatement("SELECT * FROM " + "OnlineTime" + " WHERE UUID=?");
+ 			ps.setString(1, uuid.toString());
+ 	        ResultSet rs = ps.executeQuery();
+ 	 		while(rs.next()) {
+ 	 			   return rs != null;
+ 	 		   }
+ 		} catch (SQLException e) {
+ 			e.printStackTrace();
+ 		}
+     	
+  	return false;
+      }
+     
+     public static String getPlayerName(UUID uuid) {
+     	PreparedStatement ps;
+         String i = "";
+         try {
+             ps = con.prepareStatement("SELECT * FROM " + "OnlineTime" + " WHERE UUID=?");
+             ps.setString(1, uuid.toString());
+             ResultSet rs = ps.executeQuery();
+             if (!rs.next() || String.valueOf(rs.getString("Playername")) == null) {}
+             i = rs.getString("Playername");
+         }
+         catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return i;
+     }
+      
+     public static String getTime(UUID uuid) {
+     	PreparedStatement ps;
+         String i = "";
+         try {
+             ps = con.prepareStatement("SELECT * FROM " + "OnlineTime" + " WHERE UUID=?");
+             ps.setString(1, uuid.toString());
+             ResultSet rs = ps.executeQuery();
+             if (!rs.next() || String.valueOf(rs.getString("Time")) == null) {}
+             i = rs.getString("Time");
+         }
+         catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return i;
+     }
+     
+      public static long getStart(UUID uuid) {
+     	 PreparedStatement ps;
+          long i = 0;
+          try {
+              ps = con.prepareStatement("SELECT * FROM " + "OnlineTime" + " WHERE UUID=?");
+              ps.setString(1, uuid.toString());
+              ResultSet rs = ps.executeQuery();
+              if (!rs.next() || String.valueOf(rs.getString("Start")) == null) {}
+              i = rs.getLong("Start");
+          }
+          catch (SQLException e) {
+              e.printStackTrace();
+          }
+          return i;
+      }
+      
+      public static long getJoins(UUID uuid) {
+     	 PreparedStatement ps;
+          long i = 0;
+          try {
+              ps = con.prepareStatement("SELECT * FROM " + "OnlineTime" + " WHERE UUID=?");
+              ps.setString(1, uuid.toString());
+              ResultSet rs = ps.executeQuery();
+              if (!rs.next() || String.valueOf(rs.getString("Joins")) == null) {}
+              i = rs.getLong("Joins");
+          }
+          catch (SQLException e) {
+              e.printStackTrace();
+          }
+          return i;
+      }
 }

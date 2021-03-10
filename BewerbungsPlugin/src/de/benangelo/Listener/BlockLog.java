@@ -3,6 +3,7 @@ package de.benangelo.Listener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,9 +24,10 @@ public class BlockLog implements Listener{
 	    
 		String p = e.getPlayer().getName();
 		Material m = e.getBlock().getType();
-		double x = e.getBlock().getLocation().getX();
-		double y = e.getBlock().getLocation().getY();
-		double z = e.getBlock().getLocation().getZ();
+		Location l = e.getBlock().getLocation();
+		double x = l.getX();
+		double y = l.getY();
+		double z = l.getZ();
 		String hours = nowHour;
 		String day = nowDay;
 		/*
@@ -46,9 +48,10 @@ public class BlockLog implements Listener{
 	    		
 		String p = e.getPlayer().getName();
 		Material m = e.getBlock().getType();
-		double x = e.getBlock().getLocation().getX();
-		double y = e.getBlock().getLocation().getY();
-		double z = e.getBlock().getLocation().getZ();
+		Location l = e.getBlock().getLocation();
+		double x = l.getX();
+		double y = l.getY();
+		double z = l.getZ();
 		String hours = nowHour;
 		String day = nowDay;
 		/*
@@ -58,5 +61,4 @@ public class BlockLog implements Listener{
 		 */
 		MySQL.update("INSERT INTO BlockLogPlace (Material, Player, Position, Time, Day) VALUES (?,?,?,?,?)", m + "," + p + "," + x + "X " + y + "Y " + z + "Z," + hours+ ","+ day);
 	}
-	
 }
