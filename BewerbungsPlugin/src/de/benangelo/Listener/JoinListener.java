@@ -19,6 +19,9 @@ public class JoinListener implements Listener{
 		}
 		e.setJoinMessage("§2>>>     " + p.getName());
 		p.getInventory().setItem(0, new ItemBuilder(Material.ENDER_PEARL).setName("§4Enderperle").build());
+		
+		p.setAllowFlight(true);
+		p.setFlying(false);
 	}
 	
 }

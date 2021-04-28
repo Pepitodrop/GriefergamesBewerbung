@@ -1,31 +1,35 @@
 package de.benangelo.main;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.craftbukkit.libs.org.apache.commons.io.IOUtils;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import de.benangelo.Listener.BlockLog;
 import de.benangelo.Listener.BuildAndDropListener;
+import de.benangelo.Listener.ChangeFlyModeEvnet;
 import de.benangelo.Listener.ChatLog;
 import de.benangelo.Listener.ChestListener;
 import de.benangelo.Listener.CommandListener;
 import de.benangelo.Listener.CommandLog;
+import de.benangelo.Listener.DamageListener;
 import de.benangelo.Listener.EnderperleWerfen;
 import de.benangelo.Listener.InvClickEvent;
 import de.benangelo.Listener.InvCloseListener;
 import de.benangelo.Listener.JoinListener;
 import de.benangelo.Listener.LogInListener;
+import de.benangelo.Listener.PickUpItemEvent;
 import de.benangelo.Listener.PlayerMove;
 import de.benangelo.Listener.PlayerQuit;
 import de.benangelo.commands.BanCommand;
@@ -33,27 +37,26 @@ import de.benangelo.commands.BankCommand;
 import de.benangelo.commands.BuildAndDropCommand;
 import de.benangelo.commands.CraftingTableCommand;
 import de.benangelo.commands.ECCommand;
+import de.benangelo.commands.FlyCommand;
 import de.benangelo.commands.GamemodeCommand;
 import de.benangelo.commands.InvseeCommand;
+import de.benangelo.commands.NasaCommand;
 import de.benangelo.commands.PayCommand;
 import de.benangelo.commands.TPACommand;
 import de.benangelo.commands.ValueCommand;
 import de.benangelo.config.AllgemeineConfigs;
 import de.benangelo.config.AnimatedScoreboardFile;
 import de.benangelo.mysql.MySQL;
-import de.benangelo.mysql.MySQLFile;
 import de.benangelo.util.ActionBar;
 import de.benangelo.util.ItemBuilder;
 import de.benangelo.util.RecipesLoader;
 import de.benangelo.util.ScoreboardHandler;
 
+
 public class Main extends JavaPlugin{
 	
 	public ArrayList<String> canClick = new ArrayList<>();
-
-	private boolean is19Server;
-	
-	private boolean is13Server;
+	public ArrayList<String> nasaPictures = new ArrayList<>();
 	
 	private static Main plugin;
 	
@@ -67,75 +70,29 @@ public class Main extends JavaPlugin{
 		
 		plugin = this;
 		
-		MySQLFile file = new MySQLFile();
-		file.setStandard();
-		file.readData();
-		
-		AllgemeineConfigs file2 = new AllgemeineConfigs();
+		AllgemeineConfigs file2 = new AllgemeineConfigs(this);
 		file2.setStandard();
 		file2.readData();
 		
-		AnimatedScoreboardFile file3 = new AnimatedScoreboardFile();
+		AnimatedScoreboardFile file3 = new AnimatedScoreboardFile(this);
 		file3.setStandard();
 		file3.readData();
 		
+		MySQL.setMySQLMain(this);
+		MySQL.setStandardMySQL();
+		MySQL.readMySQL();
 		MySQL.connect();
 		MySQL.createTables();
+		MySQL.reconnectScheduler();
 		
 		new RecipesLoader().registerRecipes();
 
-		ScoreboardHandler sb = new ScoreboardHandler(this);
-		
-
 		updateSB();
 
-		
-		getCommand("EC").setExecutor(new ECCommand());
-
-		getCommand("value").setExecutor(new ValueCommand());
-
-		getCommand("pay").setExecutor(new PayCommand());
-
-		getCommand("bank").setExecutor(new BankCommand());
-
-		getCommand("ban").setExecutor(new BanCommand());
-		getCommand("tempban").setExecutor(new BanCommand());
-		getCommand("unban").setExecutor(new BanCommand());
-		getCommand("check").setExecutor(new BanCommand());
-
-		getCommand("crafting").setExecutor(new CraftingTableCommand());
-
-		getCommand("gm").setExecutor(new GamemodeCommand());
-		
-		getCommand("invsee").setExecutor(new InvseeCommand());
-		
-		getCommand("tpa").setExecutor(new TPACommand());
-		
-		getCommand("build").setExecutor(new BuildAndDropCommand());
-		getCommand("drop").setExecutor(new BuildAndDropCommand());
-
-		PluginManager pluginManager = Bukkit.getPluginManager();
-		pluginManager.registerEvents(new ChestListener(), this);
-		pluginManager.registerEvents(new InvCloseListener(), this);
-		pluginManager.registerEvents(new InvClickEvent(), this);
-		pluginManager.registerEvents(sb, this);
-		pluginManager.registerEvents(new BlockLog(), this);
-		pluginManager.registerEvents(new CommandLog(), this);
-		pluginManager.registerEvents(new ChatLog(), this);
-		pluginManager.registerEvents(new LogInListener(), this);
-		pluginManager.registerEvents(new JoinListener(), this);
-		pluginManager.registerEvents(new CommandListener(), this);
-		pluginManager.registerEvents(new PlayerQuit(), this);
-		pluginManager.registerEvents(new PlayerMove(), this);
-		pluginManager.registerEvents(new BuildAndDropListener(), this);
-		pluginManager.registerEvents(new EnderperleWerfen(), this);
+		registerCommand();
+		registerListener();
 		
 		send();
-		
-		getMcVersion();
-		
-		System.out.println(is19Server);
-		System.out.println(is13Server);	
 		
 		Bukkit.getConsoleSender().sendMessage("§2Das Plugin wurde erfolgreich geladen!");
 		
@@ -144,6 +101,8 @@ public class Main extends JavaPlugin{
 			p.setLevel(0);
 			p.setExp(0);
 		}
+		
+		getNasaLink();
 		
 		super.onEnable();
 	}
@@ -156,6 +115,67 @@ public class Main extends JavaPlugin{
 		}
 		super.onDisable();
 	}
+	
+	
+	
+	
+	
+	private void registerCommand() {
+		getCommand("EC").setExecutor(new ECCommand(this));
+
+		getCommand("value").setExecutor(new ValueCommand(this));
+
+		getCommand("pay").setExecutor(new PayCommand(this));
+
+		getCommand("bank").setExecutor(new BankCommand(this));
+
+		getCommand("ban").setExecutor(new BanCommand(this));
+		getCommand("tempban").setExecutor(new BanCommand(this));
+		getCommand("unban").setExecutor(new BanCommand(this));
+		getCommand("check").setExecutor(new BanCommand(this));
+
+		getCommand("crafting").setExecutor(new CraftingTableCommand(this));
+
+		getCommand("gm").setExecutor(new GamemodeCommand(this));
+		
+		getCommand("invsee").setExecutor(new InvseeCommand(this));
+		
+		getCommand("tpa").setExecutor(new TPACommand(this));
+		
+		getCommand("build").setExecutor(new BuildAndDropCommand(this));
+		getCommand("drop").setExecutor(new BuildAndDropCommand(this));
+		
+		getCommand("nasa").setExecutor(new NasaCommand(this));
+		
+		getCommand("fly").setExecutor(new FlyCommand(this));
+	}
+	
+	
+	private void registerListener() {
+		PluginManager pluginManager = Bukkit.getPluginManager();
+		pluginManager.registerEvents(new ChestListener(), this);
+		pluginManager.registerEvents(new InvCloseListener(this), this);
+		pluginManager.registerEvents(new InvClickEvent(this), this);
+		pluginManager.registerEvents(new ScoreboardHandler(this), this);
+		pluginManager.registerEvents(new BlockLog(), this);
+		pluginManager.registerEvents(new CommandLog(), this);
+		pluginManager.registerEvents(new ChatLog(), this);
+		pluginManager.registerEvents(new LogInListener(), this);
+		pluginManager.registerEvents(new JoinListener(), this);
+		pluginManager.registerEvents(new CommandListener(this), this);
+		pluginManager.registerEvents(new PlayerQuit(this), this);
+		pluginManager.registerEvents(new PlayerMove(this), this);
+		pluginManager.registerEvents(new BuildAndDropListener(), this);
+		pluginManager.registerEvents(new EnderperleWerfen(this), this);
+		pluginManager.registerEvents(new DamageListener(), this);
+		pluginManager.registerEvents(new PickUpItemEvent(), this);
+		pluginManager.registerEvents(new ChangeFlyModeEvnet(), this);
+	}
+	
+	
+	
+	
+	
 	
 	private void updateSB() {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {	
@@ -185,80 +205,39 @@ public class Main extends JavaPlugin{
 			}
 		}, 0, 0);
 	}
-
-	@SuppressWarnings("deprecation")
-	public static String getEnchants(ItemStack is){
-		String enchants = "";
-		if(is.getType() != Material.ENCHANTED_BOOK) {
-			List<String> e = new ArrayList<String>();
-			Map<Enchantment, Integer> en = is.getEnchantments();
-			for(Enchantment t : en.keySet()) {
-				e.add(t.getName() + ":" +en.get(t));
-			}
-			
-			for(int i = 0; i < e.size(); i++) {
-				enchants += e.get(i) + ":";
-			}
-			return enchants;
-		} else {
-			
-			ItemStack item = is;
-			
-			EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-			
-			List<Enchantment> enchs = new ArrayList<Enchantment>(meta.getStoredEnchants().keySet());
-		
-			List<String> e = new ArrayList<String>();
-
-			for(int en = 0; en < enchs.size(); en++) {
-				e.add(enchs.get(en).getName() + ":" + meta.getStoredEnchantLevel(enchs.get(en)));
-			}	
-			
-			for(int i = 0; i < e.size(); i++) {
-				enchants += e.get(i) + ":";
-			}
-
-			return enchants;
-		}
-			
-		}
 	
-	private boolean getMcVersion() {
-		String[] serverVersion = Bukkit.getBukkitVersion().split("-");
-	    String version = serverVersion[0];
-	    
-	    if (version.matches("1.7.10") || version.matches("1.7.9") || version.matches("1.7.5") || version.matches("1.7.2") || version.matches("1.8.8") || version.matches("1.8.3") || version.matches("1.8.4") || version.matches("1.8")) {
-	    	is19Server = false;
-	    	return true;
-	    } else if (version.matches("1.13") || version.matches("1.13.1") || version.matches("1.13.2")) {
-	    	is13Server = true;
-	    	return true;
-	    } else if (version.matches("1.14") || version.matches("1.14.1") || version.matches("1.14.2") || version.matches("1.14.3") || version.matches("1.14.4")) {
-	    	is13Server = true;
-	    	return true;
-	    } else if (version.matches("1.15") || version.matches("1.15.1") || version.matches("1.15.2")) {
-	    	is13Server = true;
-	    	return true;
-	    } else if (version.matches("1.16") || version.matches("1.16.1") || version.matches("1.16.2") || version.matches("1.16.3")) {
-	    	is13Server = true;
-	    	return true;
-	    }
-	    return false;
-	}
+	private void getNasaLink() {
+        try {
+            String url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY";
+
+            @SuppressWarnings("deprecation")
+			String NasaJson = IOUtils.toString(new URL(url));
+
+            JSONObject NasaObject = (JSONObject) JSONValue.parseWithException(NasaJson);
+
+            JSONArray namearr = (JSONArray) NasaObject.get("photos");
+            for (Object objInArr : namearr) {
+                JSONObject jsonKunde = (JSONObject) objInArr;
+                nasaPictures.add(jsonKunde.get("img_src").toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 	
-	public static void setUpdateSekunde(long updateSekunde) {
+	public void setUpdateSekunde(long updateSekunde) {
 		UpdateSekunde = updateSekunde;
 	}
 
-	public static Main getPlugin() {
+	public Main getPlugin() {
 		return plugin;
 	}
 
-	public static String getPrefix() {
-		return prefix;
+	public String getPrefix() {
+		return ChatColor.translateAlternateColorCodes('&', prefix);
 	}
 
-	public static void setPrefix(String prefix) {
+	public void setPrefix(String prefix) {
 		Main.prefix = prefix;
 	}
 

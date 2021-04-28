@@ -6,15 +6,14 @@ import java.util.UUID;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import de.benangelo.mysql.MySQL;
 
-@SuppressWarnings("deprecation")
 public class ChatLog implements Listener{
 
 	@EventHandler
-	public void handleChat(PlayerChatEvent e) {
+	public void handleChat(AsyncPlayerChatEvent e) {
 		SimpleDateFormat dateDay = new SimpleDateFormat ("dd.MM.yyyy");
 	    String nowDay = dateDay.format(new Date());
 	    

@@ -7,6 +7,7 @@ author: Luis Benedikt
 commands:
    EC:
       description: Oeffnet deine Enderchest!
+      aliases: [enderchest]
    value:
       description: Du kannst dir geld geben!
    pay:
@@ -17,14 +18,17 @@ commands:
       description: Bannt einen Spieler fuer immer!
    tempban:
       description: Bannt einen Spieler fuer die eigegebenen Sekunden!
+      aliases: [tban]
    unban:
       description: Entbannt einen Spieler!
    check:
       description: Zeigt infos ueber gebanntes Spieler!
    crafting:
       description: oeffnet einen Craftingtable!
+      aliases: [craft]
    gm:
       description: Aendert deinen Spielmodus!
+      aliases: [gamemode]
    invsee:
       description: Oeffnet das Inventar eines anderen spielers!
    tpa:
@@ -33,3 +37,7 @@ commands:
       description: Du kannst dann sahcen Droppen!
    build:
       description: Du kannst dann bauen!
+   nasa:
+      description: Zeigt dir ein bild von einem echten Mars rover!
+   fly:
+      description: Erlaubt dir in Survival oder Adventure mode zu fliegen!

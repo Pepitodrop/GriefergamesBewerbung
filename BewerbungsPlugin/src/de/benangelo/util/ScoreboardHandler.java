@@ -39,19 +39,6 @@ public class ScoreboardHandler implements Listener{
 	
 	public static void setup(Player p) {
 		
-//		long onlineTime;
-//		int type = 0;
-//		
-//		while(CountManager.getTimeType(p.getUniqueId(), type) == 0) {
-//			type++;
-//		}
-//		
-//		System.out.println(type);
-//		onlineTime = CountManager.getTimeType(p.getUniqueId(), type);
-//		type=0;
-//		
-//		System.out.println(onlineTime);
-		
 		Money money = new Money();
 		Scoreboard scb = Bukkit.getScoreboardManager().getNewScoreboard();
 		@SuppressWarnings("deprecation")

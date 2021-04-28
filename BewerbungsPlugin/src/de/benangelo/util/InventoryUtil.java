@@ -18,19 +18,16 @@ public class InventoryUtil {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
         
-            // Write the size of the inventory
             dataOutput.writeInt(inventory.getSize());
         
-            // Save every element in the list
             for (int i = 0; i < inventory.getSize(); i++) {
                 dataOutput.writeObject(inventory.getItem(i));
             }
-        
-            // Serialize that array
+
             dataOutput.close();
             return Base64Coder.encodeLines(outputStream.toByteArray());
         } catch (Exception e) {
-            throw new IllegalStateException("Unable to save item stacks.", e);
+            throw new IllegalStateException("Kann nicht gespeichert werden", e);
         }    
     }
 	
@@ -40,7 +37,6 @@ public class InventoryUtil {
             BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
             Inventory inventory = Bukkit.getServer().createInventory(null, dataInput.readInt());
     
-            // Read the serialized inventory
             for (int i = 0; i < inventory.getSize(); i++) {
                 inventory.setItem(i, (ItemStack) dataInput.readObject());
             }
@@ -48,7 +44,7 @@ public class InventoryUtil {
             dataInput.close();
             return inventory;
         } catch (ClassNotFoundException e) {
-            throw new IOException("Unable to decode class type.", e);
+            throw new IOException("Kann nich entschlüsselt werden!", e);
         }
     }
 	
@@ -57,19 +53,16 @@ public class InventoryUtil {
 	            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
 	            
-	            // Write the size of the inventory
 	            dataOutput.writeInt(items.length);
 	            
-	            // Save every element in the list
 	            for (int i = 0; i < items.length; i++) {
 	                dataOutput.writeObject(items[i]);
 	            }
 	            
-	            // Serialize that array
 	            dataOutput.close();
 	            return Base64Coder.encodeLines(outputStream.toByteArray());
 	        } catch (Exception e) {
-	            throw new IllegalStateException("Unable to save item stacks.", e);
+	            throw new IllegalStateException("Nicht möglich das item zu speichern!", e);
 	        }
 	    }
 	
@@ -79,7 +72,6 @@ public class InventoryUtil {
             BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
             ItemStack[] items = new ItemStack[dataInput.readInt()];
     
-            // Read the serialized inventory
             for (int i = 0; i < items.length; i++) {
             	items[i] = (ItemStack) dataInput.readObject();
             }
@@ -87,48 +79,8 @@ public class InventoryUtil {
             dataInput.close();
             return items;
         } catch (ClassNotFoundException e) {
-            throw new IOException("Unable to decode class type.", e);
+            throw new IOException("Nicht möglich den Klassen Code zu entschlüsseln", e);
         }
     }
-	
-//	public static String saveModdedStacksData(ItemStack[] itemStacks) {
-//	    StringBuilder stringBuilder = new StringBuilder();
-//	    for (int i = 0; i < itemStacks.length; i++)
-//	    {
-//	      if (i > 0) {
-//	        stringBuilder.append(";");
-//	      }
-//	      if ((itemStacks[i] != null) && (itemStacks[i].getType() != Material.AIR)) {
-//	        try
-//	        {
-//	          stringBuilder.append(StreamSerializer.getDefault().serializeItemStack(itemStacks[i]));
-//	        }
-//	        catch (IOException e)
-//	        {
-//	          e.printStackTrace();
-//	        }
-//	      }
-//	    }
-//	    String string = stringBuilder.toString();
-//	    return string;
-//	  }
-//	
-//	public static ItemStack[] restoreModdedStacks(String string) {
-//	    String[] strings = string.split(";");
-//	    ItemStack[] itemStacks = new ItemStack[strings.length];
-//	    for (int i = 0; i < strings.length; i++) {
-//	      if (!strings[i].equals("")) {
-//	        try
-//	        {
-//	          itemStacks[i] = StreamSerializer.getDefault().deserializeItemStack(strings[i]);
-//	        }
-//	        catch (IOException e)
-//	        {
-//	          e.printStackTrace();
-//	        }
-//	      }
-//	    }
-//	    return itemStacks;
-//	  }
 	
 }

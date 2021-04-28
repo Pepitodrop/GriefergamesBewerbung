@@ -16,6 +16,11 @@ public class EnderperleWerfen implements Listener{
 	private int taskID;
 	private int count = 10;
 	private float time = count;
+	private static Main plugin;
+	
+	public EnderperleWerfen(Main m) {
+		plugin = m;
+	}
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -26,7 +31,7 @@ public class EnderperleWerfen implements Listener{
 				p.setExp(1f);
 				p.setLevel(count);
 				
-				taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new Runnable() {
+				taskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin.getPlugin(), new Runnable() {
 					int countdown = count;
 					
 					@Override
@@ -37,16 +42,16 @@ public class EnderperleWerfen implements Listener{
 						if(countdown <= 0) {
 							p.getInventory().setItem(0, new ItemBuilder(Material.ENDER_PEARL).setName("§4Enderperle").build());
 							p.setLevel(0);
-							p.setExp(p.getExp()-p.getExp());
+							p.setExp(0);
 							Bukkit.getScheduler().cancelTask(taskID);
+						} else {
+							p.getInventory().setItem(0, new ItemBuilder(Material.FIREWORK_STAR).setName("§6§l" + String.valueOf(countdown)).build());
+							float exp = p.getExp();
+							float remove = (float)1/time;
+							float newEXP = exp - remove;
+							p.setLevel(countdown);
+							p.setExp(newEXP);
 						}
-						
-						float exp = p.getExp();
-						float remove = (float)1/time;
-						float newEXP = exp - remove;
-						p.setLevel(countdown);
-						p.setExp(newEXP);						
-						
 					}
 				}, 0, 20);
 			}

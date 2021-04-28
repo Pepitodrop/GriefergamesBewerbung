@@ -11,125 +11,45 @@ import de.benangelo.main.Main;
 
 public class GamemodeCommand implements CommandExecutor {
 
+	private static Main plugin;
+	
+	public GamemodeCommand(Main m) {
+		plugin = m;
+	}
+	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command commands, String lable, String[] args) {
-		if(sender instanceof Player) {
-			Player p = (Player) sender;
-			if(p.hasPermission("GM.Gamemode")) {
+			if(sender.hasPermission("BewerbungsPLugin.Gamemode")) {
 				if(args.length == 1) {
-					
-					switch(args[0]) {
-					
-					case "0":
-						p.setGameMode(GameMode.SURVIVAL);
-						p.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lUeberleben §6gesetzt!");
-						break;
+					if(sender instanceof Player) {
+						Player p = (Player) sender;
 						
-					case "1":
-						p.setGameMode(GameMode.CREATIVE);
-						p.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lKreativ §6gesetzt!");
-						break;
-					
-					case "2":
-						p.setGameMode(GameMode.ADVENTURE);
-						p.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lAbenteuer §6gesetzt!");
-						break;
-						
-					case "3":
-						p.setGameMode(GameMode.SPECTATOR);
-						p.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lZuschauer §6gesetzt!");
-						break;
-						
-					default:
-						p.sendMessage(Main.getPrefix() + "§cBitte benutze §2/gm 0/1/2/3 §c!");
-						break;
-					}
-					
+						if(GameMode.getByValue(Integer.valueOf(args[0])) != null) {
+							p.setGameMode(GameMode.getByValue(Integer.valueOf(args[0])));
+							p.sendMessage(plugin.getPrefix() + "§6Dein Spielmodus wurde auf §c§l" + GameMode.getByValue(Integer.valueOf(args[0])).name() + " §6gesetzt!");
+						} else
+							p.sendMessage(plugin.getPrefix() + "§cBitte benutze §2/gm 0/1/2/3 (<Spieler>) §c!");
+					} else
+						sender.sendMessage(plugin.getPrefix() + "§cDu musst ein Spieler sein!");
 			} else
 					if(args.length == 2) {
 						Player target = Bukkit.getPlayer(args[1]);
 						if(target != null) {
-							
-							switch(args[0]) {
-							
-							case "0":
-								target.setGameMode(GameMode.SURVIVAL);
-								target.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lUeberleben §6gesetzt!");
-								p.sendMessage(Main.getPrefix() + "§6Du hast §2" + target.getName() + "§6 auf §cUeberleben §6gesetzt!");
-								break;
-								
-							case "1":
-								target.setGameMode(GameMode.CREATIVE);
-								target.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lKreativ §6gesetzt!");
-								p.sendMessage(Main.getPrefix() + "§6Du hast §2" + target.getName() + "§6 auf §cKreativ §6gesetzt!");
-								break;
-							
-							case "2":
-								target.setGameMode(GameMode.ADVENTURE);
-								target.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lAbenteuer §6gesetzt!");
-								p.sendMessage(Main.getPrefix() + "§6Du hast §2" + target.getName() + "§6 auf §cAbenteuer §6gesetzt!");
-								break;
-								
-							case "3":
-								target.setGameMode(GameMode.SPECTATOR);
-								target.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lZuschauer §6gesetzt!");
-								p.sendMessage(Main.getPrefix() + "§6Du hast §2" + target.getName() + "§6 auf §cZuschauer §6gesetzt!");
-								break;
-								
-							default:
-								p.sendMessage(Main.getPrefix() + "§cBitte benutze §2/gm 0/1/2/3 (<Spieler>) §c!");
-								break;
-							}
+							if(GameMode.getByValue(Integer.valueOf(args[0])) != null) {
+								target.setGameMode(GameMode.getByValue(Integer.valueOf(args[0])));
+								target.sendMessage(plugin.getPrefix() + "§6Dein Spielmodus wurde auf §c§l" + GameMode.getByValue(Integer.valueOf(args[0])).name() + " §6gesetzt!");
+								sender.sendMessage(plugin.getPrefix() + "§6Du hast §2" + target.getDisplayName() + "§6 auf §c" + GameMode.getByValue(Integer.valueOf(args[0])).name() + " §6gesetzt!");
+							} else
+								sender.sendMessage(plugin.getPrefix() + "§cBitte benutze §2/gm 0/1/2/3 (<Spieler>) §c!");
 							
 						} else
-							p.sendMessage(Main.getPrefix() + "§4Der Spieler ist gerade nicht online!");
+							sender.sendMessage(plugin.getPrefix() + "§4Der Spieler ist gerade nicht online!");
 			} else
-				p.sendMessage(Main.getPrefix() + "§cBitte benutze §2/gm 0/1/2/3 (<Spieler>) §c!");
+				sender.sendMessage(plugin.getPrefix() + "§cBitte benutze §2/gm 0/1/2/3 (<Spieler>) §c!");
 						
 			} else
-				p.sendMessage(Main.getPrefix() + "§cDazu hast du keine Rechte!");
-			} else  {
-				if(args.length == 2) {
-					Player target = Bukkit.getPlayer(args[1]);
-					if(target != null) {
-						
-						switch(args[0]) {
-						
-						case "0":
-							target.setGameMode(GameMode.SURVIVAL);
-							target.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lUeberleben §6gesetzt!");
-							sender.sendMessage(Main.getPrefix() + "§6Du hast §2" + target.getName() + "§6 auf §cUeberleben §6gesetzt!");
-							break;
-							
-						case "1":
-							target.setGameMode(GameMode.CREATIVE);
-							target.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lKreativ §6gesetzt!");
-							sender.sendMessage(Main.getPrefix() + "§6Du hast §2" + target.getName() + "§6 auf §cKreativ §6gesetzt!");
-							break;
-						
-						case "2":
-							target.setGameMode(GameMode.ADVENTURE);
-							target.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lAbenteuer §6gesetzt!");
-							sender.sendMessage(Main.getPrefix() + "§6Du hast §2" + target.getName() + "§6 auf §cAbenteuer §6gesetzt!");
-							break;
-							
-						case "3":
-							target.setGameMode(GameMode.SPECTATOR);
-							target.sendMessage(Main.getPrefix() + "§6Dein Spielmodus wurde auf §c§lZuschauer §6gesetzt!");
-							sender.sendMessage(Main.getPrefix() + "§6Du hast §2" + target.getName() + "§6 auf §cZuschauer §6gesetzt!");
-							break;
-							
-						default:
-							sender.sendMessage(Main.getPrefix() + "§cBitte benutze §2/gm 0/1/2/3 (<Spieler>) §c!");
-							break;
-						}
-						
-					} else
-						sender.sendMessage(Main.getPrefix() + "§4Dieser Spieler ist leider nicht Online!");
-		} else {
-			sender.sendMessage(Main.getPrefix() + "§cBitte benutze §2/gm 0/1/2/3 (<Spieler>) §c!");
-		}
-			}
+				sender.sendMessage(plugin.getPrefix() + "§cDazu hast du keine Rechte!");
 		return false;
 	}
 

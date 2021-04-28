@@ -14,23 +14,30 @@ import de.benangelo.util.InventoryUtil;
 
 public class InvCloseListener implements Listener{
 	
+	private static Main plugin;
+	
+	public InvCloseListener(Main m) {
+		plugin=m;
+	}
+	
 	@EventHandler
 	public void handleInvClose(InventoryCloseEvent e) {
 		Player p = (Player) e.getPlayer();
-		if(Main.getPlugin().canClick != null) {
-			if(!Main.getPlugin().canClick.isEmpty()) {
-				if(Main.getPlugin().canClick.contains(p.getName().toString()))
-					Main.getPlugin().canClick.remove(p.getName().toString());
+			if(!plugin.getPlugin().canClick.isEmpty()) {
+				if(plugin.getPlugin().canClick.contains(p.getName().toString()))
+					plugin.getPlugin().canClick.remove(p.getName().toString());
 			}
-		}
 		
 		if(e.getPlayer().getOpenInventory().getTitle().equals("§4" + ECCommand.InvName + " §2von §6" + p.getName())) {
 			UUID uuid = e.getPlayer().getUniqueId();
 			String name = e.getPlayer().getName();
 			String content = InventoryUtil.itemStackArrayToBase64(e.getInventory().getContents());
 			
-			MySQL.update("DELETE FROM " + "EC" + " WHERE UUID=?", e.getPlayer().getUniqueId().toString());
-			MySQL.update("INSERT INTO " + "EC" + " (UUID, Playername , Content) VALUES (?,?,?);", uuid + "," + name + "," + content);
+			if(MySQL.UserExistsEC(uuid)) {
+				MySQL.update("UPDATE EC SET Content=? WHERE UUID=?", content + "," + uuid);
+			} else
+				MySQL.update("INSERT INTO " + "EC" + " (UUID, Playername , Content) VALUES (?,?,?);", uuid + "," + name + "," + content);
+			
 		}
 	}
 	

@@ -10,6 +10,12 @@ import de.benangelo.main.Main;
 
 public class PlayerQuit implements Listener{
 
+	private static Main plugin;
+	
+	public PlayerQuit(Main m) {
+		plugin=m;
+	}
+	
 	@EventHandler
 	public void handlePlayerOuit(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
@@ -22,8 +28,8 @@ public class PlayerQuit implements Listener{
 			if(TPACommand.DontMove.contains(name)) {
 				TPACommand.DontMove.remove(name);
 			} else {
-				if(Main.getPlugin().canClick.contains(name)) {
-					Main.getPlugin().canClick.remove(name);
+				if(plugin.canClick.contains(name)) {
+					plugin.canClick.remove(name);
 				}
 			}
 		}

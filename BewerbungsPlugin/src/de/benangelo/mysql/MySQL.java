@@ -1,72 +1,91 @@
 package de.benangelo.mysql;
 
+import java.sql.ResultSet;
+import java.util.concurrent.FutureTask;
+
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import de.benangelo.main.Main;
+
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
-
-import org.bukkit.Bukkit;
-
-import com.mysql.jdbc.Statement;
+import java.util.concurrent.Callable;
 
 public class MySQL {
+	
+	private static Main plugin;
+	
+    public static String host;
 
-	public static String host;
-	public static String port;
-	public static String database;
-	public static String username;
-	public static String password;
-	public static Connection con;
-	
-	public static void connect() {
-	if(!isConnected()) {
-	try {
-	con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
-	Bukkit.getConsoleSender().sendMessage("§7[§6MySQL§7] §r§2Verbindung erfolgreich aufgebaut ist das nicht super!");
-	} catch (SQLException e) {
-	e.printStackTrace();
-	}
-	}
-	}
-	
-	public static void disconnect() {
-	if(isConnected()) {
-	try {
-	con.close();
-	Bukkit.getConsoleSender().sendMessage("§7[§6MySQL§7] §r§4Verbindung erfolgreich beendet schade oder!");
-	} catch (SQLException e) {
-	e.printStackTrace();
-	}
-	}	
-	}
-	
-	public static boolean isConnected() {
-		return con != null;
-	}
-	
-	public static Connection getConnection() {
-		return con;
-	}
-	
-	public static ResultSet query(final String qre) {
-        if (MySQL.con != null) {
-            ResultSet rs = null;
-            try {
-                final Statement st = (Statement)MySQL.con.createStatement();
-                rs = st.executeQuery(qre);
-            }
-            catch (SQLException e) {
-                MySQL.connect();
-                System.err.print(e);
+    public static String user;
 
-            }
-            return rs;
-        }
-        return null;
+    public static String password;
+
+    public static String database;
+
+    public static String port;
+
+    public static Connection con;
+
+    private static int MySQLSchedulerID;
+    
+    public static void setMySQLMain(Main m) {
+    	plugin = m;
     }
     
+    public static Connection getConnection() {
+        return con;
+    }
+
+    public static void connect() {
+        if (con == null)
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?user=" + user + "&password=" + password + "&autoReconnect=true");
+            } catch (SQLException | ClassNotFoundException sQLException) {
+            }
+    }
+
+    public static void close() {
+        if (con != null)
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    }
+
+    public static void update(final String qry, String args) {
+        if (isConnected()) {
+            (new FutureTask<>(new Runnable() {
+                PreparedStatement ps;
+
+                public void run() {
+                    try {
+                    	ps = con.prepareStatement(qry);
+            			String[] arg = args.split(",");
+            			for(int i = 0; i < arg.length; i++) {
+            				ps.setString(i+1, arg[i]);
+            			}
+            			this.ps.executeUpdate();
+                        this.ps.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, Integer.valueOf(1))).run();
+        } else {
+            connect();
+        }
+    }
+
     public static void createTables() {
 		/*
 		 * 
@@ -76,7 +95,7 @@ public class MySQL {
 		if(isConnected()) {
 		try {
 			System.out.println("[MySQL] Tabellen werden erstellt!");
-			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "EC" + " (UUID varchar(1000), Playername varchar(1000), Content varchar(50000))");
+			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "EC" + " (UUID varchar(1000), Playername varchar(1000), Content LONGTEXT)");
 			
 			con.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + "Bank" + " (Player varchar(1000), UUID varchar(1000), Amout varchar(1000))");
 			
@@ -93,34 +112,103 @@ public class MySQL {
 		}
 		}
 	}
-    
-    public static void update(String qry, String args) {
-    	if(isConnected()) {
-    		PreparedStatement ps;
-    		try {
-    			ps = con.prepareStatement(qry);
-    			String[] arg = args.split(",");
-    			for(int i = 0; i < arg.length; i++) {
-    				ps.setString(i+1, arg[i]);
-    			}
-				ps.executeUpdate();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-    	}
+
+    public static File getMySQLFile() {
+        return new File("plugins/BewerbungsPlugin", "MySQL.yml");
     }
-    
-    public static ResultSet getResult(String qry) {
-    	if(isConnected()) {
-    		try {
-				return con.createStatement().executeQuery(qry);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-    	}
-		return null;
+
+    public static FileConfiguration getMySQLFileConfiguration() {
+        return (FileConfiguration) YamlConfiguration.loadConfiguration(getMySQLFile());
     }
-    
+
+    public static void setStandardMySQL() {
+        FileConfiguration cfg = getMySQLFileConfiguration();
+        cfg.options().copyDefaults(true);
+        cfg.addDefault("host", "localhost");
+        cfg.addDefault("port", "3306");
+        cfg.addDefault("database", "test");
+        cfg.addDefault("username", "Benangelo");
+        cfg.addDefault("password", "Luis"); 
+   
+        try {
+            cfg.save(getMySQLFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isConnected() {
+        return (con != null);
+    }
+
+    public static void readMySQL() {
+        FileConfiguration cfg = getMySQLFileConfiguration();
+        user = cfg.getString("username");
+        password = cfg.getString("password");
+        database = cfg.getString("database");
+        host = cfg.getString("host");
+        port = cfg.getString("port");
+    }
+
+    @SuppressWarnings("deprecation")
+	public static void reconnectScheduler() {
+        MySQLSchedulerID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, () -> onReconnect(), 432000L, 432000L);
+    }
+
+    @SuppressWarnings("deprecation")
+	public static void onReconnect() {
+        if (con != null)
+            try {
+                con.close();
+                System.out.println("[CoinsSQL] Disconnected from current backend!");
+            } catch (SQLException exc) {
+                System.out.println("[CoinsSQL] Could not disconnect from current backend!");
+            }
+        Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, () -> {
+            try {
+                con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?user=" + user + "&password=" + password + "&autoReconnect=true&useSSL=true");
+                System.out.println("[CoinsSQL] MySQL verbunden");
+            } catch (SQLException exc) {
+                exc.printStackTrace();
+                System.out.println("[CoinsSQL] Could not connect do default backend!");
+            }
+        }, 1L);
+    }
+
+    public static void disconnect() {
+        if (isConnected())
+            try {
+                con.close();
+                System.out.println("[MySQL] Disconnected!");
+                if (Bukkit.getScheduler().isCurrentlyRunning(MySQLSchedulerID))
+                    Bukkit.getScheduler().cancelTask(MySQLSchedulerID);
+            } catch (SQLException exc) {
+                exc.printStackTrace();
+            }
+    }
+
+    public static ResultSet getResult(final String qry) {
+        if (isConnected()) {
+            try {
+                FutureTask<ResultSet> task = new FutureTask<>(new Callable<ResultSet>() {
+                    PreparedStatement ps;
+
+                    public ResultSet call() throws Exception {
+                        this.ps = MySQL.con.prepareStatement(qry);
+                        return this.ps.executeQuery();
+                    }
+                });
+                task.run();
+                return task.get();
+            } catch (InterruptedException | java.util.concurrent.ExecutionException e) {
+                e.printStackTrace();
+            }
+        } else {
+            connect();
+        }
+        return null;
+    }
+	
     
     
     

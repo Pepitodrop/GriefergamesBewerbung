@@ -10,6 +10,12 @@ import de.benangelo.main.Main;
 
 public class InvseeCommand implements CommandExecutor {
 
+	private static Main plugin;
+	
+	public InvseeCommand(Main m) {
+		plugin = m;
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command commands, String label, String[] args) {
 		
@@ -20,17 +26,17 @@ public class InvseeCommand implements CommandExecutor {
 					Player target = Bukkit.getPlayerExact(args[0]);
 					if(target != null) {
 						if(!(p.hasPermission("bewerbungsplugin.canClickInventory"))) {
-							Main.getPlugin().canClick.add(p.getName());
+							plugin.getPlugin().canClick.add(p.getName());
 						}
 						p.openInventory(target.getInventory());
 			} else
-				p.sendMessage(Main.getPrefix() + "§cDieser spieler ist nicht online!");	
+				p.sendMessage(plugin.getPrefix() + "§cDieser spieler ist nicht online!");	
 			} else
-				p.sendMessage(Main.getPrefix() + "§cBitte benutze §2/invsee <Spieler>§c !");
+				p.sendMessage(plugin.getPrefix() + "§cBitte benutze §2/invsee <Spieler>§c !");
 			} else
-				p.sendMessage(Main.getPrefix() + "§cDazu hast du keine Rechte");
+				p.sendMessage(plugin.getPrefix() + "§cDazu hast du keine Rechte");
 		} else
-			sender.sendMessage(Main.getPrefix() + "Du musst ein Spieler sein!");
+			sender.sendMessage(plugin.getPrefix() + "Du musst ein Spieler sein!");
 		return false;
 	}
 }

@@ -11,6 +11,12 @@ import de.benangelo.mysql.MySQL;
 
 public class BankCommand implements CommandExecutor{
 
+	private static Main plugin;
+	
+	public BankCommand(Main m) {
+		plugin=m;
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Money money = new Money();
@@ -28,22 +34,20 @@ public class BankCommand implements CommandExecutor{
 									double amoutConfig = money.getMoney(p) - Double.valueOf(args[1]);
 									money.setMoney(p, amoutConfig);
 									
-									MySQL.update("DELETE FROM " + "Bank" + " WHERE UUID=?", uuid);
+									MySQL.update("UPDATE Bank SET Amout=? WHERE UUID=?", amout + "," + uuid);
 									
-									MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES (?, ?, ?);", name + "," + uuid + "," + amout);
-									
-									p.sendMessage(Main.getPrefix() + "§2Du hast §e" + args[1] + "$ §2eingezahlt!");
+									p.sendMessage(plugin.getPrefix() + "§2Du hast §e" + args[1] + "$ §2eingezahlt!");
 								} else {
 									int amout = Integer.valueOf(args[1]);
 									double amoutConfig = money.getMoney(p) - Double.valueOf(args[1]);
 									money.setMoney(p, amoutConfig);
 									MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES (?, ?, ?);", name + "," + uuid + "," + amout);
-									p.sendMessage(Main.getPrefix() + "§2Du hast §e" + args[1] + "$ §2eingezahlt!");
+									p.sendMessage(plugin.getPrefix() + "§2Du hast §e" + args[1] + "$ §2eingezahlt!");
 								}
 							} else
-								p.sendMessage(Main.getPrefix() + "§4Du hast nicht so viel Geld!");
+								p.sendMessage(plugin.getPrefix() + "§4Du hast nicht so viel Geld!");
 						} else
-							p.sendMessage(Main.getPrefix() + "§4Du musst Zahlen benutzen!");
+							p.sendMessage(plugin.getPrefix() + "§4Du musst Zahlen benutzen!");
 						
 					} else {
 						if(args[0].equalsIgnoreCase("abheben")) {
@@ -53,26 +57,28 @@ public class BankCommand implements CommandExecutor{
 										int amout = Integer.valueOf(MySQL.getAmoutBank(p.getUniqueId())) - Integer.valueOf(args[1]);
 										double amoutConfig = money.getMoney(p) + Double.valueOf(args[1]);
 										money.setMoney(p, amoutConfig);
-										MySQL.update("DELETE FROM " + "Bank" + " WHERE UUID=?", uuid);
-										MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES (?,?,?);" , name + "," + uuid + "," + amout);
-										p.sendMessage(Main.getPrefix() + "§4Du hast §e" + args[1] + "$ §4abgehoben!");
+										
+										MySQL.update("UPDATE Bank SET Amout=? WHERE UUID=?", amout + "," + uuid);
+										
+										p.sendMessage(plugin.getPrefix() + "§4Du hast §e" + args[1] + "$ §4abgehoben!");
 									} else
-										p.sendMessage(Main.getPrefix() + "§4Du hast nicht so viel Geld auf der Bank!");
+										p.sendMessage(plugin.getPrefix() + "§4Du hast nicht so viel Geld auf der Bank!");
 								} else {
 									if(Double.valueOf(0) >= Double.valueOf(args[1])) {
 										int amout = Integer.valueOf(args[1]) - Integer.valueOf(MySQL.getAmoutBank(p.getUniqueId()));
 										double amoutConfig = money.getMoney(p) + Double.valueOf(args[1]);
 										money.setMoney(p, amoutConfig);
-										MySQL.update("DELETE FROM " + "Bank" + " WHERE UUID=?", uuid);
-										MySQL.update("INSERT INTO "+ "Bank" + " (Player, UUID , Amout) VALUES (?,?,?);", name + "," + uuid + "," + amout);
-										p.sendMessage(Main.getPrefix() + "§4Du hast §e" + args[1] + "$ §4abgehoben!");
+										
+										MySQL.update("UPDATE Bank SET Amout=? WHERE UUID=?", amout + "," + uuid);
+										
+										p.sendMessage(plugin.getPrefix() + "§4Du hast §e" + args[1] + "$ §4abgehoben!");
 									} else
-										p.sendMessage(Main.getPrefix() + "§4Du hast nicht so viel Geld auf der Bank!");
+										p.sendMessage(plugin.getPrefix() + "§4Du hast nicht so viel Geld auf der Bank!");
 
 								}
 								
 							} else
-								p.sendMessage(Main.getPrefix() + "§4Du musst Zahlen benutzen!");
+								p.sendMessage(plugin.getPrefix() + "§4Du musst Zahlen benutzen!");
 						} else {
 							p.sendMessage("§4Bitte benutze §2/bank einzahlen <amout> §4!");
 							p.sendMessage("§4Bitte benutze §2/bank abheben <amout> §4!");
@@ -84,9 +90,9 @@ public class BankCommand implements CommandExecutor{
 					if(args.length == 1) {
 						if(args[0].equalsIgnoreCase("Guthaben")) {
 							if(MySQL.UserExistsBank(p.getUniqueId())) {
-								p.sendMessage(Main.getPrefix() + "§2Dein Guthaben Beträgt §e" + MySQL.getAmoutBank(p.getUniqueId()) + "$§2!");
+								p.sendMessage(plugin.getPrefix() + "§2Dein Guthaben Beträgt §e" + MySQL.getAmoutBank(p.getUniqueId()) + "$§2!");
 							} else
-								p.sendMessage(Main.getPrefix() + "§eDu hast noch kein Geld auf der Bank! §9Mit §2/bank einzahlen <amout> §9kannst du welches einzahlen!");
+								p.sendMessage(plugin.getPrefix() + "§eDu hast noch kein Geld auf der Bank! §9Mit §2/bank einzahlen <amout> §9kannst du welches einzahlen!");
 						} else {
 							p.sendMessage("§4Bitte benutze §2/bank einzahlen <amout> §4!");
 							p.sendMessage("§4Bitte benutze §2/bank abheben <amout> §4!");
@@ -102,10 +108,10 @@ public class BankCommand implements CommandExecutor{
 				}
 					
 			} else {
-				p.sendMessage(Main.getPrefix() + "§4Dazu hast du keine Rechte!");
+				p.sendMessage(plugin.getPrefix() + "§4Dazu hast du keine Rechte!");
 			}
 		} else
-			sender.sendMessage(Main.getPrefix() + "Du musst ein Spieler sein!");
+			sender.sendMessage(plugin.getPrefix() + "Du musst ein Spieler sein!");
 		return false;
 	}
 

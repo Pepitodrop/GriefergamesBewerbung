@@ -1,0 +1,12 @@
+{
+  "kunden" : [
+    {
+        "name" : "lia"
+        "ort" : "ham"
+    },
+    {
+        "name" : "ero"
+        "ort" : "limb"
+    }
+  ]
+}

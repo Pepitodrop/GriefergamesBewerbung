@@ -9,6 +9,12 @@ import de.benangelo.main.Main;
 
 public class CraftingTableCommand implements CommandExecutor{
 
+	private static Main plugin;
+	
+	public CraftingTableCommand(Main m) {
+		plugin = m;
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(sender instanceof Player) {
@@ -17,11 +23,11 @@ public class CraftingTableCommand implements CommandExecutor{
 				if(args.length == 0) {
 					p.openWorkbench(p.getLocation(), true);
 				} else
-					p.sendMessage(Main.getPrefix() + "§4Bitte benutze §2/crafting §4!");
+					p.sendMessage(plugin.getPrefix() + "§4Bitte benutze §2/crafting §4!");
 			} else
-				p.sendMessage(Main.getPrefix() + "§4Dazu hast du keine Rechte!");
+				p.sendMessage(plugin.getPrefix() + "§4Dazu hast du keine Rechte!");
 		} else
-			sender.sendMessage(Main.getPrefix() + "§4Du musst ein Spieler sein!");
+			sender.sendMessage(plugin.getPrefix() + "§4Du musst ein Spieler sein!");
 		return false;
 	}
 

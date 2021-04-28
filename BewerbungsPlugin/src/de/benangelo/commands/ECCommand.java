@@ -18,57 +18,30 @@ import de.benangelo.util.InventoryUtil;
 public class ECCommand implements CommandExecutor{
 	
 	public static String InvName;
+	private static Main plugin;
 	
-	public static void openInv(Player target, Player sender) throws IllegalArgumentException, IOException {
-		Inventory inventory = Bukkit.createInventory(null, AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(), "§4" + InvName + " §2von §6" + target.getName());
-		if(MySQL.UserExistsEC(target.getUniqueId())) {
-
-			inventory.setContents(InventoryUtil.itemStackArrayFromBase64(MySQL.getInventoryContent(target.getUniqueId())));
-			
-			sender.openInventory(inventory);
-			if(target.getName().equalsIgnoreCase(sender.getName().toString())) {
-				sender.sendMessage(Main.getPrefix() + "§2Deine EC wurde geöffnet!");
-			} else {
-				
-				if(sender.hasPermission("EC.canClick")) {
-					sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
-				} else {
-					if(Main.getPlugin().canClick != null) {
-						Main.getPlugin().canClick.add(sender.getName().toString());
-					}
-					sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
-				}
-				
-				
-			}
-				
-		} else {
-				
-				if(!target.getName().equalsIgnoreCase(sender.getName().toString())) {
-					sender.sendMessage(Main.getPrefix() + "§4Dieser Spieler hat eine Enderchest auf diesem Server!");
-				}
-				sender.openInventory(inventory);
-			}
-		}
+	public ECCommand(Main m) {
+		plugin = m;
+	}
 	
 	public static void openInvOffline(OfflinePlayer target, Player sender) throws IllegalArgumentException, IOException {
-		Inventory inventory = Bukkit.createInventory(null, AllgemeineConfigs.getBreite()*AllgemeineConfigs.getHöhe(), "§4" + InvName + " §2von §6" + target.getName());
+		Inventory inventory = Bukkit.createInventory(null, new AllgemeineConfigs(plugin).getBreite()*new AllgemeineConfigs(plugin).getHöhe(), "§4" + InvName + " §2von §6" + target.getName());
 		if(MySQL.UserExistsEC(target.getUniqueId())) {
 
 			inventory.setContents(InventoryUtil.itemStackArrayFromBase64(MySQL.getInventoryContent(target.getUniqueId())));
 			
 			sender.openInventory(inventory);
 			if(target.getName().equalsIgnoreCase(sender.getName().toString())) {
-				sender.sendMessage(Main.getPrefix() + "§2Deine EC wurde geöffnet!");
+				sender.sendMessage(plugin.getPrefix() + "§2Deine EC wurde geöffnet!");
 			} else {
 				
 				if(sender.hasPermission("EC.canClick")) {
-					sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
+					sender.sendMessage(plugin.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 				} else {
-					if(Main.getPlugin().canClick != null) {
-						Main.getPlugin().canClick.add(sender.getName().toString());
+					if(plugin.getPlugin().canClick != null) {
+						plugin.getPlugin().canClick.add(sender.getName().toString());
 					}
-					sender.sendMessage(Main.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
+					sender.sendMessage(plugin.getPrefix() + "§2Die EC von §6" + target.getName() + " §2wurde  dir eröffnet!");
 				}
 				
 				
@@ -77,7 +50,7 @@ public class ECCommand implements CommandExecutor{
 		} else {
 				
 				if(!target.getName().equalsIgnoreCase(sender.getName().toString())) {
-					sender.sendMessage(Main.getPrefix() + "§4Dieser Spieler hat eine Enderchest auf diesem Server!");
+					sender.sendMessage(plugin.getPrefix() + "§4Dieser Spieler hat eine Enderchest auf diesem Server!");
 				}
 				sender.openInventory(inventory);
 			}	
@@ -89,20 +62,13 @@ public class ECCommand implements CommandExecutor{
 			Player p = (Player) sender;
 				if(args.length == 0) {
 					try {
-						openInv(p, p);
+						OfflinePlayer pOff = Bukkit.getOfflinePlayer(p.getUniqueId());
+						openInvOffline(pOff, p);
 					} catch (IllegalArgumentException | IOException e) {
 						e.printStackTrace();
 					}
 				} else {
 					if(args.length == 1) {
-						for(Player all : Bukkit.getOnlinePlayers()) {
-							if(all.getName().equalsIgnoreCase(args[0])) {
-								try {
-									openInv(all, p);
-								} catch (IllegalArgumentException | IOException e) {
-									e.printStackTrace();
-								}
-						} else {
 								
 						for(OfflinePlayer allOFF : Bukkit.getOfflinePlayers()) {
 							if(allOFF.getName().equalsIgnoreCase(args[0])) {
@@ -112,16 +78,14 @@ public class ECCommand implements CommandExecutor{
 									e.printStackTrace();
 								}
 						} else
-							p.sendMessage(Main.getPrefix() + "§4Dieser Spieler exestiert leider nicht auf diesemm Server!");
-						}
-						}
+							p.sendMessage(plugin.getPrefix() + "§4Dieser Spieler exestiert leider nicht auf diesemm Server!");
 						}
 						
 					} else
-						p.sendMessage(Main.getPrefix() + "§4Bitte benutze §2/EC (Spieler) §4!");
+						p.sendMessage(plugin.getPrefix() + "§4Bitte benutze §2/EC (Spieler) §4!");
 				}
 		} else
-			sender.sendMessage(Main.getPrefix() + "Du musst ein Spieler sein");
+			sender.sendMessage(plugin.getPrefix() + "Du musst ein Spieler sein");
 		return false;
 	}
 	

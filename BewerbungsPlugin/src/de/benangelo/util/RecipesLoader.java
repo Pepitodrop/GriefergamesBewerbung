@@ -24,8 +24,6 @@ public class RecipesLoader {
 		GoodBowRecipe.addIngredient(Material.DIAMOND_ORE);
 		GoodBowRecipe.addIngredient(Material.DIAMOND);
 		GoodBowRecipe.addIngredient(Material.STICK);
-		GoodBowRecipe.addIngredient(Material.STICK);
-		GoodBowRecipe.addIngredient(Material.STICK);
 		GoodBowRecipe.addIngredient(Material.GLOWSTONE);
 		GoodBowRecipe.addIngredient(Material.GLOWSTONE_DUST);
 		GoodBowRecipe.addIngredient(Material.IRON_BLOCK);
@@ -38,7 +36,6 @@ public class RecipesLoader {
 		OPBowMeta.addEnchant(Enchantment.ARROW_FIRE, 3000, true);
 		OPBowMeta.addEnchant(Enchantment.ARROW_KNOCKBACK, 3000, true);
 		OPBowMeta.addEnchant(Enchantment.ARROW_INFINITE, 3000, true);
-		//Ich würde ihm eine Custom Model Data geben, wenn ich modelieren / texturieren könnte!
 		OPBow.setItemMeta(OPBowMeta);
 		
 		ShapedRecipe OPBowRecipe = new ShapedRecipe(OPBow);

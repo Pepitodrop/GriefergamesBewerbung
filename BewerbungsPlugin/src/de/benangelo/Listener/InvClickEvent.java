@@ -9,14 +9,19 @@ import de.benangelo.main.Main;
 public class InvClickEvent implements Listener{
 
 	public static String InvName;
+	private static Main plugin;
+	
+	public InvClickEvent(Main m) {
+		plugin=m;
+	}
 	
 	@EventHandler
 	public void handleInvClick(InventoryClickEvent e) {
 		String n = e.getWhoClicked().getName().toString();
 		
-		if(Main.getPlugin().canClick != null) {
-			if(!Main.getPlugin().canClick.isEmpty()) {
-				if(Main.getPlugin().canClick.contains(n))
+		if(plugin.getPlugin().canClick != null) {
+			if(!plugin.getPlugin().canClick.isEmpty()) {
+				if(plugin.getPlugin().canClick.contains(n))
 					e.setCancelled(true);
 			}
 		}

@@ -17,6 +17,11 @@ public class AllgemeineConfigs {
 	private static int höhe;
 	private static String InvName;
 	private static String InvNAme = "§6§l" + InvName;
+	private static Main plugin;
+	
+	public AllgemeineConfigs(Main m) {
+		plugin = m;
+	}
 	
 	public void setStandard() {
 		FileConfiguration cfg = getFileConfiguration();
@@ -52,19 +57,19 @@ public class AllgemeineConfigs {
 		höhe = cfg.getInt("Höhe des Invs");
 		ECCommand.InvName = cfg.getString("INV Name");
 		BanManager.setEntbannungsantrag(cfg.getString("Entbannungsantrag"));
-		TPACommand.setAblaufZeit(cfg.getInt("Ablauf dauer der TPA in sekunden"));
-		Main.setPrefix(cfg.getString("Prefix") + " §r");
+		new TPACommand(plugin).setAblaufZeit(cfg.getInt("Ablauf dauer der TPA in sekunden"));
+		plugin.setPrefix(cfg.getString("Prefix") + " §r");
 	}
 
-	public static int getHöhe() {
+	public int getHöhe() {
 		return höhe;
 	}
 
-	public static int getBreite() {
+	public int getBreite() {
 		return breite;
 	}
 
-	public static String getInvNAme() {
+	public String getInvNAme() {
 		return InvNAme;
 	}
 	

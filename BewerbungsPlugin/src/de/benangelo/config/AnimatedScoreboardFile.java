@@ -11,6 +11,12 @@ import de.benangelo.util.ScoreboardHandler;
 
 public class AnimatedScoreboardFile {
 	
+	private static Main plugin;
+	
+	public AnimatedScoreboardFile(Main m) {
+		plugin = m;
+	}
+	
 	public void setStandard() {
 		FileConfiguration cfg = getFileConfiguration();
 		
@@ -40,7 +46,7 @@ public class AnimatedScoreboardFile {
 		
 		ScoreboardHandler.ANIMATTION_TITLE = cfg.getString("ANIMATTION_TITLE");
 		ScoreboardHandler.ANIMATION_SPEED = cfg.getLong("ANIMATION_SPEED");
-		Main.setUpdateSekunde(cfg.getLong("Update-Sekunde"));
+		plugin.setUpdateSekunde(cfg.getLong("Update-Sekunde"));
 	}
 
 }

@@ -18,6 +18,11 @@ public class TPACommand implements CommandExecutor {
 	private int taskID;
 	private static int taskID1;
 	private static int ablaufZeit;
+	private static Main plugin;
+	
+	public TPACommand(Main m) {
+		plugin = m;
+	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command commands, String lable, String[] args) {
@@ -32,14 +37,14 @@ public class TPACommand implements CommandExecutor {
 							if(TPA.contains(target.getName())) {
 							TPA.remove(target.getName());
 							Bukkit.getScheduler().cancelTask(taskID);
-							target.sendMessage(Main.getPrefix() + "§cDeine TPA wurde abgelehnt!");
-							p.sendMessage(Main.getPrefix() + "§4Du hast die TPA von §6" + target.getName() + " §4abgelehnt!");
+							target.sendMessage(plugin.getPrefix() + "§cDeine TPA wurde abgelehnt!");
+							p.sendMessage(plugin.getPrefix() + "§4Du hast die TPA von §6" + target.getName() + " §4abgelehnt!");
 									
 								
 					} else
-						p.sendMessage(Main.getPrefix() + "§cDer Spieler hat dir keine TPA gesendet!");
+						p.sendMessage(plugin.getPrefix() + "§cDer Spieler hat dir keine TPA gesendet!");
 					} else
-						p.sendMessage(Main.getPrefix() + "§cDer Spieler ist nicht auf dem Server!");
+						p.sendMessage(plugin.getPrefix() + "§cDer Spieler ist nicht auf dem Server!");
 						
 						 
 					} else
@@ -49,15 +54,15 @@ public class TPACommand implements CommandExecutor {
 							if(TPA.contains(target.getName())) {
 							TPA.remove(target.getName());
 							Bukkit.getScheduler().cancelTask(taskID);
-							target.sendMessage(Main.getPrefix() + "§2Deine TPA wurde angenommen!");
-							p.sendMessage(Main.getPrefix() + "§2Du hast die TPA von §6" + target.getName() + " §2angenommen!");
+							target.sendMessage(plugin.getPrefix() + "§2Deine TPA wurde angenommen!");
+							p.sendMessage(plugin.getPrefix() + "§2Du hast die TPA von §6" + target.getName() + " §2angenommen!");
 							wartezeit(target, p);
 				} else
-					p.sendMessage(Main.getPrefix() + "§cDer Spieler hat dir keine TPA gesendet!");
+					p.sendMessage(plugin.getPrefix() + "§cDer Spieler hat dir keine TPA gesendet!");
 				} else
-					p.sendMessage(Main.getPrefix() + "§cDer Spieler ist nicht auf dem Server!");
+					p.sendMessage(plugin.getPrefix() + "§cDer Spieler ist nicht auf dem Server!");
 				} else
-					p.sendMessage(Main.getPrefix() + "§cBitte benutze §2/tpa accept/deny <Spieler>");
+					p.sendMessage(plugin.getPrefix() + "§cBitte benutze §2/tpa accept/deny <Spieler>");
 						
 					
 				} else
@@ -74,42 +79,43 @@ public class TPACommand implements CommandExecutor {
 							target.sendMessage("§cUm die tpa abzulehnen verwende bitte §6/tpa deny " + p.getName() + " §6!");
 							target.sendMessage("§2Um die tpa anzunehmen verwende bitte §6/tpa accept " + p.getName() + " §6!");
 				} else
-					p.sendMessage(Main.getPrefix() + "§cDu hast bereits eine TPA gesendet!");
+					p.sendMessage(plugin.getPrefix() + "§cDu hast bereits eine TPA gesendet!");
 				} else
-					p.sendMessage(Main.getPrefix() + "§cBitte benutze §2/tpa <Spieler> §c!");
+					p.sendMessage(plugin.getPrefix() + "§cBitte benutze §2/tpa <Spieler> §c!");
 			} else
-				sender.sendMessage(Main.getPrefix() + "Du musst ein spieler sein!");
+				sender.sendMessage(plugin.getPrefix() + "Du musst ein spieler sein!");
 		
 		return false;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void ablaufen(Player t, Player p) {
 		p.sendMessage("§6Deine TPA läuft in §4" + getAblaufZeit() + " sekunden §6ab!");
-		taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new Runnable() {
+		taskID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable() {
 			int countdown = getAblaufZeit();
 			@Override
 			public void run() {
 				switch(countdown) {
 				
 				case 60:
-					p.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4einer Minute §6ab!");
-					t.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4einer Minute §6ab!");
+					p.sendMessage(plugin.getPrefix() + "§6Deine TPA läuft in §4einer Minute §6ab!");
+					t.sendMessage(plugin.getPrefix() + "§6Deine TPA läuft in §4einer Minute §6ab!");
 					break;
 				
 				case 30:case 15: case 10: case 5: case 3: case 2:
-					p.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4" + countdown + " sekunden §6ab!");
-					t.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4" + countdown + " sekunden §6ab!");
+					p.sendMessage(plugin.getPrefix() + "§6Deine TPA läuft in §4" + countdown + " sekunden §6ab!");
+					t.sendMessage(plugin.getPrefix() + "§6Deine TPA läuft in §4" + countdown + " sekunden §6ab!");
 					break;
 					
 				case 1:
-					p.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4" + "einer" + " sekunde §6ab!");
-					t.sendMessage(Main.getPrefix() + "§6Deine TPA läuft in §4" + "einer" + " sekunde §6ab!");
+					p.sendMessage(plugin.getPrefix() + "§6Deine TPA läuft in §4" + "einer" + " sekunde §6ab!");
+					t.sendMessage(plugin.getPrefix() + "§6Deine TPA läuft in §4" + "einer" + " sekunde §6ab!");
 					break;
 					
 				case 0:
 					Bukkit.getScheduler().cancelTask(taskID);
-					p.sendMessage(Main.getPrefix() + "§6Deine TPA ist §4§labgelaufen!");
-					t.sendMessage(Main.getPrefix() + "§6Deine TPA ist §4§labgelaufen!");
+					p.sendMessage(plugin.getPrefix() + "§6Deine TPA ist §4§labgelaufen!");
+					t.sendMessage(plugin.getPrefix() + "§6Deine TPA ist §4§labgelaufen!");
 					TPA.remove(p.getName());
 					return;
 				}
@@ -118,10 +124,11 @@ public class TPACommand implements CommandExecutor {
 		}, 0, 20);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void wartezeit(Player t, Player p) {
 		String name = t.getName();
 		DontMove.add(name);
-		taskID1 = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new Runnable() {
+		taskID1 = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable() {
 			int countdown = 3;
 			@SuppressWarnings("unused")
 			@Override
@@ -140,9 +147,9 @@ public class TPACommand implements CommandExecutor {
 					Bukkit.getScheduler().cancelTask(taskID);
 					if(t != null) {
 						t.teleport(p);
-						t.sendMessage(Main.getPrefix() + "§6Du wurdest teleportiert!");
+						t.sendMessage(plugin.getPrefix() + "§6Du wurdest teleportiert!");
 					} else
-						p.sendMessage(Main.getPrefix() + "§6" + name + " §4ist disconnected!");
+						p.sendMessage(plugin.getPrefix() + "§6" + name + " §4ist disconnected!");
 					DontMove.remove(name);
 					return;
 					
@@ -152,15 +159,15 @@ public class TPACommand implements CommandExecutor {
 		}, 0, 20);
 	}
 
-	public static int getAblaufZeit() {
+	public int getAblaufZeit() {
 		return ablaufZeit;
 	}
 
-	public static void setAblaufZeit(int ablaufZeit) {
+	public void setAblaufZeit(int ablaufZeit) {
 		TPACommand.ablaufZeit = ablaufZeit;
 	}
 
-	public static int getTaskID() {
+	public int getTaskID() {
 		return taskID1;
 	}
 	

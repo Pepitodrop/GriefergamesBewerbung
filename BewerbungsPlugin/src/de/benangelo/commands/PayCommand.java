@@ -10,7 +10,13 @@ import de.benangelo.config.Money;
 import de.benangelo.main.Main;
 
 public class PayCommand implements CommandExecutor{
-
+	
+	private static Main plugin;
+	
+	public PayCommand(Main m) {
+		plugin = m;
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Money money = new Money();
@@ -26,24 +32,24 @@ public class PayCommand implements CommandExecutor{
 								money.setMoney(p, amoutSender);
 								double amoutTarget = money.getMoney(p) + Double.valueOf(args[1]);
 								money.setMoney(p, amoutTarget);
-								p.sendMessage(Main.getPrefix() + "§2Du hast dem Spieler §3" + target.getDisplayName() + " §d" + args[1] + "$§2 Gesendet!");
-								target.sendMessage(Main.getPrefix() + "§2Du hast von dem Spieler §3" + p.getDisplayName() + " §d" + args[1] + "$§2 Bekommen!");
+								p.sendMessage(plugin.getPrefix() + "§2Du hast dem Spieler §3" + target.getDisplayName() + " §d" + args[1] + "$§2 Gesendet!");
+								target.sendMessage(plugin.getPrefix() + "§2Du hast von dem Spieler §3" + p.getDisplayName() + " §d" + args[1] + "$§2 Bekommen!");
 							} else {
-								p.sendMessage(Main.getPrefix() + "§4Dieser Spieler ist nicht Online!");
+								p.sendMessage(plugin.getPrefix() + "§4Dieser Spieler ist nicht Online!");
 							}
 							
 						} else
-							p.sendMessage(Main.getPrefix() + "§4Du hast nicht genug Geld!");
+							p.sendMessage(plugin.getPrefix() + "§4Du hast nicht genug Geld!");
 					} else {
-						p.sendMessage(Main.getPrefix() + "§4Bitte benutze Zahlen!");
+						p.sendMessage(plugin.getPrefix() + "§4Bitte benutze Zahlen!");
 					}
 				} else 
-					p.sendMessage(Main.getPrefix() + "§4Bitte beuntze §4/pay <Spieler> <amout> §4!");
+					p.sendMessage(plugin.getPrefix() + "§4Bitte beuntze §4/pay <Spieler> <amout> §4!");
 			} else {
-				p.sendMessage(Main.getPrefix() + "§4Dazu hast du leider keine Rechte");
+				p.sendMessage(plugin.getPrefix() + "§4Dazu hast du leider keine Rechte");
 			}
 		} else
-			Bukkit.getServer().getConsoleSender().sendMessage(Main.getPrefix() + "§4Du musst ein Spieler sein!");
+			Bukkit.getServer().getConsoleSender().sendMessage(plugin.getPrefix() + "§4Du musst ein Spieler sein!");
 		return false;
 	}
 
