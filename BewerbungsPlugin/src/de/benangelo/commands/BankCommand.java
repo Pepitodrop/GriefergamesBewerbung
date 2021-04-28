@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.commands;
 
 import org.bukkit.command.Command;
@@ -26,6 +38,8 @@ public class BankCommand implements CommandExecutor{
 			String name = p.getName();
 			if(p.hasPermission("bewerbungsPLugin.bankCommand")) {
 				if(args.length == 2) {
+					
+					//Lässt den Spieler Geld in sein Konto einzahlen
 					if(args[0].equalsIgnoreCase("einzahlen")) {
 						if (args[1].matches("[0-9]+")) {
 							if(money.getMoney(p) >= Double.valueOf(args[1])) {
@@ -50,6 +64,8 @@ public class BankCommand implements CommandExecutor{
 							p.sendMessage(plugin.getPrefix() + "§4Du musst Zahlen benutzen!");
 						
 					} else {
+						
+						//Lässt den Speieler Geld aus seinem Konto nehmen
 						if(args[0].equalsIgnoreCase("abheben")) {
 							if (args[1].matches("[0-9]+")) {
 								if(MySQL.UserExistsBank(p.getUniqueId())) {
@@ -88,6 +104,8 @@ public class BankCommand implements CommandExecutor{
 					}
 				} else {
 					if(args.length == 1) {
+						
+						//Zeigt das Guthaben des Spielers
 						if(args[0].equalsIgnoreCase("Guthaben")) {
 							if(MySQL.UserExistsBank(p.getUniqueId())) {
 								p.sendMessage(plugin.getPrefix() + "§2Dein Guthaben Beträgt §e" + MySQL.getAmoutBank(p.getUniqueId()) + "$§2!");

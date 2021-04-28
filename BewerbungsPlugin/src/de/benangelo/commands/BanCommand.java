@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.commands;
 
 import java.util.List;
@@ -25,6 +37,8 @@ public class BanCommand implements CommandExecutor {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		
+		//Bannt einen Spieler für immer!
 			if(cmd.getName().equalsIgnoreCase("ban")) {
 				if(sender.hasPermission("bewerbungsPLugin.ban")) {
 					if(args.length >= 2) {
@@ -57,7 +71,7 @@ public class BanCommand implements CommandExecutor {
 					sender.sendMessage(plugin.getPrefix() + "§4Dazu hast du keine Rechte!");
 			} else {
 				
-				
+				//Bannt einen Spieler für einen Zeitraum deiner Wahl
 				if(cmd.getName().equalsIgnoreCase("tempban")) {
 					if(sender.hasPermission("bewerbungsPLugin.tempBan")) {
 						if(args.length >= 4) {
@@ -79,7 +93,7 @@ public class BanCommand implements CommandExecutor {
 							String unitString = args[2];
 							Player target = Bukkit.getPlayer(playername);
 							String reason = "";
-							for(int i = 3; i < args.length; i++) {
+							for (int i = 3; i < args.length; i++) {
 								reason += args[i] + " ";
 							}	
 							List<String> units = BanUnit.getUnitsAsString();
@@ -114,7 +128,7 @@ public class BanCommand implements CommandExecutor {
 						sender.sendMessage(plugin.getPrefix() + "§4Dazu hast du keine Rechte!");
 				} else {
 					
-					
+					//Zeigt welcher Spieler wieso und wie lange gebannt ist und wieviele Spieler gebannt sind!
 					if(cmd.getName().equalsIgnoreCase("check")) {
 						if(sender.hasPermission("bewerbungsPLugin.checkBan")) {
 							if(args.length == 1) {
@@ -155,7 +169,7 @@ public class BanCommand implements CommandExecutor {
 							sender.sendMessage(plugin.getPrefix() + "§4Dazu hast du keine Rechte!");
 					} else {
 						
-						
+						//Entbannung eines Spielers
 						if(cmd.getName().equalsIgnoreCase("unban")) {
 							if(sender.hasPermission("bewerbungsPLugin.checkBan")) {
 								if(args.length == 1) {

@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import org.bukkit.event.EventHandler;
@@ -14,6 +26,7 @@ public class CommandListener implements Listener{
 		plugin = m;
 	}
 	
+	//Guckt ob der Spieler /pl machen darf
 	@EventHandler
 	public void handlePlayerUseCommand(PlayerCommandPreprocessEvent e) {
 		if(e.getMessage().equalsIgnoreCase("/pl")) {

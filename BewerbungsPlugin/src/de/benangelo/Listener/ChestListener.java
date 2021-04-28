@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import java.io.IOException;
@@ -15,6 +27,7 @@ import de.benangelo.commands.ECCommand;
 
 public class ChestListener implements Listener {
 
+	//Öffnet die Spieler die EC
 	@EventHandler
 	public void handlePlayerInteract(PlayerInteractEvent e) {
 		Player p = e.getPlayer();

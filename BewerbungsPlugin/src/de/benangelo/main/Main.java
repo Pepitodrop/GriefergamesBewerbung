@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.main;
 
 import java.net.URL;
@@ -55,15 +67,16 @@ import de.benangelo.util.ScoreboardHandler;
 
 public class Main extends JavaPlugin{
 	
-	public ArrayList<String> canClick = new ArrayList<>();
-	public ArrayList<String> nasaPictures = new ArrayList<>();
-	
 	private static Main plugin;
 	
 	private static String prefix;
 
 	private static long UpdateSekunde;
 	
+	public ArrayList<String> canClick = new ArrayList<>();
+	public ArrayList<String> nasaPictures = new ArrayList<>();
+	
+	//Lädt das Plugin
 	@Override
 	public void onEnable() {
 		System.out.println("Das Plugin wird geladen!");
@@ -107,6 +120,7 @@ public class Main extends JavaPlugin{
 		super.onEnable();
 	}
 	
+	//Beendet MySQL und schließt die EC
 	@Override
 	public void onDisable() {
 		MySQL.disconnect();
@@ -119,7 +133,7 @@ public class Main extends JavaPlugin{
 	
 	
 	
-	
+	//Registriert die Commands
 	private void registerCommand() {
 		getCommand("EC").setExecutor(new ECCommand(this));
 
@@ -151,12 +165,12 @@ public class Main extends JavaPlugin{
 	}
 	
 	
+	//Registriert die Listener
 	private void registerListener() {
 		PluginManager pluginManager = Bukkit.getPluginManager();
 		pluginManager.registerEvents(new ChestListener(), this);
 		pluginManager.registerEvents(new InvCloseListener(this), this);
 		pluginManager.registerEvents(new InvClickEvent(this), this);
-		pluginManager.registerEvents(new ScoreboardHandler(this), this);
 		pluginManager.registerEvents(new BlockLog(), this);
 		pluginManager.registerEvents(new CommandLog(), this);
 		pluginManager.registerEvents(new ChatLog(), this);
@@ -176,7 +190,7 @@ public class Main extends JavaPlugin{
 	
 	
 	
-	
+	//Lädt den Scoreboard neu
 	private void updateSB() {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {	
 			@Override
@@ -189,6 +203,7 @@ public class Main extends JavaPlugin{
 		}, 0L, (long)(20 * UpdateSekunde));
 	}
 	
+	//Sendet dem Spieler die Actionbar
 	public void send() {
 		ActionBar actionBar = new ActionBar();
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
@@ -206,6 +221,7 @@ public class Main extends JavaPlugin{
 		}, 0, 0);
 	}
 	
+	//Holt die Nasa Links zu den Bildern von der Website
 	private void getNasaLink() {
         try {
             String url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY";

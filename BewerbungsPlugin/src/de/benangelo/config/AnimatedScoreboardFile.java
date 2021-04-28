@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.config;
 
 import java.io.File;
@@ -17,6 +29,7 @@ public class AnimatedScoreboardFile {
 		plugin = m;
 	}
 	
+	//Lädt die Config
 	public void setStandard() {
 		FileConfiguration cfg = getFileConfiguration();
 		
@@ -33,14 +46,17 @@ public class AnimatedScoreboardFile {
 		}
 	}
 	
+	//Lädt die Datei
 	private File getFile() {
 		return new File("plugins/BewerbungsPlugin", "ScoreboardConfig.yml");
 	}
 	
+	//Übergibt die Datei
 	private FileConfiguration getFileConfiguration() {
 		return YamlConfiguration.loadConfiguration(getFile());
 	}
 	
+	//Ließt die Datei
 	public void readData() {
 		FileConfiguration cfg = getFileConfiguration();
 		

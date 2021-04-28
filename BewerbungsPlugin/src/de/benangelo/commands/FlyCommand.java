@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.commands;
 
 import org.bukkit.Bukkit;
@@ -23,12 +35,16 @@ public class FlyCommand implements CommandExecutor {
 			Player p = (Player) sender;
 			if(p.hasPermission("bewerbungsPlugin.fly")) {
 				if(ChangeFlyModeEvnet.getCanFly().isEmpty() || !(ChangeFlyModeEvnet.getCanFly().contains(p)))  {
+					
+					//Erlaubt dem Spieler zu fliegen
 					ChangeFlyModeEvnet.getCanFly().add(p);
 					p.sendMessage(plugin.getPrefix() + "§2§lDu kannst nun fliegen!");
 					p.setAllowFlight(true);
 					p.setFlying(true);
 					p.sendTitle("§2TestServer", "§7Can Fly §2§l>>> TRUE", 10, 20*2, 10);
 				} else {
+					
+					//Verbietet dem Spieler zu fliegen
 					ChangeFlyModeEvnet.getCanFly().remove(p);
 					p.sendMessage(plugin.getPrefix() + "§4§lDu kannst nun nicht mehr fliegen!");
 					p.setAllowFlight(false);

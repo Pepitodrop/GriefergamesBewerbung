@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.util;
 
 import java.sql.ResultSet;
@@ -19,6 +31,7 @@ public class BanManager {
 	 * 
 	 */
 	
+	//Bannt den Spieler
 	public static void ban(UUID uuid, String playername, String reason, long seconds) {
 		long end = 0;
 		if(seconds == -1) {
@@ -41,6 +54,7 @@ public class BanManager {
 		}
 	}
 
+	//Entbannt den Spieler
 	public static void unban(UUID uuid) {
 		MySQL.update("DELETE FROM BannedPLayers WHERE UUID=?", uuid.toString());
 	}
@@ -57,6 +71,7 @@ public class BanManager {
 		return MySQL.getEnde(uuid);
 	}
 	
+	//Sammelt alle gebannten Spieler
 	public static List<String> getBannedPlayers() {
 		List<String> list = new ArrayList<String>();
 		ResultSet rs  = MySQL.getResult("SELECT * FROM BannedPLayers");
@@ -70,6 +85,7 @@ public class BanManager {
 		return list;
 	}
 	
+	//Guckt wie lange der Spieler noch gebannt ist
 	public static String getRemainingTime(UUID uuid) {
 		long current = System.currentTimeMillis();
 		long end = getEnd(uuid);

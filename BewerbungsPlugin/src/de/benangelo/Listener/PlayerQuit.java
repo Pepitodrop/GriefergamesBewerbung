@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import org.bukkit.entity.Player;
@@ -16,6 +28,7 @@ public class PlayerQuit implements Listener{
 		plugin=m;
 	}
 	
+	//Beendet alles TPAS wenn der Spieler leavet die er gesendet oder bekommen hat
 	@EventHandler
 	public void handlePlayerOuit(PlayerQuitEvent e) {
 		Player p = e.getPlayer();

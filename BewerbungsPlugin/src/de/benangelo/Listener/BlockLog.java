@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import java.text.SimpleDateFormat;
@@ -14,6 +26,7 @@ import de.benangelo.mysql.MySQL;
 
 public class BlockLog implements Listener{
 	
+	//Speichert einen zerstörten Block
 	@EventHandler
 	public void handleBlockBreak(BlockBreakEvent e) {
 		SimpleDateFormat dateDay = new SimpleDateFormat ("dd.MM.yyyy");
@@ -38,6 +51,7 @@ public class BlockLog implements Listener{
 		MySQL.update("INSERT INTO BlockLogDestroy (Material, Player, Position, Time, Day) VALUES (?,?,?,?,?)", m + "," + p + "," + x + "X " + y + "Y " + z + "Z," + hours+ ","+ day);
 	}
 	
+	//Speichert einen gesetzten Block
 	@EventHandler
 	public void handleBlockPlace(BlockPlaceEvent e) {
 		SimpleDateFormat dateDay = new SimpleDateFormat ("dd.MM.yyyy");

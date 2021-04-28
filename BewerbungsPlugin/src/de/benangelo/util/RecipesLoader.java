@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.util;
 
 import org.bukkit.Bukkit;
@@ -10,6 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class RecipesLoader {
 
+	//Lädt die rezepte
 	@SuppressWarnings("deprecation")
 	public void registerRecipes() {
 		ItemStack GoodBow = new ItemStack(Material.BOW);

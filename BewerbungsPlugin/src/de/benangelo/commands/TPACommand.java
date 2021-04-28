@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.commands;
 
 import java.util.ArrayList;
@@ -9,16 +21,24 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.benangelo.main.Main;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 
 public class TPACommand implements CommandExecutor {
 	
 	public static ArrayList<String> TPA = new ArrayList<>();
 	public static ArrayList<String> DontMove = new ArrayList<>();
 	
-	private int taskID;
 	private static int taskID1;
 	private static int ablaufZeit;
 	private static Main plugin;
+	
+	private int taskID;
+	
 	
 	public TPACommand(Main m) {
 		plugin = m;
@@ -31,6 +51,7 @@ public class TPACommand implements CommandExecutor {
 			Player p = (Player) sender;
 				if(args.length == 2) {
 					
+					//Ablehnen der TPA
 					if(args[0].equalsIgnoreCase("deny")) {
 						Player target = Bukkit.getPlayer(args[1]);
 						if(target != null) {
@@ -48,6 +69,8 @@ public class TPACommand implements CommandExecutor {
 						
 						 
 					} else
+						
+						//Annahme der TPA und start des Teleports
 						if(args[0].equalsIgnoreCase("accept")) {
 							Player target = Bukkit.getPlayer(args[1]);
 							if(target != null) {
@@ -68,6 +91,7 @@ public class TPACommand implements CommandExecutor {
 				} else
 					if(args.length == 1) {
 
+						//Sendet die TPA
 						Player target = Bukkit.getPlayer(args[0]);
 						
 						if(!TPA.contains(p.getName())) {
@@ -78,6 +102,29 @@ public class TPACommand implements CommandExecutor {
 							target.sendMessage("§6Dir wurde eine TPA von §c" + p.getName() + " §6gesendet!");
 							target.sendMessage("§cUm die tpa abzulehnen verwende bitte §6/tpa deny " + p.getName() + " §6!");
 							target.sendMessage("§2Um die tpa anzunehmen verwende bitte §6/tpa accept " + p.getName() + " §6!");
+							
+							final ComponentBuilder message = new ComponentBuilder();
+							
+							TextComponent messageAccept = new TextComponent("[AKZEPTIEREN]");
+							messageAccept.setColor(ChatColor.DARK_GREEN);
+							messageAccept.setBold(true);
+							messageAccept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpa accept " + p.getName()));
+							messageAccept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Teleportiert dich zu dem Spieler nach 3 Sekunden Stillstehen")));
+							message.append(messageAccept);
+                            
+							TextComponent messageLücke = new TextComponent(" | ");
+                            messageLücke.setColor(ChatColor.GRAY);
+                            messageLücke.setBold(true);
+                            message.append(messageLücke);
+							
+                            TextComponent messageDeny = new TextComponent("[ABLEHNEN]");
+                            messageDeny.setColor(ChatColor.DARK_RED);
+                            messageDeny.setBold(true);
+                            messageDeny.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpa deny " + p.getName()));
+                            messageDeny.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Lehnt die Teleportationsanfrage ab")));
+                            message.append(messageDeny);
+                            
+                            p.spigot().sendMessage(message.create());
 				} else
 					p.sendMessage(plugin.getPrefix() + "§cDu hast bereits eine TPA gesendet!");
 				} else
@@ -88,6 +135,7 @@ public class TPACommand implements CommandExecutor {
 		return false;
 	}
 	
+	//Begrenzt die Verfügbarkeit der TPA
 	@SuppressWarnings("deprecation")
 	private void ablaufen(Player t, Player p) {
 		p.sendMessage("§6Deine TPA läuft in §4" + getAblaufZeit() + " sekunden §6ab!");
@@ -124,11 +172,11 @@ public class TPACommand implements CommandExecutor {
 		}, 0, 20);
 	}
 	
-	@SuppressWarnings("deprecation")
+	//Lässt den Spieler vor dem Teleport warten und informiert ihn dass er bald Teleportiert wird
 	private void wartezeit(Player t, Player p) {
 		String name = t.getName();
 		DontMove.add(name);
-		taskID1 = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable() {
+		taskID1 = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			int countdown = 3;
 			@SuppressWarnings("unused")
 			@Override
@@ -144,7 +192,7 @@ public class TPACommand implements CommandExecutor {
 					break;
 					
 				case 0:
-					Bukkit.getScheduler().cancelTask(taskID);
+					Bukkit.getScheduler().cancelTask(taskID1);
 					if(t != null) {
 						t.teleport(p);
 						t.sendMessage(plugin.getPrefix() + "§6Du wurdest teleportiert!");

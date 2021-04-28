@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.commands;
 
 import org.bukkit.Bukkit;
@@ -25,6 +37,8 @@ public class InvseeCommand implements CommandExecutor {
 				if(args.length == 1) {
 					Player target = Bukkit.getPlayerExact(args[0]);
 					if(target != null) {
+						
+						//Öffnet das Inventar eines anderen Spielers
 						if(!(p.hasPermission("bewerbungsplugin.canClickInventory"))) {
 							plugin.getPlugin().canClick.add(p.getName());
 						}

@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import org.bukkit.entity.Player;
@@ -11,6 +23,7 @@ import de.benangelo.util.BanManager;
 
 public class LogInListener implements Listener{
 
+	//Guckt ob der Spieler gebannt ist und auf den Server darf
 	@EventHandler
 	public void handlePlayerLogin(PlayerLoginEvent e) {
 		Player p = e.getPlayer();

@@ -29,6 +29,8 @@ public class NasaCommand implements CommandExecutor{
 			Player p = (Player) sender;
 			if(p.hasPermission("bewerbungsPlugin.nasa")) {
 				if(args.length == 0) {
+					
+					//Schickt dem Spieler ein Bild zu einem Zufälligen Bild eines Marsrovers
 					Random rndm = new Random();
 					int picture = rndm.nextInt(plugin.nasaPictures.size());
 					

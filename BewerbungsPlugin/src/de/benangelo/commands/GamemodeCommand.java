@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.commands;
 
 import org.bukkit.Bukkit;
@@ -26,6 +38,8 @@ public class GamemodeCommand implements CommandExecutor {
 						Player p = (Player) sender;
 						
 						if(GameMode.getByValue(Integer.valueOf(args[0])) != null) {
+							
+							//Ändert den Gamemode des Spielers
 							p.setGameMode(GameMode.getByValue(Integer.valueOf(args[0])));
 							p.sendMessage(plugin.getPrefix() + "§6Dein Spielmodus wurde auf §c§l" + GameMode.getByValue(Integer.valueOf(args[0])).name() + " §6gesetzt!");
 						} else
@@ -37,6 +51,8 @@ public class GamemodeCommand implements CommandExecutor {
 						Player target = Bukkit.getPlayer(args[1]);
 						if(target != null) {
 							if(GameMode.getByValue(Integer.valueOf(args[0])) != null) {
+								
+								//Ändert den Gamemode eines anderen Spielers
 								target.setGameMode(GameMode.getByValue(Integer.valueOf(args[0])));
 								target.sendMessage(plugin.getPrefix() + "§6Dein Spielmodus wurde auf §c§l" + GameMode.getByValue(Integer.valueOf(args[0])).name() + " §6gesetzt!");
 								sender.sendMessage(plugin.getPrefix() + "§6Du hast §2" + target.getDisplayName() + "§6 auf §c" + GameMode.getByValue(Integer.valueOf(args[0])).name() + " §6gesetzt!");

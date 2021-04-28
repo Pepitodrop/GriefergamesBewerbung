@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.commands;
 
 import org.bukkit.Bukkit;
@@ -25,6 +37,8 @@ public class ValueCommand implements CommandExecutor{
 					
 					if(sender instanceof Player) {
 						Player p = (Player) sender;
+						
+					//Setzt das Guthaben des Spielers auf ein bestimmtes Budget
 					if(args[0].equalsIgnoreCase("set")) {
 						if (args[1].matches("[0-9]+")) {
 							money.setMoney(p, Double.valueOf(args[1]));
@@ -33,6 +47,8 @@ public class ValueCommand implements CommandExecutor{
 						p.sendMessage(plugin.getPrefix() + "§4Bitte benutze Zahlen!");
 						}
 					} else {
+						
+						//Fügt dem Spieler einen festgelegten Betrag seines Guthabens hinzu
 						if(args[0].equalsIgnoreCase("add")) {
 							if (args[1].matches("[0-9]+")) {
 								double amout = Double.valueOf(args[1]) + money.getMoney(p);
@@ -50,6 +66,7 @@ public class ValueCommand implements CommandExecutor{
 				} else {
 					if(args.length == 3) {
 						
+						//Setzt das Guthaben eines anderen Spielers auf ein bestimmtes Budget
 						if(args[0].equalsIgnoreCase("set")) {
 							if (args[1].matches("[0-9]+")) {
 								Player target = Bukkit.getPlayerExact(args[2]);
@@ -70,6 +87,8 @@ public class ValueCommand implements CommandExecutor{
 									sender.sendMessage(plugin.getPrefix() + "§4Bitte benutze Zahlen!");
 							} 
 							}else {
+								
+								//Fügt einem anderen Spieler einen festgelegten Betrag seines Guthabens hinzu
 								if(args[0].equalsIgnoreCase("add")) {
 									if (args[1].matches("[0-9]+")) {
 										Player target = Bukkit.getPlayerExact(args[2]);

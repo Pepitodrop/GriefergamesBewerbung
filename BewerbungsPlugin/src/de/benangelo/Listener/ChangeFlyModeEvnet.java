@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import java.util.ArrayList;
@@ -13,6 +25,7 @@ public class ChangeFlyModeEvnet implements Listener{
 
 	private static ArrayList<Player> getCanFly = new ArrayList<>();
 	
+	//Gibt dem Spieler einen Boost
 	@EventHandler
 	public void onFly(PlayerToggleFlightEvent e) {
 		Player p = e.getPlayer();

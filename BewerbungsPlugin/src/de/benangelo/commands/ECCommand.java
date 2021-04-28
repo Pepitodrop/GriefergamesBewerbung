@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.commands;
 
 import java.io.IOException;
@@ -24,6 +36,7 @@ public class ECCommand implements CommandExecutor{
 		plugin = m;
 	}
 	
+	//Lädt die Enderchest
 	public static void openInvOffline(OfflinePlayer target, Player sender) throws IllegalArgumentException, IOException {
 		Inventory inventory = Bukkit.createInventory(null, new AllgemeineConfigs(plugin).getBreite()*new AllgemeineConfigs(plugin).getHöhe(), "§4" + InvName + " §2von §6" + target.getName());
 		if(MySQL.UserExistsEC(target.getUniqueId())) {
@@ -62,6 +75,7 @@ public class ECCommand implements CommandExecutor{
 			Player p = (Player) sender;
 				if(args.length == 0) {
 					try {
+						//Öffnet dem Spieler seine Ender Chest
 						OfflinePlayer pOff = Bukkit.getOfflinePlayer(p.getUniqueId());
 						openInvOffline(pOff, p);
 					} catch (IllegalArgumentException | IOException e) {
@@ -73,6 +87,8 @@ public class ECCommand implements CommandExecutor{
 						for(OfflinePlayer allOFF : Bukkit.getOfflinePlayers()) {
 							if(allOFF.getName().equalsIgnoreCase(args[0])) {
 								try {
+									
+									//Öffnet dem Spieler eine Ender Chest von einem anderen Spieler
 									openInvOffline(allOFF, p);
 								} catch (IllegalArgumentException | IOException e) {
 									e.printStackTrace();

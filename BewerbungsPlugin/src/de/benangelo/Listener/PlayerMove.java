@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import org.bukkit.Bukkit;
@@ -20,6 +32,7 @@ public class PlayerMove implements Listener{
 		plugin=m;
 	}
 	
+	//Guckt ob und wo sich der Spieler bewegt und ist
 	@EventHandler
 	public void handlePlayerMove(PlayerMoveEvent e) {
 		Player p = e.getPlayer();

@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import java.util.ArrayList;
@@ -12,6 +24,7 @@ public class PickUpItemEvent implements Listener{
 	
 	private static ArrayList<Player> canPickItem = new ArrayList<>();
 	
+	//Guckt ob der Spieler das Item aufheben darf
 	@EventHandler
 	public void handlePlayerPickUpItem(PlayerPickupItemEvent e) {
 		Player p = e.getPlayer();

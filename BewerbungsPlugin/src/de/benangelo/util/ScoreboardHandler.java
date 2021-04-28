@@ -5,9 +5,6 @@ import java.util.Date;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -15,20 +12,19 @@ import org.bukkit.scoreboard.Scoreboard;
 import de.benangelo.config.Money;
 import de.benangelo.main.Main;
 
-public class ScoreboardHandler implements Listener{
-
-	private Main plugin;
+public class ScoreboardHandler{
 	
 	public static String ANIMATTION_TITLE; 
 	public static long ANIMATION_SPEED;
 	
+	private static String currentTitle;
+	private static SimpleDateFormat date = new SimpleDateFormat ("dd.MM.yyyy");
+	private static String now = date.format(new Date());
+    
+	private Main plugin;
 	private char[] letters;
 	private int animationState;
-	private static String currentTitle;
 	
-	static SimpleDateFormat date = new SimpleDateFormat ("dd.MM.yyyy");
-    static String now = date.format(new Date());
-    
 	public ScoreboardHandler(Main plugin) {
 		this.plugin = plugin;
 		letters = ANIMATTION_TITLE.toCharArray();
@@ -37,6 +33,7 @@ public class ScoreboardHandler implements Listener{
 		animate();
 	}
 	
+	//Sendet den Scoreboard und erstellt ihn
 	public static void setup(Player p) {
 		
 		Money money = new Money();
@@ -68,6 +65,7 @@ public class ScoreboardHandler implements Listener{
 		p.setScoreboard(scb);
 	}
 	
+	//Animiert die Schrift
 	public void animate() {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			
@@ -87,11 +85,6 @@ public class ScoreboardHandler implements Listener{
 					animationState ++;
 			}
 		}, 0, ANIMATION_SPEED);
-	}
-	
-	@EventHandler
-	public void handlePalyerJoin(PlayerJoinEvent e) {
-		setup(e.getPlayer());
 	}
 	
 }

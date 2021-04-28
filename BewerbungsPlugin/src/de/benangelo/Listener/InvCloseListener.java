@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import java.util.UUID;
@@ -20,6 +32,7 @@ public class InvCloseListener implements Listener{
 		plugin=m;
 	}
 	
+	//Speichert die EC, wenn sie geöffnet war und hier geschlossen wurde
 	@EventHandler
 	public void handleInvClose(InventoryCloseEvent e) {
 		Player p = (Player) e.getPlayer();

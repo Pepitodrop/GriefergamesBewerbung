@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import java.util.ArrayList;
@@ -14,6 +26,7 @@ public class BuildAndDropListener implements Listener{
 	private static ArrayList<Player> canBuild = new ArrayList<>();
 	private static ArrayList<Player> canDrop = new ArrayList<>();
 	
+	//Guckt ob der Spieler droppen darf
 	@EventHandler
 	public void handlePlayerDrop(PlayerDropItemEvent e) {
 		if(!canDrop.contains(e.getPlayer())) {
@@ -21,6 +34,7 @@ public class BuildAndDropListener implements Listener{
 		}
 	}
 	
+	//Guckt ob der Spieler bauen darf
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void handlePlayerPlace(PlayerInteractEvent e) {

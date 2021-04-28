@@ -28,6 +28,8 @@ public class PayCommand implements CommandExecutor{
 						if(money.getMoney(p) >= Double.valueOf(args[1])) {
 							Player target = Bukkit.getPlayerExact(args[0]);
 							if(target != null) {
+								
+								//Lässt den Spieler einen anderen zu bezahlen
 								double amoutSender = money.getMoney(p) - Double.valueOf(args[1]);
 								money.setMoney(p, amoutSender);
 								double amoutTarget = money.getMoney(p) + Double.valueOf(args[1]);

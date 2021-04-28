@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import java.text.SimpleDateFormat;
@@ -12,6 +24,7 @@ import de.benangelo.mysql.MySQL;
 
 public class ChatLog implements Listener{
 
+	//Speichert eine Geschriebene Nachricht
 	@EventHandler
 	public void handleChat(AsyncPlayerChatEvent e) {
 		SimpleDateFormat dateDay = new SimpleDateFormat ("dd.MM.yyyy");

@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.Listener;
 
 import org.bukkit.event.EventHandler;
@@ -15,6 +27,7 @@ public class InvClickEvent implements Listener{
 		plugin=m;
 	}
 	
+	//Guckt ob der Spieler klicken darf
 	@EventHandler
 	public void handleInvClick(InventoryClickEvent e) {
 		String n = e.getWhoClicked().getName().toString();

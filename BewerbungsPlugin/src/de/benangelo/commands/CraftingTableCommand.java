@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.commands;
 
 import org.bukkit.command.Command;
@@ -21,6 +33,8 @@ public class CraftingTableCommand implements CommandExecutor{
 			Player p = (Player) sender;
 			if(p.hasPermission("bewerbungsplugin.craftingCommand")) {
 				if(args.length == 0) {
+					
+					//Öffnet dem Spieler eine Werkbank
 					p.openWorkbench(p.getLocation(), true);
 				} else
 					p.sendMessage(plugin.getPrefix() + "§4Bitte benutze §2/crafting §4!");

@@ -1,3 +1,15 @@
+
+/*
+ * Luis Benedikt
+ * 
+ * 28.4.2021
+ * 
+ * Die Benutzung nur nach Absprache Erlaubt
+ * 
+ * Dieses Plugin soll meine Programmierkünste in Spigot zeigen
+ * 
+ */
+
 package de.benangelo.mysql;
 
 import java.sql.ResultSet;
@@ -20,22 +32,17 @@ import java.util.concurrent.Callable;
 
 public class MySQL {
 	
-	private static Main plugin;
-	
     public static String host;
-
     public static String user;
-
     public static String password;
-
     public static String database;
-
     public static String port;
-
     public static Connection con;
 
+	private static Main plugin;
     private static int MySQLSchedulerID;
     
+    //Setzt die Main des Klasse
     public static void setMySQLMain(Main m) {
     	plugin = m;
     }
@@ -44,6 +51,7 @@ public class MySQL {
         return con;
     }
 
+    //Verbindet mit MySQL
     public static void connect() {
         if (con == null)
             try {
@@ -53,6 +61,7 @@ public class MySQL {
             }
     }
 
+    //Trennt die MySQL verbindung
     public static void close() {
         if (con != null)
             try {
@@ -62,6 +71,7 @@ public class MySQL {
             }
     }
 
+    //Führt den MySQL befehl aus
     public static void update(final String qry, String args) {
         if (isConnected()) {
             (new FutureTask<>(new Runnable() {
@@ -86,6 +96,7 @@ public class MySQL {
         }
     }
 
+    //Erstellt die Tabellen
     public static void createTables() {
 		/*
 		 * 
@@ -121,6 +132,7 @@ public class MySQL {
         return (FileConfiguration) YamlConfiguration.loadConfiguration(getMySQLFile());
     }
 
+    //Lädt die MySQL Config
     public static void setStandardMySQL() {
         FileConfiguration cfg = getMySQLFileConfiguration();
         cfg.options().copyDefaults(true);
@@ -141,6 +153,7 @@ public class MySQL {
         return (con != null);
     }
 
+    //Ließt die MySQL Datei
     public static void readMySQL() {
         FileConfiguration cfg = getMySQLFileConfiguration();
         user = cfg.getString("username");
@@ -155,6 +168,7 @@ public class MySQL {
         MySQLSchedulerID = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, () -> onReconnect(), 432000L, 432000L);
     }
 
+    //Verbindet die MySQL klasse immer wieder neu
     @SuppressWarnings("deprecation")
 	public static void onReconnect() {
         if (con != null)
@@ -175,6 +189,7 @@ public class MySQL {
         }, 1L);
     }
 
+    //Beendet die MySQL verbindung und den Reconnector
     public static void disconnect() {
         if (isConnected())
             try {
