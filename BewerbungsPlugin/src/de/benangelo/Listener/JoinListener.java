@@ -23,7 +23,7 @@ import de.benangelo.util.ItemBuilder;
 import de.benangelo.util.ScoreboardHandler;
 
 public class JoinListener implements Listener{
-
+	
 	//Gibt dem Spieler Grundaustatung Grundrechte und entabnnt ihn soweit er gebannt wurde
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {

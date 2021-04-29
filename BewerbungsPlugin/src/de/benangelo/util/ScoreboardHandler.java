@@ -75,7 +75,6 @@ public class ScoreboardHandler{
 				if(current.getScoreboard() == null)
 					setup(current);
 					current.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(currentTitle);
-				
 				if(animationState >= letters.length) {
 					currentTitle = "";
 					animationState = 0;

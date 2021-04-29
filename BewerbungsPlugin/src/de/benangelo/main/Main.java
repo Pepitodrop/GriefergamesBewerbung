@@ -100,6 +100,7 @@ public class Main extends JavaPlugin{
 		
 		new RecipesLoader().registerRecipes();
 
+		new ScoreboardHandler(plugin);
 		updateSB();
 
 		registerCommand();
