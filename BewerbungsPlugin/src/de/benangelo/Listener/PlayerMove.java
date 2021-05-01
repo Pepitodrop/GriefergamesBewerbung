@@ -23,6 +23,8 @@ import org.bukkit.util.Vector;
 
 import de.benangelo.commands.TPACommand;
 import de.benangelo.main.Main;
+import de.benangelo.util.AchievmentClass;
+import de.benangelo.util.Achievments;
 
 public class PlayerMove implements Listener{
 
@@ -36,6 +38,8 @@ public class PlayerMove implements Listener{
 	@EventHandler
 	public void handlePlayerMove(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
+		
+		new AchievmentClass().giveAchievment(p, Achievments.FIRSTMOVE);
 		
 		if(!(p.getLocation().getX() == e.getTo().getX() && p.getLocation().getZ() == e.getTo().getZ())) {
 			if(TPACommand.DontMove.contains(p.getName())) {

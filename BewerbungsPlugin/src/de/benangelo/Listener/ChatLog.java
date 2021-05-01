@@ -21,6 +21,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import de.benangelo.mysql.MySQL;
+import de.benangelo.util.AchievmentClass;
+import de.benangelo.util.Achievments;
 
 public class ChatLog implements Listener{
 
@@ -44,6 +46,8 @@ public class ChatLog implements Listener{
 		 * 
 		 */
 		MySQL.update("INSERT INTO ChatLog (Playername, UUID, Message, Time, Day) VALUES (?,?,?,?,?)" , p + "," + u + "," + m + "," + hours + "," + day);
+		
+		new AchievmentClass().giveAchievment(e.getPlayer(), Achievments.FIRSTCHAT);
 	}
 	
 }

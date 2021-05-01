@@ -59,6 +59,7 @@ import de.benangelo.commands.ValueCommand;
 import de.benangelo.config.AllgemeineConfigs;
 import de.benangelo.config.AnimatedScoreboardFile;
 import de.benangelo.mysql.MySQL;
+import de.benangelo.util.AchievmentClass;
 import de.benangelo.util.ActionBar;
 import de.benangelo.util.ItemBuilder;
 import de.benangelo.util.RecipesLoader;
@@ -103,6 +104,10 @@ public class Main extends JavaPlugin{
 		new ScoreboardHandler(plugin);
 		updateSB();
 
+		saveConfig();
+		
+		AchievmentClass.setAchievmentClassMain(this);
+		
 		registerCommand();
 		registerListener();
 		

@@ -42,7 +42,7 @@ public class ValueCommand implements CommandExecutor{
 					if(args[0].equalsIgnoreCase("set")) {
 						if (args[1].matches("[0-9]+")) {
 							money.setMoney(p, Double.valueOf(args[1]));
-							p.sendMessage(plugin.getPrefix() + "§2Du hast deinem Kontostand §e" + args[1] + "$ §2hinugrfügt!");
+							p.sendMessage(plugin.getPrefix() + "§2Du hast dein Kontostand auf §e" + args[1] + "$ §2gesetzt!");
 						} else {
 						p.sendMessage(plugin.getPrefix() + "§4Bitte benutze Zahlen!");
 						}
@@ -53,7 +53,7 @@ public class ValueCommand implements CommandExecutor{
 							if (args[1].matches("[0-9]+")) {
 								double amout = Double.valueOf(args[1]) + money.getMoney(p);
 								money.setMoney(p, amout);
-								p.sendMessage(plugin.getPrefix() + "§2Du hast deinen Kontostand auf §e" + args[1] + "$ §2gesetzt!");
+								p.sendMessage(plugin.getPrefix() + "§2Du hast deinem Kontostand §e" + args[1] + "$ §2hinzugefügt!");
 							} else {
 							p.sendMessage(plugin.getPrefix() + "§4Bitte benutze Zahlen!");
 							}

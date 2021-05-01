@@ -18,6 +18,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import de.benangelo.util.AchievmentClass;
+import de.benangelo.util.Achievments;
 import de.benangelo.util.BanManager;
 import de.benangelo.util.ItemBuilder;
 import de.benangelo.util.ScoreboardHandler;
@@ -38,6 +40,8 @@ public class JoinListener implements Listener{
 		
 		p.setAllowFlight(true);
 		p.setFlying(false);
+		
+		new AchievmentClass().giveAchievment(p, Achievments.FIRSTJOIN);
 	}
 	
 }
